@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ParsPOS.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ParsPOS.Views"
+    FlyoutWidth="120"
+    FlyoutBackgroundColor="#383E44"
+    Shell.FlyoutBehavior="Locked">
+
+    <Shell.FlyoutHeader>
+        <Image Source="logo.png" WidthRequest="120" >
+        </Image>
+    </Shell.FlyoutHeader>
+    <Shell.FlyoutContent>
+        <local:MainPageFlyoutItem />
+    </Shell.FlyoutContent>
+    <Shell.FlyoutFooter>
+        <Label Text="&#xA9; PARS"
+               TextColor="White"
+               HorizontalTextAlignment="Center"
+               Padding="5">
+            
+        </Label>
+    </Shell.FlyoutFooter>
+
+    
+        <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+</Shell>

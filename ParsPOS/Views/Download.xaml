@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Download"
+             xmlns:local="clr-namespace:ParsPOS.ViewModel"
+             BackgroundColor="#E4E3EA"
+             x:DataType="local:DownloadViewModel"
+             Title="Downloads">
+    <VerticalStackLayout Margin="20">
+        <Frame BorderColor="Transparent" Margin="0">
+            <StackLayout>
+                <Label x:Name="name" Text="Downloading..."></Label>
+                <Label Text="{Binding ProgressText}" HorizontalOptions="End" />
+                <ProgressBar x:Name="progressBar" Progress="{Binding Progress}" />
+            </StackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

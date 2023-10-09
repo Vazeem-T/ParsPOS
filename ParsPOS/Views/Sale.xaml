@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Sale"
+             xmlns:local="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:SaleViewModel"
+             Title="Sale">
+    <ScrollView>
+    <StackLayout Margin="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0">
+                <Frame CornerRadius="0">
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="0,0,5,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Text="Barcode/ ItemCode:" FontAttributes="Bold" FontSize="Medium"></Label>
+                                    <Frame Grid.Row="1"
+                                       Padding="5,0,0,0">
+                                        <Entry FontSize="Medium" Completed="BarcodeEntry_Completed" x:Name="barcodeEntry" Text="{Binding BarcodeText}" FontAttributes="Bold"></Entry>
+                                    </Frame>
+                                </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Padding="0" Margin="0,0,3,0" Text="Select Customer"></Button>
+                                    <Button Grid.Column="1" Padding="0" Margin="3,0,0,0" Text="Set Serial No."></Button>
+                                </Grid>
+                                <Frame Grid.Row="1"
+                                       Margin="0,5,0,0"
+                                       Padding="-1">
+                                    <Entry Placeholder="Customer Name" FontSize="12" PlaceholderColor="Gray"></Entry>
+                                </Frame>
+                            </Grid>
+                        </Grid>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="0,0,5,0" Grid.Column="0"></Button>
+                            <Button Margin="0,0,5,0" Grid.Column="1"></Button>
+                            <Button Margin="0,0,5,0" Grid.Column="2"></Button>
+                            <Button Margin="0,0,5,0" Grid.Column="3"></Button>
+                            <Button Margin="0,0,0,0" Grid.Column="4"></Button>
+                            <CheckBox VerticalOptions="Center" Grid.Column="5"></CheckBox>
+                            <Label Text="Alert for Zero and Negative Stock" FontAttributes="Bold" FontSize="12" Grid.Column="6"></Label>
+                        </Grid>
+                        <Frame CornerRadius="0"
+                               Padding="0"
+                               Margin="0,5,0,0"
+                               HeightRequest="250">
+                            <ListView VerticalScrollBarVisibility="Always">
+                                <ListView.Header>
+                                    <StackLayout>
+                                        <Grid BackgroundColor="MediumBlue">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Item Name" BackgroundColor="OrangeRed" Grid.Column="0" TextColor="White"></Label>
+                                            <Label Text="Barcode" Grid.Column="1" TextColor="White"></Label>
+                                            <Label Text="Qty" Grid.Column="2" TextColor="White"></Label>
+                                            <Label Text="Rate" Grid.Column="3" TextColor="White"></Label>
+                                            <Label Text="Total" Grid.Column="4" TextColor="White"></Label>
+                                        </Grid>
+                                    </StackLayout>
+                                </ListView.Header>
+                            </ListView>
+                        </Frame>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"></ColumnDefinition>
+                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                <ColumnDefinition Width="35"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="I : " Grid.Column="0" FontAttributes="Bold" FontSize="Medium" TextColor="Blue"></Label>
+                            <Label Text="9" FontAttributes="Bold" Grid.Column="1" FontSize="Medium" TextColor="Blue"></Label>
+                            <Label Text="Q : " Grid.Column="2" FontAttributes="Bold" FontSize="Medium" TextColor="Blue"></Label>
+                            <Label Text="9" FontAttributes="Bold" Grid.Column="3" FontSize="Medium" TextColor="Blue"></Label>
+                        </Grid>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="140"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Text="59.3" TextColor="Blue" FontAttributes="Bold" FontSize="30" HorizontalOptions="Center"></Label>
+                            <Button Grid.Column="1" HeightRequest="40" Text="Pay" Padding="-1,0,0,0" FontSize="20"></Button>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+            <Grid Grid.Column="1">
+
+            </Grid>
+            <Grid Grid.Column="2">
+                <Frame>
+                   
+                </Frame>
+            </Grid>
+        </Grid>
+    </StackLayout>
+    </ScrollView>
+</ContentPage>

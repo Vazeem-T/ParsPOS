@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+	<style name="MyTheme" parent="MainTheme">
+		<!-- ... other theme attributes ... -->
+		<item name="android:statusBarColor">@android:color/white</item>
+		<item name="android:windowLightStatusBar">true</item>
+		<!-- This makes the status bar text color dark -->
+	</style>
+</resources>

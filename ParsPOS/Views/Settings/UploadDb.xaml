@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Settings.UploadDb"
+             Title="UploadDb">
+    <StackLayout>
+        <Grid Margin="10" RowSpacing="5" RowDefinitions="*,*,*">
+            <Button Text="Select New Database File" Grid.Row="0" Clicked="OnSelectNewDatabaseFileClicked" />
+            <Button Text="Update Database" Grid.Row="1" Clicked="OnUpdateClicked" />
+            <Button Text="DbBackUp" Grid.Row="2" Clicked="BackUpButton_Clicked" />
+        </Grid>
+        
+    </StackLayout>
+</ContentPage>

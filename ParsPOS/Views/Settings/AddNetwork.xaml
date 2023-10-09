@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Settings.AddNetwork"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             BackgroundColor="#E4E3EA"
+             Title="Add Network">
+    <StackLayout Margin="20">
+        <Frame BorderColor="Transparent">
+            <StackLayout>
+                <Entry x:Name="Id" IsVisible="false"></Entry>
+                <Frame Style="{StaticResource EntryFrame}" Grid.Column="0">
+                    <localtxt:BorderlessEntry Placeholder="Connection Name" x:Name="Con"  PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                </Frame>
+                <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" >
+                    <Frame Style="{StaticResource EntryFrame}" Grid.Column="0">
+                        <localtxt:BorderlessEntry Placeholder="IP Address" x:Name="IP" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                    </Frame>
+                    <Frame Style="{StaticResource EntryFrame}" Grid.Column="1">
+                        <localtxt:BorderlessEntry Placeholder="Port Number" x:Name="Port" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                    </Frame>
+                    <Button Text="Add" Clicked="AddButton_Clicked" x:Name="Add" Grid.Column="0" Grid.Row="1" Margin="0,0,10,0" WidthRequest="250" HorizontalOptions="End"></Button>
+                    <Button Text="Clear" Grid.Row="1" Grid.Column="1" WidthRequest="250" HorizontalOptions="Start"></Button>
+                </Grid>
+            </StackLayout>
+        </Frame>
+       
+        <Label Text="Networks" FontSize="Medium" TextColor="Gray" Margin="0,30,0,10"></Label>
+        <Frame BorderColor="Transparent" Margin="0">
+            <ListView x:Name="conDt" RowHeight="60" ItemSelected="conDt_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem IconImageSource="bin.png"  BackgroundColor="IndianRed" CommandParameter="{Binding .}" Invoked="Delete_Invoked"></SwipeItem>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <StackLayout>
+                                    <Grid ColumnDefinitions="*,*,*"  HeightRequest="60" RowDefinitions="*,*">
+                                        <Label Text="{Binding ConnectionName, Mode=TwoWay}" FontSize="Medium" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
+                                        <Label Text="{Binding IPAddress, Mode=TwoWay}" TextColor="LightGray" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
+                                        <Label Text="{Binding PortNumber, Mode=TwoWay}" HorizontalOptions="Center" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" ></Label>
+                                        <Label HorizontalOptions="End" FontAttributes="Bold" Grid.Column="2" Grid.Row="0">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="True">
+                                                    <Setter Property="Text" Value="Active" />
+                                                    <Setter Property="TextColor" Value="Green"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="False">
+                                                    <Setter Property="Text" Value="InActive" />
+                                                    <Setter Property="TextColor" Value="Red"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Grid>
+                                </StackLayout>
+                            </SwipeView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
+       
+    </StackLayout>
+</ContentPage>

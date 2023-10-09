@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Inventory"
+             xmlns:b="clr-namespace:CommunityToolkit.Maui.Core.Views;assembly=CommunityToolkit.Maui.Core"
+             xmlns:local="clr-namespace:ParsPOS.ViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="Inventory">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="Download_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                Glyph="{x:Static fontawesome:FontAwesomeIcons.Download}"
+                FontFamily="FAS"
+                Size="24"
+                Color="Black"  />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <local:InventoryViewModel/>
+    </ContentPage.BindingContext>
+    <Grid ColumnDefinitions="250,*">
+        <Frame Grid.Column="0" Padding="10" CornerRadius="0">
+            <Frame.Shadow>
+                <Shadow Brush="Black" Offset="10,10" Opacity="1" />
+            </Frame.Shadow>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <!-- SearchBar -->
+                    <RowDefinition Height="*" />
+                    <!-- ListView -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Button -->
+                </Grid.RowDefinitions>
+
+                <!-- SearchBar at the top -->
+                <Frame Grid.Row="0" BorderColor="LightGray" Padding="1" CornerRadius="30">
+                    <SearchBar  Placeholder="Search Category" />
+                </Frame>
+
+
+                <!-- ListView filling the space in between -->
+                <ScrollView Grid.Row="1">
+                    <ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate></DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+
+                <!-- Button at the bottom -->
+                <Button Grid.Row="2" Clicked="AddCategoryButton_Clicked" Text="Add Category" ZIndex="1" VerticalOptions="End" />
+            </Grid>
+        </Frame>
+        <Grid Grid.Column="1" Margin="20" RowSpacing="10">
+           
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ColumnDefinitions="*,auto,auto">
+                <Label Text="Product List" FontSize="Medium" Grid.Column="0" FontAttributes="Bold" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Center"></Label>
+                <Frame BorderColor="LightGray" Grid.Column="1" VerticalOptions="Center" HeightRequest="45" Margin="0,0,10,0" Padding="1" CornerRadius="30">
+                    <SearchBar  Placeholder="Search Product"  />
+                </Frame>
+                <Button Text="Import" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="85" Command="{Binding DownloadCommand}"></Button>
+
+            </Grid>
+           
+            <StackLayout Grid.Row="1">
+                <ListView x:Name="Item" ItemsSource="{Binding Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Grid RowSpacing="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Text="{Binding Description, Mode=TwoWay}" TextColor="Black"></Label>
+                                        <Label Text="{Binding BarCode, Mode=TwoWay}" Grid.Row="1" TextColor="Gray"></Label>
+                                        <Label Text="{Binding UnitPrice, Mode=TwoWay, StringFormat ='{0:F2} AED'}" TextColor="Black" HorizontalOptions="End" FontSize="15" Padding="0,0,10,0"></Label>
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid IsVisible="{Binding IsLoadingMore}">
+                            <ActivityIndicator IsRunning="{Binding IsLoadingMore}" IsVisible="{Binding IsLoadingMore}" VerticalOptions="Center" HorizontalOptions="Center" />
+                        </Grid>
+                    </ListView.Footer>
+                </ListView>
+            </StackLayout>
+            <ImageButton Grid.Row="1" 
+                         Source="roundedadd.png" 
+                         HorizontalOptions="End" 
+                         WidthRequest="85" 
+                         HeightRequest="85" 
+                         VerticalOptions="End"
+                         Clicked="AddButton_Clicked"/>
+
+        </Grid>
+    </Grid>
+</ContentPage>
