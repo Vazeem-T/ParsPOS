@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.SubForms.AddCategory"
              xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             xmlns:local="clr-namespace:ParsPOS.ViewModel"
              Title="Add Category">
+    <ContentPage.BindingContext>
+        <local:CategoryViewModel />
+    </ContentPage.BindingContext>
     <StackLayout Margin="20,30,20,20" >
         <Grid ColumnDefinitions="*,auto,*" ColumnSpacing="10"  RowDefinitions="*">
             <StackLayout Grid.Column="0">
@@ -71,11 +75,12 @@
             
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="600" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
-                <Frame Grid.Row="0" 
+                <Label Text="Category" Grid.Row="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
+                <Button Grid.Row="0" HorizontalOptions="End" Text="Import" Command="{Binding CatogeryDownloadCommand}"></Button>
+                <Frame Grid.Row="1" 
                        BorderColor="Transparent"
                        VerticalOptions="FillAndExpand"
                        HasShadow="True">
@@ -86,13 +91,30 @@
                             Opacity="5">
                         </Shadow>
                     </Frame.Shadow>
-                    <ScrollView>
-                        <ListView>
-                            <ListView.ItemTemplate>
-                                <DataTemplate></DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollView>
+                    <ListView x:Name="Item" HasUnevenRows="True" ItemsSource="{Binding Items}">
+                        <ListView.Header>
+                            <Grid ColumnDefinitions="*,*,*,*" HeightRequest="40" Margin="0,0,0,10">
+                                <Label Text="Code" Grid.Column="0" FontAttributes="Bold"></Label>
+                                <Label Text="Description" Grid.Column="1" FontAttributes="Bold"></Label>
+                                <Label Text="Parent Code" Grid.Column="2" FontAttributes="Bold"></Label>
+                                <Label Text="Parent Name" Grid.Column="3" FontAttributes="Bold"></Label>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Grid ColumnDefinitions="*,*,*,*">
+                                            <Label Text="{Binding GrpItmCode, Mode=TwoWay}" Grid.Column="0" ></Label>
+                                            <Label Text="{Binding Description, Mode=TwoWay}" Grid.Column="1"></Label>
+                                            <Label Text="{Binding PCode, Mode=TwoWay}" HorizontalTextAlignment="Center" Grid.Column="2"></Label>
+                                            <Label Text="{Binding PName, Mode=TwoWay}" Grid.Column="3"></Label>
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Frame>
             </Grid>
         </Grid>

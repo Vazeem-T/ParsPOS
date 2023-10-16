@@ -2,12 +2,15 @@
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using ParsPOS.DBHandler;
 using ParsPOS.Services;
+using ParsPOS.ViewModel;
 using ParsPOS.Views;
 
 namespace ParsPOS;
 
 public partial class App : Application
 {
+    //public static DownloadViewModel SharedDownloadViewModel { get; } = new DownloadViewModel();
+
     private static DatabaseHelper db;
     public static DatabaseHelper Database
     {

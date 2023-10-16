@@ -6,11 +6,14 @@
              BackgroundColor="#E4E3EA"
              x:DataType="local:DownloadViewModel"
              Title="Downloads">
+    <ContentPage.BindingContext>
+        <local:DownloadViewModel />
+    </ContentPage.BindingContext>
     <VerticalStackLayout Margin="20">
         <Frame BorderColor="Transparent" Margin="0">
             <StackLayout>
                 <Label x:Name="name" Text="Downloading..."></Label>
-                <Label Text="{Binding ProgressText}" HorizontalOptions="End" />
+                <Label Text="{Binding ProgressText}" x:Name="progtext" HorizontalOptions="End" />
                 <ProgressBar x:Name="progressBar" Progress="{Binding Progress}" />
             </StackLayout>
         </Frame>

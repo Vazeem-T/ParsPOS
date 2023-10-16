@@ -1,3 +1,4 @@
+using ParsPOS.DBHandler;
 using ParsPOS.ViewModel;
 
 namespace ParsPOS.Views;
@@ -9,12 +10,13 @@ public partial class Sale : ContentPage
     public Sale()
 	{
 		InitializeComponent();
-        viewModel = new SaleViewModel();
+        var saleDatabaseHelper = new SaleDatabaseHelper();
+        viewModel = new SaleViewModel(saleDatabaseHelper);
         BindingContext = viewModel;
     }
 
-    private void BarcodeEntry_Completed(object sender, EventArgs e)
+    private async void BarcodeEntry_Completed(object sender, EventArgs e)
     {
-        viewModel.BarcodeEntryCompleted();
+        await viewModel.SearchInvItm();
     }
 }

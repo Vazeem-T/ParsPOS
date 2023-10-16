@@ -29,6 +29,7 @@ public static class MauiProgram
             });
         builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
         builder.Services.AddSingleton<DatabaseHelper>();
+        builder.Services.AddSingleton<DownloadViewModel>();
         //builder.Services.AddHttpClient("api", httpClient => httpClient.BaseAddress = new Uri(""));
 #if DEBUG
         builder.Logging.AddDebug();

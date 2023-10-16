@@ -1,4 +1,5 @@
 ﻿using ParsPOS.Model;
+using ParsPOS.ResultModel;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -8,22 +9,15 @@ using System.Threading.Tasks;
 
 namespace ParsPOS.DBHandler
 {
-    public class DatabaseHelper
+    public class DatabaseHelper : SQLiteAsyncConnection
     {
         private readonly SQLiteAsyncConnection _db;
-        public DatabaseHelper(string dbPath)
+        public DatabaseHelper(string dbPath) : base(dbPath)
         {
             _db = new SQLiteAsyncConnection(dbPath);
-            try
-            {
-                _db.CreateTableAsync<Invitm>();
-                _db.CreateTableAsync<NetworkIP>();
-            }
-            catch (Exception)
-            {
-                App.Current.MainPage.DisplayAlert("Alert", "Creating Table...", "OK");
-            }
-           
+            _db.CreateTableAsync<Invitm>();
+            _db.CreateTableAsync<NetworkIP>();
+            _db.CreateTableAsync<GrpItmTb>();
         }
 
         public Task<int> CreateInvItm(Invitm invitm)
@@ -35,16 +29,17 @@ namespace ParsPOS.DBHandler
         {
             return _db.InsertAsync(network);
         }
-
-
-
+        public Task<int> CreateGrpItmTb(GrpItmTb grpItmTb)
+        {
+            return _db.InsertAsync(grpItmTb);
+        }
         //INVITM
         public Task<List<Invitm>> GetAllInvItmPaged(int page, int pageSize)
         {
             int skipCount = (page - 1) * pageSize;
 
             return _db.Table<Invitm>()
-                     .OrderBy(x => x.ItemId) 
+                     .OrderBy(x => x.ItemId)
                      .Skip(skipCount)
                      .Take(pageSize)
                      .ToListAsync();
@@ -65,7 +60,7 @@ namespace ParsPOS.DBHandler
         //Network
         public Task<List<NetworkIP>> GetAllNetwork()
         {
-           return _db.Table<NetworkIP>().OrderBy(x=>x.IsConnected).ToListAsync();
+            return _db.Table<NetworkIP>().OrderBy(x => x.IsConnected).ToListAsync();
         }
         public Task<int> DeleteNetworkIP(NetworkIP network)
         {
@@ -79,6 +74,31 @@ namespace ParsPOS.DBHandler
         {
             return _db.ExecuteScalarAsync<int>("Update NetworkIP Set IsConnected = 1 ,ConnectionName = '" + Connectname + "',IPAddress = '" + IP + "',PortNumber = " + Port + " where Id = '" + Id + "' ");
 
+        }
+        //GrpItm
+        public Task<int> IsGrpItmTableEmpty()
+        {
+            return _db.Table<GrpItmTb>().CountAsync();
+        }
+        public async Task<List<RGrpItmTb>> GetAllGrpItm(int page, int pageSize)
+        {
+            int skipCount = (page - 1) * pageSize;
+
+            string query = $"SELECT G.GrpItmCode, G.Description, P.PCode, P.PName " +
+                           $"FROM GrpItmTb G " +
+                           $"LEFT JOIN " +
+                           $"(SELECT GrpItmCode AS PCode, Description AS PName, UnqGrpId AS Id " +
+                           $"FROM GrpItmTb WHERE lcode = 1) P ON P.Id = G.ParentId " +
+                           $"WHERE G.lcode = 2 " +
+                           $"ORDER BY G.GrpItmCode " +
+                           $"LIMIT {pageSize} " +
+            $"OFFSET {skipCount}";
+            var result = await _db.QueryAsync<RGrpItmTb>(query);
+            return result;
+        }
+        public Task<int> DeleteAllGrpItm()
+        {
+            return _db.DeleteAllAsync<GrpItmTb>();
         }
     }
 }

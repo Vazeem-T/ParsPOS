@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace ParsPOS.ViewModel
         int totalCount;
         string progressText;
         public Guid InstanceId { get; } = Guid.NewGuid();
+
         public int Progress
         {
             get { return progress; }
@@ -24,7 +26,6 @@ namespace ParsPOS.ViewModel
             {
                 progress = value;
                 OnPropertyChanged(nameof(Progress));
-                UpdateProgressText();
             }
         }
         public int TotalCount
@@ -37,7 +38,7 @@ namespace ParsPOS.ViewModel
             }
         }
 
-        
+
         public string ProgressText
         {
             get { return progressText; }
@@ -47,11 +48,6 @@ namespace ParsPOS.ViewModel
                 OnPropertyChanged(nameof(ProgressText));
             }
         }
-        private void UpdateProgressText()
-        {
-            ProgressText = $"{Progress}/{TotalCount}";
-        }
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

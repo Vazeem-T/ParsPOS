@@ -64,4 +64,20 @@ public partial class PostrTb
     public bool DoTrWithTax { get; set; }
 
     public double PriceWithTax { get; set; }
+
+
+    public PostrTb Clone() => MemberwiseClone() as PostrTb;
+
+    //public (bool IsValid, string? ErrorMessage) Validate()
+    //{
+    //    if (string.IsNullOrWhiteSpace(ItemId))
+    //    {
+    //        return (false, $"{nameof(ItemId)} is required.");
+    //    }
+    //    else if (Price <= 0)
+    //    {
+    //        return (false, $"{nameof(Price)} should be greater than 0.");
+    //    }
+    //    return (true, null);
+    //}
 }

@@ -24,9 +24,12 @@ namespace ParsPOS.ViewModel
         private int currentPage = 1;
         private int itemsPerPage = 15;
         private bool isDownloading;
-        public DownloadViewModel downloadViewModel;
+        private int currentCount;
+        private DownloadViewModel downloadViewModel;
         private int apicurrentPage = 1;
         private readonly HttpClient client;
+        private CommonHttpServices commonHttpServices;
+       
 
         public ObservableCollection<Invitm> Items
         {
@@ -47,14 +50,10 @@ namespace ParsPOS.ViewModel
             Items = new ObservableCollection<Invitm>();
             LoadDataAsync().GetAwaiter(); // Load initial data
             LoadDataCommand = new Command(async () => await LoadDataAsync());
-            #if DEBUG
-            HttpClientHandlerService handler = new HttpClientHandlerService();
-            client = new HttpClient(handler.GetPlatformMessageHandler());       
-            #else
-            client = new HttpClient();
-            #endif
+            commonHttpServices = new CommonHttpServices();
+            client = commonHttpServices.GetHttpClient();
             DownloadCommand = new Command(async () => await DownloadDataAsync());
-
+            downloadViewModel = new DownloadViewModel();
         }
         private bool isLoadingMore;
         public bool IsLoadingMore
@@ -71,6 +70,7 @@ namespace ParsPOS.ViewModel
         }
 
         private bool isBusy = false; // Add this field
+
 
         private async Task LoadDataAsync()
         {
@@ -105,8 +105,18 @@ namespace ParsPOS.ViewModel
                 IsLoadingMore = false;
             }
         }
+
         //Download Product
 
+        public int CurrentCount
+        {
+            get { return currentCount; }
+            set
+            {
+                currentCount = value;
+                OnPropertyChanged(nameof(CurrentCount));
+            }
+        }
 
         public bool IsDownloading
         {
@@ -152,20 +162,22 @@ namespace ParsPOS.ViewModel
             int Progress = 0;
             try
             {
-                var baseurl = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.10.1.212:7252" : "https://localhost:7252";
+                var baseurl = commonHttpServices.GetBaseUrl();
                 string countApiUrl = $"{baseurl}/api/ImportDb/GetInvItemCount";
                 string dataApiUrl = $"{baseurl}/api/ImportDb/InvItm?page=";
 
                 // Get the total count directly from the API
-                int totalCount = await GetTotalItemCountAsync(countApiUrl);
-                downloadViewModel.TotalCount = totalCount;
+                int Count = await GetTotalItemCountAsync(countApiUrl);
+                //downloadViewModel.TotalCount = totalCount;
+                CurrentCount = Count;
 
-                var result = await App.Current.MainPage.DisplayAlert("Alert",$"Do you want to delete products and update ?","Yes","No");
-                if(result)
+                var result = await App.Current.MainPage.DisplayAlert("Alert", $"Do you want to delete products and update ?", "Yes", "No");
+                if (result)
                 {
                     await App.Database.DeleteAllInvItm();
+                    Items = new ObservableCollection<Invitm>();
 
-                    while (Progress < totalCount)
+                    while (Progress < Count)
                     {
                         string pageDataUrl = $"{dataApiUrl}{apicurrentPage}";
 
@@ -180,12 +192,11 @@ namespace ParsPOS.ViewModel
                             {
                                 await App.Database.CreateInvItm(item);
                             }
-
+                            if (apicurrentPage == 1) await LoadDataAsync();
                             Progress += pageData.Count;
                             apicurrentPage++;
                             downloadViewModel.Progress = Progress;
-                            downloadViewModel.ProgressText = $"{Progress}/{totalCount}";
-
+                            downloadViewModel.ProgressText = $"{Progress}/{Count}";
                         }
                         else
                         {
@@ -194,7 +205,6 @@ namespace ParsPOS.ViewModel
                         }
                     }
                 }
-                
             }
             catch (Exception ex)
             {
@@ -203,15 +213,11 @@ namespace ParsPOS.ViewModel
             }
             finally
             {
-                IsDownloading = false;
+                IsDownloading = true;
             }
-
             return Progress;
         }
-
-
-
-
+      
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
