@@ -54,7 +54,7 @@ namespace ParsPOS.ViewModel
             client = new HttpClient();
             #endif
             DownloadCommand = new Command(async () => await DownloadDataAsync());
-            downloadViewModel = new DownloadViewModel();
+
         }
         private bool isLoadingMore;
         public bool IsLoadingMore
