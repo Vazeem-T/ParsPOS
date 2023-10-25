@@ -6,6 +6,8 @@ using ParsPOS.DBHandler;
 using ParsPOS.ViewModel;
 using ParsPOS.Views;
 using ParsPOS.Views.Settings;
+using ParsPOS.Views.SubForms;
+using Sharpnado.Tabs;
 
 namespace ParsPOS;
 
@@ -17,6 +19,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseSharpnadoTabs(loggerEnable: false)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -30,6 +33,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
         builder.Services.AddSingleton<DatabaseHelper>();
         builder.Services.AddSingleton<DownloadViewModel>();
+        builder.Services.AddSingleton<InventoryViewModel>();
+        builder.Services.AddSingleton<CategoryViewModel>();
+
+        builder.Services.AddTransient<AddCategory>();
+        builder.Services.AddSingleton<DatabaseHelper>();
+        builder.Services.AddSingleton<SaleDatabaseHelper>();
         //builder.Services.AddHttpClient("api", httpClient => httpClient.BaseAddress = new Uri(""));
 #if DEBUG
         builder.Logging.AddDebug();

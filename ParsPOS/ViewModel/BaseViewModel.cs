@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace ParsPOS.ViewModel
 {
-    public abstract class BaseViewModel : IViewModel
+    public partial class BaseViewModel : ObservableObject 
     {
-        public BaseViewModel() { }
-        public abstract Task Initialize();
-        public abstract Task Stop();
-    }
-    public interface IViewModel
-    {
-        Task Initialize();
-        Task Stop();
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsNotBusy))]
+        bool isBusy;
+
+        [ObservableProperty]
+        string title;
+
+        [ObservableProperty]
+        bool isDownloading = false;
+        public bool IsNotBusy => !IsBusy;
     }
 }

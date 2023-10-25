@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using ParsPOS.Model;
 using ParsPOS.Services;
 using ParsPOS.Views;
+using ParsPOS.Views.SubForms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,70 +17,33 @@ using System.Windows.Input;
 
 namespace ParsPOS.ViewModel
 {
-    public class InventoryViewModel : INotifyPropertyChanged
+    public partial class InventoryViewModel : BaseViewModel
     {
-        // Implement INotifyPropertyChanged interface (you can use a library like Prism or PropertyChanged.Fody for this)
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        private ObservableCollection<Invitm> items;
+        public ObservableCollection<Invitm> Items { get; set; } = new();
         private int currentPage = 1;
         private int itemsPerPage = 15;
-        private bool isDownloading;
-        private int currentCount;
         private DownloadViewModel downloadViewModel;
         private int apicurrentPage = 1;
         private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
        
-
-        public ObservableCollection<Invitm> Items
-        {
-            get => items;
-            set
-            {
-                if (items != value)
-                {
-                    items = value;
-                    OnPropertyChanged(nameof(Items));
-                }
-            }
-        }
-
-        public ICommand LoadDataCommand { get; }
         public InventoryViewModel()
         {
-            Items = new ObservableCollection<Invitm>();
             LoadDataAsync().GetAwaiter(); // Load initial data
-            LoadDataCommand = new Command(async () => await LoadDataAsync());
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
-            DownloadCommand = new Command(async () => await DownloadDataAsync());
             downloadViewModel = new DownloadViewModel();
         }
-        private bool isLoadingMore;
-        public bool IsLoadingMore
-        {
-            get => isLoadingMore;
-            set
-            {
-                if (isLoadingMore != value)
-                {
-                    isLoadingMore = value;
-                    OnPropertyChanged(nameof(IsLoadingMore));
-                }
-            }
-        }
+        [ObservableProperty]
+        bool isLoadingMore;
 
-        private bool isBusy = false; // Add this field
-
-
+        [RelayCommand]
         private async Task LoadDataAsync()
         {
-            if (isBusy)
+            if (IsBusy)
                 return;
 
-            isBusy = true;
+            IsBusy = true;
             IsLoadingMore = true;
             try
             {
@@ -88,9 +54,7 @@ namespace ParsPOS.ViewModel
                 {
                     foreach (var item in pageData)
                     {
-
                         Items.Add(item);
-
                     }
                     currentPage++;
                 }
@@ -101,35 +65,16 @@ namespace ParsPOS.ViewModel
             }
             finally
             {
-                isBusy = false;
+                IsBusy = false;
                 IsLoadingMore = false;
             }
         }
 
         //Download Product
-
-        public int CurrentCount
-        {
-            get { return currentCount; }
-            set
-            {
-                currentCount = value;
-                OnPropertyChanged(nameof(CurrentCount));
-            }
-        }
-
-        public bool IsDownloading
-        {
-            get { return isDownloading; }
-            set
-            {
-                isDownloading = value;
-                OnPropertyChanged(nameof(IsDownloading));
-            }
-        }
-
-
-        public Command DownloadCommand { get; }
+        [ObservableProperty]
+        bool isDownloading;
+        [ObservableProperty]
+        int currentCount;
 
         private async Task<int> GetTotalItemCountAsync(string apiUrl)
         {
@@ -150,12 +95,10 @@ namespace ParsPOS.ViewModel
             }
             catch (Exception ex)
             {
-                // Handle exceptions
-                // You can log the error or show an alert
                 throw ex;
             }
         }
-
+        [RelayCommand]
         private async Task<int> DownloadDataAsync()
         {
             IsDownloading = true;
@@ -217,11 +160,24 @@ namespace ParsPOS.ViewModel
             }
             return Progress;
         }
-      
-        protected virtual void OnPropertyChanged(string propertyName)
+        //Search Handler
+        [RelayCommand]
+        private async Task SearchProductAsync(string searchText)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Debug.WriteLine($"Property {propertyName} changed.");
+            Items.Clear();
+            var pageData = await App.Database.GetProductsAsync(searchText);
+            if (pageData.Any())
+            {
+                foreach (var item in pageData)
+                {
+                    Items.Add(item);
+                }
+            }
+        }
+        [RelayCommand]
+        async Task GoToCategoryAsync()
+        {
+            await Shell.Current.GoToAsync(nameof(AddCategory));
         }
     }
 }

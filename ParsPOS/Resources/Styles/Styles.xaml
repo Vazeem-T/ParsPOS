@@ -424,5 +424,4 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TitleColor"  Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"/>
     </Style>
-
 </ResourceDictionary>

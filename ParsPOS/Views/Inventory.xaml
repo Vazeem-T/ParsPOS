@@ -51,11 +51,10 @@
                 </ScrollView>
 
                 <!-- Button at the bottom -->
-                <Button Grid.Row="2" Clicked="AddCategoryButton_Clicked" Text="Add Category" ZIndex="1" VerticalOptions="End" />
+                <Button Grid.Row="2" Command="{Binding GoToCategoryCommand}" Text="Add Category" ZIndex="1" VerticalOptions="End" />
             </Grid>
         </Frame>
         <Grid Grid.Column="1" Margin="20" RowSpacing="10">
-           
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*" />
@@ -63,12 +62,10 @@
             <Grid Grid.Row="0" ColumnDefinitions="*,auto,auto">
                 <Label Text="Product List" FontSize="Medium" Grid.Column="0" FontAttributes="Bold" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Center"></Label>
                 <Frame BorderColor="LightGray" Grid.Column="1" VerticalOptions="Center" HeightRequest="45" Margin="0,0,10,0" Padding="1" CornerRadius="30">
-                    <SearchBar  Placeholder="Search Product"  />
+                    <SearchBar  Placeholder="Search Product" x:Name="search" />
                 </Frame>
                 <Button Text="Import" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="85" Command="{Binding DownloadCommand}"></Button>
-
             </Grid>
-           
             <StackLayout Grid.Row="1">
                 <ListView x:Name="Item" ItemsSource="{Binding Items}">
                     <ListView.ItemTemplate>

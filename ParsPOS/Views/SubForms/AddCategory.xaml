@@ -4,42 +4,47 @@
              x:Class="ParsPOS.Views.SubForms.AddCategory"
              xmlns:localtxt="clr-namespace:ParsPOS.Services"
              xmlns:local="clr-namespace:ParsPOS.ViewModel"
-             Title="Add Category">
-    <ContentPage.BindingContext>
-        <local:CategoryViewModel />
-    </ContentPage.BindingContext>
+             xmlns:tabs="http://sharpnado.com"
+             xmlns:model="clr-namespace:ParsPOS.ResultModel"
+             Title="Add Category"
+             BackgroundColor="#E4E3EA"
+             x:DataType="local:CategoryViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SegmentedTabStyle" TargetType="tabs:SegmentedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource White}" />
+                <Setter Property="LabelSize" Value="15" />
+                <Setter Property="SelectedLabelColor" Value="{StaticResource Primary}" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource White}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout Margin="20,30,20,20" >
-        <Grid ColumnDefinitions="*,auto,*" ColumnSpacing="10"  RowDefinitions="*">
+        <Grid ColumnDefinitions="*,auto,*" ColumnSpacing="10">
             <StackLayout Grid.Column="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Frame Grid.Row="0"  Style="{StaticResource EntryFrame}">
-                        <localtxt:BorderlessEntry Placeholder="Description" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
-                    </Frame>
-                    <Frame Grid.Row="1" Style="{StaticResource EntryFrame}" >
-                        <localtxt:BorderlessEntry Placeholder="Group ItemCode" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
-                    </Frame>
-
-                    <Frame Grid.Row="2"  Style="{StaticResource EntryFrame}" >
-                        <localtxt:BorderlessEntry Placeholder="Parent Code" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
-                    </Frame>
-
-                    <Frame Padding="10,0,10,0"
+                <Frame BorderColor="Transparent">
+                    <VerticalStackLayout>
+                        <Frame Style="{StaticResource EntryFrame}">
+                            <localtxt:BorderlessEntry Text="{Binding SelectedGrpItm.Description}" Placeholder="Description" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                        </Frame>
+                        <Frame Style="{StaticResource EntryFrame}" >
+                            <localtxt:BorderlessEntry Text="{Binding SelectedGrpItm.GrpItmCode}" Placeholder="Group ItemCode" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                        </Frame>
+                        <Frame Style="{StaticResource EntryFrame}" >
+                            <localtxt:BorderlessEntry IsReadOnly="True" Text="{Binding SelectedGrpItm.PName}" Placeholder="Parent Name" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                        </Frame>
+                        <Frame  Style="{StaticResource EntryFrame}" >
+                            <localtxt:BorderlessEntry IsReadOnly="True" Text="{Binding SelectedGrpItm.PCode}" Placeholder="Parent Code" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                        </Frame>
+                        <Frame Padding="10,0,10,0"
                    Style="{StaticResource EntryFrame}"
-                   Grid.Row="3"
                    Grid.Column="0">
-                        <Grid ColumnDefinitions="*,*">
-                            <Label Text="Choose Image" 
+                            <Grid ColumnDefinitions="*,*">
+                                <Label Text="Choose Image" 
                            TextColor="Gray" 
                            VerticalOptions="Center">
-                            </Label>
-                            <Button Text="Upload Image" 
+                                </Label>
+                                <Button Text="Upload Image" 
                             BackgroundColor="LightGray" 
                             TextColor="DarkSlateGrey" 
                             Grid.Column="1" 
@@ -47,24 +52,23 @@
                             WidthRequest="100" 
                             HeightRequest="30" 
                             HorizontalOptions="End">
-                            </Button>
+                                </Button>
+                            </Grid>
+                        </Frame>
+                        <Grid ColumnDefinitions="*,*" Grid.Row="4" Margin="0,10,0,0">
+                            <Button Text="Update" Command="{Binding CategoryUpdateCommand}" Grid.Column="0" Margin="0,0,5,0"></Button>
+                            <Button Grid.Column="1" Text="Clear" Margin="5,0,0,0" ></Button>
                         </Grid>
-                    </Frame>
-
-                    <Grid ColumnDefinitions="*,*" Grid.Row="4" Margin="0,10,0,0">
-                        <Button Text="Upload" Grid.Column="0" Margin="0,0,5,0"></Button>
-                        <Button Grid.Column="1" Text="Clear" Margin="5,0,0,0" ></Button>
-                    </Grid>
-                </Grid>
-
+                    </VerticalStackLayout>
+                </Frame>
             </StackLayout>
-            <StackLayout Grid.Column="1" >
-                <Frame  
+            <StackLayout Grid.Column="1">
+                <Frame
                     HeightRequest="200"
                     WidthRequest="200"
                     IsVisible="False"
+                    Style="{StaticResource EntryFrame}">
 
-               Style="{StaticResource EntryFrame}">
                     <Image x:Name="Image_Upload"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
@@ -72,51 +76,81 @@
                     </Image>
                 </Frame>
             </StackLayout>
-            
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Label Text="Category" Grid.Row="0" VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold"></Label>
-                <Button Grid.Row="0" HorizontalOptions="End" Text="Import" Command="{Binding CatogeryDownloadCommand}"></Button>
-                <Frame Grid.Row="1" 
+            <Frame Grid.Column="2" BorderColor="Transparent">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70" />
+                        <RowDefinition Height="500" />
+                    </Grid.RowDefinitions>
+                    <Frame Padding="0" WidthRequest="400" HorizontalOptions="Start" VerticalOptions="Start" CornerRadius="20" BorderColor="Transparent">
+                        <Grid RowDefinitions="*,auto">
+                            <tabs:TabHostView x:Name="TabHostSegmented"
+                                      Grid.Row="0"
+                                      WidthRequest="400"
+                                      HeightRequest="40"
+                                      Margin="0,0"
+                                  VerticalOptions="Start"
+                                  HorizontalOptions="Start"
+                                      BackgroundColor="{StaticResource Primary}"
+                                      CornerRadius="20"
+                                      IsSegmented="True"
+                                      SegmentedHasSeparator="True"
+                                      SegmentedOutlineColor="{StaticResource Primary}"
+                                      SelectedIndex="{Binding SelectedIndex}">
+                                <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Category" />
+                                <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="SubCategory" />
+                                <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="ItemGroup" />
+                                <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="VAT" />
+                            </tabs:TabHostView>
+                            <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*">
+                                <BoxView HeightRequest="1" Grid.Column="0" CornerRadius="30" Color="{StaticResource Primary}"></BoxView>
+                                <BoxView HeightRequest="1" Grid.Column="1" CornerRadius="30" Color="{StaticResource Primary}"></BoxView>
+                                <BoxView HeightRequest="1" Grid.Column="2" CornerRadius="30" Color="{StaticResource Primary}"></BoxView>
+                                <BoxView HeightRequest="1" Grid.Column="3" CornerRadius="30" Color="{StaticResource Primary}"></BoxView>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                    <!--<Label Text="{Binding Cnt}" FontSize="16" Grid.Row="0" HeightRequest="40" VerticalOptions="Start" HorizontalOptions="End"></Label>-->
+                    <Button Grid.Row="0" HeightRequest="40" VerticalOptions="Start" HorizontalOptions="End" Text="Import" Command="{Binding DownloadCategoryCommand}"></Button>
+                    <Frame Grid.Row="1"
+                           Padding="0"
                        BorderColor="Transparent"
                        VerticalOptions="FillAndExpand"
-                       HasShadow="True">
-                    <Frame.Shadow>
-                        <Shadow 
-                            Brush="Black" 
-                            Offset="20,20" 
-                            Opacity="5">
-                        </Shadow>
-                    </Frame.Shadow>
-                    <ListView x:Name="Item" HasUnevenRows="True" ItemsSource="{Binding Items}">
-                        <ListView.Header>
-                            <Grid ColumnDefinitions="*,*,*,*" HeightRequest="40" Margin="0,0,0,10">
-                                <Label Text="Code" Grid.Column="0" FontAttributes="Bold"></Label>
-                                <Label Text="Description" Grid.Column="1" FontAttributes="Bold"></Label>
-                                <Label Text="Parent Code" Grid.Column="2" FontAttributes="Bold"></Label>
-                                <Label Text="Parent Name" Grid.Column="3" FontAttributes="Bold"></Label>
-                            </Grid>
-                        </ListView.Header>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Grid ColumnDefinitions="*,*,*,*">
-                                            <Label Text="{Binding GrpItmCode, Mode=TwoWay}" Grid.Column="0" ></Label>
-                                            <Label Text="{Binding Description, Mode=TwoWay}" Grid.Column="1"></Label>
-                                            <Label Text="{Binding PCode, Mode=TwoWay}" HorizontalTextAlignment="Center" Grid.Column="2"></Label>
-                                            <Label Text="{Binding PName, Mode=TwoWay}" Grid.Column="3"></Label>
+                       HasShadow="True" >
+                        <CollectionView x:Name="Itm" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedGrpItm}" SelectionMode="Single" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding LoadDataCommand}">
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="*,*,*,*" HeightRequest="40" Margin="0,0,0,10">
+                                    <Label Text="Code" Grid.Column="0" FontAttributes="Bold"></Label>
+                                    <Label Text="Description" Grid.Column="1" FontAttributes="Bold"></Label>
+                                    <Label Text="Parent Code" Grid.Column="2" FontAttributes="Bold"></Label>
+                                    <Label Text="Parent Name" Grid.Column="3" FontAttributes="Bold"></Label>
+                                </Grid>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:RGrpItmTb">
+                                    <VerticalStackLayout HeightRequest="50">
+                                        <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="49,auto">
+                                            <Label Text="{Binding GrpItmCode}" VerticalTextAlignment="Center" Grid.Column="0" ></Label>
+                                            <Label Text="{Binding Description}" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                                            <Label Text="{Binding PCode}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Column="2"></Label>
+                                            <Label Text="{Binding PName}" Grid.Column="3" VerticalTextAlignment="Center"></Label>
+                                            <BoxView HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="4" VerticalOptions="End" BackgroundColor="#E4E3EA"></BoxView>
                                         </Grid>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Frame>
-            </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.Footer>
+                                <ActivityIndicator HeightRequest="50" HorizontalOptions="Fill"
+                                    IsRunning="{Binding IsBusy}"
+                                    IsVisible="{Binding IsBusy}"
+                                    Color="{StaticResource Primary}"
+                                    VerticalOptions="Center" >
+                                </ActivityIndicator>
+                            </CollectionView.Footer>
+                        </CollectionView>
+                    </Frame>
+                </Grid>
+            </Frame>
         </Grid>
     </StackLayout>
 </ContentPage>

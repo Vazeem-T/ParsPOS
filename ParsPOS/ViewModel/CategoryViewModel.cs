@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using ParsPOS.Model;
 using ParsPOS.ResultModel;
@@ -16,88 +17,64 @@ using System.Windows.Input;
 
 namespace ParsPOS.ViewModel
 {
-    public class CategoryViewModel : INotifyPropertyChanged
+    public partial class CategoryViewModel : BaseViewModel 
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private int currentPage = 1;
         private int itemsPerPage = 15;
-        private ObservableCollection<RGrpItmTb> items;
+        private int parent = 1;
+        private int child = 2;
+        public ObservableCollection<RGrpItmTb> Items { get; } = new();
         private int apicurrentPage = 1;
         private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
-        private PublicSevices publicSevices = new PublicSevices();
-
+        //private PublicSevices publicSevices = new PublicSevices();
         public CategoryViewModel() 
         {
-            Items = new ObservableCollection<RGrpItmTb>();
             LoadDataAsync().GetAwaiter();
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
-            CatogeryDownloadCommand = new Command(async () => await DownloadCategoryAsync());
-            LoadDataCommand = new Command(async () => await LoadDataAsync());
+            SelectedIndex = 0;
         }
 
-        public ICommand LoadDataCommand { get; }
-        public ObservableCollection<RGrpItmTb> Items
-        {
-            get => items;
-            set
-            {
-                if (items != value)
-                {
-                    items = value;
-                    OnPropertyChanged(nameof(Items));
-                }
-            }
-        }
+        [ObservableProperty]
+        RGrpItmTb selectedGrpItm;
 
-        private bool isLoadingMore;
-        public bool IsLoadingMore
-        {
-            get => isLoadingMore;
-            set
-            {
-                if (isLoadingMore != value)
-                {
-                    isLoadingMore = value;
-                    OnPropertyChanged(nameof(IsLoadingMore));
-                }
-            }
-        }
-
-        private bool isBusy = false; // Add this field
-
-        private bool isDownloading = false;
-
-        public bool IsDownloading
-        {
-            get { return isDownloading; }
-            set
-            {
-                isDownloading = value;
-                OnPropertyChanged(nameof(IsDownloading));
-            }
-        }
+        [RelayCommand]
         private async Task LoadDataAsync()
         {
-            if (isBusy)
+            if (IsBusy)
                 return;
-
-            isBusy = true;
-            IsLoadingMore = true;
+            IsBusy = true;
+           
             try
             {
-                // Load data for the current page
-                var pageData = await App.Database.GetAllGrpItm(currentPage, itemsPerPage);
-
-                if (pageData.Any())
+                if (SelectedIndex > 0)
                 {
-                    foreach (var item in pageData)
+                    // Load data for the current page
+                    var pageData = await App.Database.GetAllGrpItm(currentPage, itemsPerPage, parent, child);
+
+                    if (pageData.Any())
                     {
-                        //RGrpItmTb thing = new { GrpItmCode = $"Code {item}", Description = $"Desc {item}", PCode = $"PCode {item}", PName = $"PName {item}" };
-                        Items.Add(item);
+                        foreach (var item in pageData)
+                        {
+                            Items.Add(item);
+                           
+                        }
+                        currentPage++;
                     }
-                    currentPage++;
+                }
+                else
+                {
+                    var pageData = await App.Database.GetAllFirstGrpItm(currentPage, itemsPerPage);
+
+                    if (pageData.Any())
+                    {
+                        foreach (var item in pageData)
+                        {
+                            Items.Add(item);
+                        }
+                        currentPage++;
+                    }
                 }
             }
             catch (Exception ex)
@@ -106,13 +83,83 @@ namespace ParsPOS.ViewModel
             }
             finally
             {
-                isBusy = false;
-                IsLoadingMore = false;
+                IsBusy = false;
+               
             }
         }
+        [RelayCommand]
+        async Task CategoryUpdate()
+        {
+            try
+            {
+                if (SelectedGrpItm != null)
+                {
+                    await App.Database.UpdateGrpItm(SelectedGrpItm);
+                }
+                currentPage = 1;
+                Items.Clear();
+                await LoadDataAsync();
+                
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
+            }
+            
+        }
+
+        //private async Task LoadDataOnSortAsync()
+        //{
+        //    Items.Clear();
+        //    if (IsBusy)
+        //        return;
+        //    IsBusy = true;
+        //    try
+        //    {
+        //        if(SelectedIndex > 0)
+        //        {
+        //            // Load data for the current page
+        //            var pageData = await App.Database.GetAllGrpItm(currentPage, itemsPerPage, parent, child);
+
+        //            if (pageData.Any())
+        //            {
+        //                foreach (var item in pageData)
+        //                {
+        //                    Items.Add(item);
+        //                }
+        //                currentPage++;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var pageData = await App.Database.GetAllFirstGrpItm(currentPage, itemsPerPage);
+
+        //            if (pageData.Any())
+        //            {
+        //                foreach (var item in pageData)
+        //                {
+        //                   Items.Add(item);
+        //                }
+        //                currentPage++;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await App.Current.MainPage.DisplayAlert("Alert", ex.Message, "OK");
+        //    }
+        //    finally
+        //    {
+        //        IsBusy = false;
+        //    }
+        //}
 
 
-        public Command CatogeryDownloadCommand { get; }
+        [RelayCommand]
+        async Task SelectedItem(RGrpItmTb selecteditem)
+        {
+            SelectedGrpItm = selecteditem;
+        }
 
         private async Task<int> GetTotalItemCountAsync(string apiUrl)
         {
@@ -138,6 +185,7 @@ namespace ParsPOS.ViewModel
                 throw ex;
             }
         }
+        [RelayCommand]
         private async Task<int> DownloadCategoryAsync()
         {
             IsDownloading = true;
@@ -157,7 +205,7 @@ namespace ParsPOS.ViewModel
                     //if(await publicSevices.CheckIfTableExistsAsync("GrpitmTb"))
                     //{
                         await App.Database.DeleteAllGrpItm();
-                        Items = new ObservableCollection<RGrpItmTb>();
+                        Items.Clear();
                     //}
                     
                     while (Progress < Count)
@@ -200,19 +248,30 @@ namespace ParsPOS.ViewModel
             return Progress;
         }
 
+        //Custom Tab
+        
+        int selectedIndex;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        public int SelectedIndex 
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Debug.WriteLine($"Property {propertyName} changed.");
-
-            // Get the property value using reflection
-            var propertyInfo = GetType().GetProperty(propertyName);
-            if (propertyInfo != null)
+            get => selectedIndex; 
+            set
             {
-                var propertyValue = propertyInfo.GetValue(this);
-                Debug.WriteLine($"Current value of {propertyName}: {propertyValue}");
+                if(selectedIndex != value)
+                {
+                    selectedIndex = value;
+                    IndexChange().GetAwaiter();
+                    OnPropertyChanged(nameof(SelectedIndex));
+                }
             }
+        }
+        async Task IndexChange()
+        {
+            parent = SelectedIndex + 1;
+            child = parent + 1;
+            currentPage = 1;
+            Items.Clear();
+            await LoadDataAsync();
         }
     }
 }
