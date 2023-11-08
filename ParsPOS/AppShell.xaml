@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ParsPOS.Views"
     FlyoutWidth="120"
+    Shell.NavBarHasShadow="True"
     FlyoutBackgroundColor="#383E44"
     Shell.FlyoutBehavior="Locked">
 

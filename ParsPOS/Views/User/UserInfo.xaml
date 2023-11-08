@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.User.UserInfo"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             xmlns:viewModel ="clr-namespace:ParsPOS.ViewModel"
+             BackgroundColor="LightGray"
+             x:DataType="viewModel:UserViewModel"
+             xmlns:DtType="clr-namespace:ParsPOS.Model"
+             Title="User Information">
+    <StackLayout Margin="20,20">
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*" ColumnSpacing="10">
+            <Frame Grid.Column="0" Grid.RowSpan="2" HeightRequest="600" BorderColor="Transparent">
+                <StackLayout >
+                    <Grid>
+                        <Label Text="User Details" VerticalOptions="Center" FontAttributes="Bold" FontSize="16"></Label>
+                        <Button Text="Import" HeightRequest="40" Command="{Binding DownloadUserCommand}" HorizontalOptions="EndAndExpand"></Button>
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding Items}" SelectionMode="Single" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding LoadDataCommand}" HeightRequest="580">
+                        <CollectionView.EmptyView>
+                            <StackLayout Padding="100">
+                                <Image
+                                    HorizontalOptions="Center"
+                                    HeightRequest="160"
+                                    WidthRequest="160"
+                                    Source="nodata.png"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.Header>
+                            <Grid ColumnDefinitions="*,*" HeightRequest="30" Margin="0,20,0,0">
+                                <Label Grid.Column="0"  Text="User Id" TextColor="Black" FontAttributes="Bold"  IsVisible="True"></Label>
+                                <Label Grid.Column="1"  Text="Is Admin" TextColor="Black" FontAttributes="Bold" IsVisible="True"></Label>
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="DtType:User">
+                                <VerticalStackLayout HeightRequest="50">
+                                    <Grid ColumnDefinitions="*,*" RowDefinitions="45,auto">
+                                        <Label Text="{Binding UserId}" Grid.Column="0" VerticalTextAlignment="Center"></Label>
+                                        <Label Text="{Binding MasterYn}" Grid.Column="1" VerticalTextAlignment="Center"></Label>
+                                        <BoxView HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="4" VerticalOptions="End" BackgroundColor="#E4E3EA"></BoxView>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Column="1" BorderColor="Transparent">
+                <StackLayout Grid.Column="0">
+                    <Frame BorderColor="Transparent" Padding="0">
+                        <VerticalStackLayout>
+                            <Frame Style="{StaticResource EntryFrame}">
+                                <localtxt:BorderlessEntry  Placeholder="User Id" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                            </Frame>
+                            <Frame Style="{StaticResource EntryFrame}" >
+                                <localtxt:BorderlessEntry  Placeholder="Password" IsPassword="True" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                            </Frame>
+                            <Grid ColumnDefinitions="*,*">
+                                <Frame Style="{StaticResource EntryFrame}" >
+                                    <localtxt:BorderlessEntry  Placeholder="LstOpnBr" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Frame>
+                                <Frame Grid.Column="1"  Style="{StaticResource EntryFrame}" >
+                                    <localtxt:BorderlessEntry  Placeholder="DefLoc" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Frame>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*">
+                                <Frame Style="{StaticResource EntryFrame}" >
+                                    <localtxt:BorderlessEntry  Placeholder="OpnCash" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Frame>
+                                <Frame Grid.Column="1"  Style="{StaticResource EntryFrame}" >
+                                    <localtxt:BorderlessEntry  Placeholder="Strip Data" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Frame>
+                            </Grid>
+                            <Frame  Style="{StaticResource EntryFrame}" >
+                                <localtxt:BorderlessEntry  Placeholder="Category" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                            </Frame>
+                            <Grid ColumnDefinitions="auto,*,auto,*" HeightRequest="20" Margin="0,0,0,15">
+                                <CheckBox VerticalOptions="Center"></CheckBox>
+                                <Label Text="Is Admin" Grid.Column="1" VerticalOptions="Start"></Label>
+                                <CheckBox VerticalOptions="Start" Grid.Column="2"></CheckBox>
+                                <Label VerticalOptions="Start" Grid.Column="3" Text="Suppress"></Label>
+                            </Grid>
+                            <Frame Padding="10,0,10,0"
+                   Style="{StaticResource EntryFrame}"
+                   Grid.Column="0">
+                                <Grid ColumnDefinitions="*,*">
+                                    <Label Text="Choose Image" 
+                           TextColor="Gray" 
+                           VerticalOptions="Center">
+                                    </Label>
+                                    <Button Text="Upload Image" 
+                            BackgroundColor="LightGray" 
+                            TextColor="DarkSlateGrey" 
+                            Grid.Column="1" 
+                            Padding="5"
+                            WidthRequest="100" 
+                            HeightRequest="30" 
+                            HorizontalOptions="End">
+                                    </Button>
+                                </Grid>
+                            </Frame>
+                            <Grid ColumnDefinitions="*,*" Grid.Row="4" Margin="0,10,0,0">
+                                <Button Text="Update" Grid.Column="0" Margin="0,0,5,0"></Button>
+                                <Button Grid.Column="1" Text="Clear" Margin="5,0,0,0" ></Button>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </StackLayout>
+</ContentPage>

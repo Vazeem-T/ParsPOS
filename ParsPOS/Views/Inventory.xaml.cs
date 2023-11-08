@@ -11,9 +11,10 @@ namespace ParsPOS.Views;
 public partial class Inventory : ContentPage
 {
     InventoryViewModel viewModel = new InventoryViewModel();
-    public Inventory()
+    public Inventory(InventoryViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
         Item.ItemAppearing += ListView_ItemAppearing;
         
     }

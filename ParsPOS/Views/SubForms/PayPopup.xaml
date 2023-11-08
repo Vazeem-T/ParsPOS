@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.SubForms.PayPopup"
+             xmlns:viemodel="clr-namespace:ParsPOS.ViewModel"
+             xmlns:local="clr-namespace:ParsPOS.Views.ContentViewPage"
+             x:DataType="viemodel:SaleViewModel"  
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <Frame HeightRequest="500" WidthRequest="800" CornerRadius="10" Padding="0" BorderColor="Transparent">
+        <VerticalStackLayout>
+            <StackLayout HeightRequest="50" BackgroundColor="{StaticResource Gray100}">
+                <Label Text="Payment" HorizontalTextAlignment="Center" FontSize="Medium" Padding="10" VerticalTextAlignment="Center" TextColor="{StaticResource Gray900}" FontAttributes="Bold"></Label>
+            </StackLayout>
+            <StackLayout Padding="10" Spacing="5">
+                <HorizontalStackLayout>
+                    <Label Text="Grand Total : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding Totalprice}" TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Total Paid : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Change : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                </HorizontalStackLayout>
+            </StackLayout>
+            <StackLayout Padding="10">
+                <Grid ColumnDefinitions="150,*,200" ColumnSpacing="5">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Button Text="Cash"></Button>
+                        <Button Text="Credit Card"></Button>
+                        <Button Text="Wallet"></Button>
+                        <Button Text="Loyality Card"></Button>
+                        <Button Text="UPI"></Button>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <local:NumberPadView HeightRequest="150"/>
+                        <Frame Padding="0" HeightRequest="95">
+                            <CollectionView>
+                                <CollectionView.Header>
+                                    <Grid ColumnDefinitions="*,100" BackgroundColor="{StaticResource Primary}">
+                                        <Label Text="Payment Mode" TextColor="White"></Label>
+                                        <Label Text="Amount" TextColor="White"></Label>
+                                    </Grid>
+                                </CollectionView.Header>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,100">
+                                            <Label></Label>
+                                            <Label></Label>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Frame>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" Spacing="5">
+                        <Frame Padding="10,0" BackgroundColor="AliceBlue">
+                            <Entry Placeholder="0.00"  FontSize="Medium" FlowDirection="RightToLeft"></Entry>
+                        </Frame>
+                        <Button Text="Complete Sale"></Button>
+                        <Button Text="Clear"></Button>
+                        <Button Text="Remove"></Button>
+                        <Button Text="Close"></Button>
+                    </VerticalStackLayout>
+                </Grid>
+            </StackLayout>
+        </VerticalStackLayout>
+    </Frame>
+</toolkit:Popup>

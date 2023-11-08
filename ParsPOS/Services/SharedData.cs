@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParsPOS.Services
 {
-    public interface IToast
+    internal class SharedData
     {
-        void ShortToast(string message);
-        void LongToast(string message);
     }
 }

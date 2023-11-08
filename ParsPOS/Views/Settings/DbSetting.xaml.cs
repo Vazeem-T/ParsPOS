@@ -17,8 +17,6 @@ public partial class DbSetting : ContentPage
         try
         {
             string databasepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PARSPOS.db3");
-            //if(Directory.Exists(databasepath)) 
-            //{
             var result = await DisplayAlert("Alert ", $"Do you want to delete Database?", "Yes", "No");
             if (result)
             {
@@ -31,12 +29,16 @@ public partial class DbSetting : ContentPage
                 }
 
             }
-            //}
         }
         catch (Exception ex)
         {
 
         }
 
+    }
+
+    private async void ImportDbRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(ImportDb));
     }
 }

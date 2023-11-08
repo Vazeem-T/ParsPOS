@@ -1,157 +1,185 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ParsPOS.DBHandler;
-using ParsPOS.Model;
-using PARSPOS.SaleModel;
-using System;
-using System.Collections.Generic;
+using ParsPOS.SaleModel;
+using ParsPOS.Services;
+using ParsPOS.Views.SubForms;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ParsPOS.ViewModel
 {
-    public partial class SaleViewModel : ObservableObject
+    public partial class SaleViewModel : BaseViewModel
     {
+        public ObservableCollection<CanPostrTb> Items { get; set; } = new();
+        private int Slno = 1;
         private readonly SaleDatabaseHelper _context;
-
-        public SaleViewModel(SaleDatabaseHelper context)
+        public SaleViewModel()
         {
-            _context = context;
+            AddCharCommand = new Command<string>((key) => InputString += key);
+
+            DeleteCharCommand =
+                new Command(
+                    () => InputString = InputString.Substring(0, InputString.Length - 1),
+
+                    () => InputString.Length > 0
+                );
         }
 
         [ObservableProperty]
-        private ObservableCollection<PostrTb> _PostrTb = new();
+        string textHeader;
 
         [ObservableProperty]
-        private  PostrTb _operatingPostrTb = new();
+        double _totaltrqty;
 
         [ObservableProperty]
-        private string _barcodeText;
+        double _totalprice;
 
         [ObservableProperty]
-        private bool _isBusy;
+        int invoiceNumber = 1;
+
         [ObservableProperty]
-        private string _busyText;
+        int _itemcount = 0;
 
-        public async Task LoadPostrTbsAsync()
-        {
-            await ExecuteAsync(async () =>
-            {
-                var positms = await _context.GetAllAsync<PostrTb>();
-                if (positms is not null && positms.Any())
-                {
-                    PostrTb ??= new ObservableCollection<PostrTb>();
+        [ObservableProperty]
+        CanPostrTb postrTbs;
+        
+        [ObservableProperty]
+        SaleSelectedOption optionSelectedButton = SaleSelectedOption.Barcode;
 
-                    foreach (var postrTb in positms)
-                    {
-                        PostrTb.Add(postrTb);
-                    }
-                }
-            }, "Fetching PostrTbs...");
-        }
+        [ObservableProperty]
+        SaleAddorEdit optionaddoredit = SaleAddorEdit.Add;
+
+        [ObservableProperty]
+        string code = "Barcode/ ItemCode";
+        
+        [ObservableProperty]
+        PostrTb _operatingPostrTb = new();
+
+        [ObservableProperty]
+        string _barcodeText = "";
+
+        [ObservableProperty]
+        bool _isBusy;
+        [ObservableProperty]
+        string _busyText;
 
         [RelayCommand]
-        private void SetOperatingPostrTb(PostrTb? PostrTb) => OperatingPostrTb = PostrTb ?? new();
-
-        [RelayCommand]
-        private async Task SavePostrTbAsync()
+        async Task OptionButton(string button)
         {
-            if (OperatingPostrTb is null)
-                return;
-
-            //var (isValid, errorMessage) = OperatingPostrTb();
-            //if (!isValid)
-            //{
-            //    await Shell.Current.DisplayAlert("Validation Error", errorMessage, "Ok");
-            //    return;
-            //}
-
-            var busyText = OperatingPostrTb.ItemId == 0 ? "Creating PostrTb..." : "Updating PostrTb...";
-            await ExecuteAsync(async () =>
+            if(Optionaddoredit == SaleAddorEdit.Edit)
             {
-                if (OperatingPostrTb.ItemId == 0)
+                if (Enum.TryParse(button, true, out SaleSelectedOption selectedOption))
                 {
-                    // Create PostrTb
-                    await _context.AddItemAsync<PostrTb>(OperatingPostrTb);
-                    PostrTb.Add(OperatingPostrTb);
-                }
-                else
-                {
-                    // Update PostrTb
-                    if (await _context.UpdateItemAsync<PostrTb>(OperatingPostrTb))
-                    {
-                        var PostrTbCopy = OperatingPostrTb.Clone();
+                    OptionSelectedButton = selectedOption;
 
-                        var index = PostrTb.IndexOf(OperatingPostrTb);
-                        PostrTb.RemoveAt(index);
-
-                        PostrTb.Insert(index, PostrTbCopy);
-                    }
-                    else
+                    switch (selectedOption)
                     {
-                        await Shell.Current.DisplayAlert("Error", "PostrTb updation error", "Ok");
-                        return;
+                        case SaleSelectedOption.Barcode:
+                            Code = "Barcode/ ItemCode";
+                            BarcodeText = "";
+                            InputString = "";
+                            BarcodeText = BarcodeText.Trim();
+                            break;
+                        case SaleSelectedOption.Qty:
+                            Code = "Quantity";
+                            BarcodeText = PostrTbs?.TrQty.ToString();
+                            break;
+                        case SaleSelectedOption.Price:
+                            Code = "Price";
+                            BarcodeText = PostrTbs?.UnitCost.ToString();
+                            break;
                     }
                 }
-                SetOperatingPostrTbCommand.Execute(new());
-            }, busyText);
-        }
-
-        [RelayCommand]
-        private async Task DeletePostrTbAsync(int id)
-        {
-            await ExecuteAsync(async () =>
-            {
-                if (await _context.DeleteItemByIdAsync<PostrTb>(id))
-                {
-                    var postrTb = PostrTb.FirstOrDefault(p => p.ItemId == id);
-                    PostrTb.Remove(postrTb);
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Delete Error", "PostrTb was not deleted", "Ok");
-                }
-            }, "Deleting PostrTb...");
-        }
-        private async Task ExecuteAsync(Func<Task> operation, string? busyText = null)
-        {
-            IsBusy = true;
-            BusyText = busyText ?? "Processing...";
-            try
-            {
-                await operation?.Invoke();
             }
-            catch (Exception ex)
+            else
             {
-                
+                await Shell.Current.DisplayAlert("Alert", "For Editing, Change Mode to Edit", "OK");
             }
-            finally
+            
+        }
+        [RelayCommand]
+        async Task AddorEdit(string selectbutton)
+        {
+            if (Enum.TryParse(selectbutton, true, out SaleAddorEdit Option))
             {
-                IsBusy = false;
-                BusyText = "Processing...";
+                Optionaddoredit = Option;
+
+                switch (Option)
+                {
+                    case SaleAddorEdit.Add:
+                        TextHeader = "Add";
+                        break;
+                    case SaleAddorEdit.Edit:
+                        TextHeader = "Edit";
+                        break;
+                }
             }
         }
 
+
+        [RelayCommand]
         public async Task SearchInvItm()
         {
             IsBusy = true;
             try
             {
-                var item = await App.Database.EntryChk(BarcodeText);
-                if (item != null)
+                if (Optionaddoredit == SaleAddorEdit.Add && OptionSelectedButton == SaleSelectedOption.Barcode)
                 {
-                    await App.Current.MainPage.DisplayAlert("Success", "Item found !", "OK");
+                    var item = AddItem();
+                    if(item != null) 
+                    {
+                        Slno++;
+                        Items.Add(PostrTbs);
+                        Itemcount = Items.Count;
+                        Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                        Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                        BarcodeText = "";
+                        InputString = "";
+                        BarcodeText.Trim();
+                    }
+                }
+                else
+                {
+                    if(OptionSelectedButton == SaleSelectedOption.Qty)
+                    {
+                        PostrTbs.TrQty = double.Parse(BarcodeText);
+                        PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}",double.Parse(BarcodeText) * PostrTbs.UnitCost));
+                        Items.Remove(PostrTbs);
+                        Items.Add(PostrTbs);
+                        Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                        Totalprice = double.Parse(string.Format("{0:0.00}",Items.Sum(item => item.PriceWithTax)));
+                    }
+                    else if (OptionSelectedButton == SaleSelectedOption.Price)
+                    {
+                        PostrTbs.UnitCost = double.Parse(BarcodeText);
+                        PostrTbs.PriceWithTax = double.Parse(BarcodeText) * (PostrTbs.TrQty ?? 1);
+                        Items.Remove(PostrTbs);
+                        Items.Add(PostrTbs);
+                        Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                    }
+                    else
+                    {
+                        var Slno = PostrTbs.SlNo;
+                        Items.Remove(PostrTbs);
+                        var item = AddItem();
+                        if (item != null)
+                        {
+                            PostrTbs.SlNo = Slno;   
+                            Items.Add(PostrTbs);
+                            Itemcount = Items.Count;
+                            Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                            Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                            BarcodeText = "";
+                            InputString = "";
+                            BarcodeText.Trim();
+                        }
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
             }
             finally 
             {
@@ -159,5 +187,132 @@ namespace ParsPOS.ViewModel
             }
         }
 
+        [RelayCommand]
+        async Task SelectedItem(CanPostrTb selecteditem)
+        {
+            PostrTbs = selecteditem;
+        }
+
+        private CanPostrTb AddItem()
+        {
+            var item = App.Database.EntryChk(InputString).Result;
+            if (item != null)
+            {
+                PostrTbs = new CanPostrTb
+                {
+                    SysDateTime = DateTime.Now,
+                    ItemId = item.ItemId,
+                    SlNo = Slno,
+                    TrQty = 1,
+                    Unit = item.Unit,
+                    UnitCost = double.Parse(string.Format("{0:0.00}", item.UnitPrice)),
+                    Idescription = item.Description,
+                    UnitDiscount = item.DiscountVal,
+                    IsReturn = false,
+                    CounterNo = 1,
+                    CategoryCode = "Item",
+                    IsCategorySale = false,
+                    CatDescription = "NA",
+                    PriceWithTax = double.Parse(string.Format("{0:0.00}", item.UnitPrice))
+                };
+                return PostrTbs;
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("Alert", "Item Not found !", "OK");
+                return null;
+            }
+        }
+
+        [RelayCommand]
+        async Task DeleteItem()
+        {
+            if(PostrTbs != null)
+            {
+                var result = await Shell.Current.DisplayAlert("Alert", $"Do you want to delete {PostrTbs.Idescription}", "Yes", "No");
+                if (result)
+                {
+                    Items.Remove(PostrTbs);
+                    Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                    Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                    Itemcount = Items.Count;
+                }
+            }
+        }
+
+        [RelayCommand]
+        async Task GotoPayPopupAsync()
+        {
+            var payPopup = new PayPopup(this);
+            await Shell.Current.ShowPopupAsync(payPopup);
+        }
+
+
+        [RelayCommand]
+        async Task QuantityPlus()
+        {
+            try
+            {
+                if (PostrTbs != null)
+                {
+                    PostrTbs.TrQty = PostrTbs.TrQty + 1;
+                    PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}", PostrTbs.TrQty * PostrTbs.UnitCost));
+                    Items.Remove(PostrTbs);
+                    Items.Add(PostrTbs); 
+                    Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                    Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert ("Alert",ex.Message,"OK");
+            }
+        }
+
+        [RelayCommand]
+        void QuantityMinus()
+        {
+            if (PostrTbs != null)
+            {
+                PostrTbs.TrQty = PostrTbs.TrQty - 1;
+                PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}", PostrTbs.TrQty * PostrTbs.UnitCost));
+                Items.Remove(PostrTbs);
+                Items.Add(PostrTbs);
+                Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+            }
+        }
+
+
+        //NumberPad ContentView
+        private string _inputString = "";
+        private char[] _specialChars = { '*', '#' };
+
+        public ICommand AddCharCommand { get; private set; }
+        public ICommand DeleteCharCommand { get; private set; }
+
+        public string InputString
+        {
+            get => _inputString;
+            private set
+            {
+                if (_inputString != value)
+                {
+                    _inputString = value;
+                    OnPropertyChanged();
+                    BarcodeText = FormatText(_inputString);
+                    OnPropertyChanged(nameof(BarcodeText));
+                    ((Command)DeleteCharCommand).ChangeCanExecute();
+                }
+            }
+        }
+
+        string FormatText(string str)
+        {
+            bool hasNonNumbers = str.IndexOfAny(_specialChars) != -1;
+            string formatted = str;
+
+            return formatted;
+        }
     }
 }

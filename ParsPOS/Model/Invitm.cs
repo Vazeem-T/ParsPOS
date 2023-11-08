@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace ParsPOS.Model
         [PrimaryKey , AutoIncrement]
         public int ItemId { get; set; }
         public string BaseId { get; set; }
+        [JsonProperty("Item Code")]
         public string ItemCode { get; set; }
         public string Description { get; set; }
         public string BarCode { get; set; }

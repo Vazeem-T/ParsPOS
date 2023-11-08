@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.User.UserSettings"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="User Management"
+             BackgroundColor="LightGray">
+    <ScrollView Margin="0" Padding="0" VerticalOptions="Start">
+        <Frame Margin="20" Padding="15,15,15,0" BorderColor="Transparent">
+            <StackLayout>
+                <!--User Info-->
+                <Grid Padding="5" HeightRequest="60" RowDefinitions="*,auto" ColumnDefinitions="auto,*,70">
+                    <Frame Grid.Column="0" Padding="5,5,20,10" VerticalOptions="Start" BorderColor="Transparent">
+                        <Image Source="about.png" Grid.Column="0"></Image>
+                    </Frame>
+                    <Label Text="User Info" FontAttributes="Bold" Grid.Column="1" Padding="5,5,5,0" FontSize="Medium"></Label>
+                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.AngleRight}" TextColor="Gray" FontSize="Large" FontFamily="FAS" Padding="0,0,0,15" HorizontalTextAlignment="Start"  Grid.Column="2" VerticalTextAlignment="Center" ></Label>
+                    <BoxView HeightRequest="1" Color="DimGrey" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"></BoxView>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UserRecognizer_Tapped"></TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <!--Access Control-->
+                <Grid Padding="5,5,2,5" HeightRequest="60" RowDefinitions="60" ColumnDefinitions="Auto,*,auto">
+                    <Frame Grid.Column="0" Padding="10,5,20,10" Margin="0,0,0,5" VerticalOptions="Start" BorderColor="Transparent">
+                        <Image Source="folder.png" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="0"></Image>
+                    </Frame>
+                    <Label Text="User Access" FontAttributes="Bold" Grid.Column="1" Padding="5" FontSize="Medium"></Label>
+                    <Label Text="{x:Static fontawesome:FontAwesomeIcons.AngleRight}" TextColor="Gray" FontSize="Large" FontFamily="FAS" Padding="0,0,0,15" HorizontalTextAlignment="End"  Grid.Column="2" VerticalTextAlignment="Center" ></Label>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer></TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </StackLayout>
+        </Frame>
+    </ScrollView>
+</ContentPage>

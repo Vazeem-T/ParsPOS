@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ParsPOS.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace ParsPOS.ViewModel
 
         [ObservableProperty]
         bool isDownloading = false;
+
         public bool IsNotBusy => !IsBusy;
     }
 }

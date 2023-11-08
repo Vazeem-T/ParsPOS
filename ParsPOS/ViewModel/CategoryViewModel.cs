@@ -4,16 +4,8 @@ using Newtonsoft.Json;
 using ParsPOS.Model;
 using ParsPOS.ResultModel;
 using ParsPOS.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+
 
 namespace ParsPOS.ViewModel
 {
@@ -28,7 +20,7 @@ namespace ParsPOS.ViewModel
         private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
         //private PublicSevices publicSevices = new PublicSevices();
-        public CategoryViewModel() 
+        public CategoryViewModel()
         {
             LoadDataAsync().GetAwaiter();
             commonHttpServices = new CommonHttpServices();
@@ -107,53 +99,6 @@ namespace ParsPOS.ViewModel
             }
             
         }
-
-        //private async Task LoadDataOnSortAsync()
-        //{
-        //    Items.Clear();
-        //    if (IsBusy)
-        //        return;
-        //    IsBusy = true;
-        //    try
-        //    {
-        //        if(SelectedIndex > 0)
-        //        {
-        //            // Load data for the current page
-        //            var pageData = await App.Database.GetAllGrpItm(currentPage, itemsPerPage, parent, child);
-
-        //            if (pageData.Any())
-        //            {
-        //                foreach (var item in pageData)
-        //                {
-        //                    Items.Add(item);
-        //                }
-        //                currentPage++;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var pageData = await App.Database.GetAllFirstGrpItm(currentPage, itemsPerPage);
-
-        //            if (pageData.Any())
-        //            {
-        //                foreach (var item in pageData)
-        //                {
-        //                   Items.Add(item);
-        //                }
-        //                currentPage++;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await App.Current.MainPage.DisplayAlert("Alert", ex.Message, "OK");
-        //    }
-        //    finally
-        //    {
-        //        IsBusy = false;
-        //    }
-        //}
-
 
         [RelayCommand]
         async Task SelectedItem(RGrpItmTb selecteditem)

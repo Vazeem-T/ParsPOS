@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PARSPOS.SaleModel;
+namespace ParsPOS.SaleModel;
 
-public partial class CanPostrTb
+public class CanPostrTb
 {
     public DateTime? SysDateTime { get; set; }
-
+    public string Barcode { get; set; }
     public int? ItemId { get; set; }
 
     public int? SlNo { get; set; }
@@ -35,7 +35,7 @@ public partial class CanPostrTb
 
     public int CounterNo { get; set; }
 
-    public string CategotyCode { get; set; }
+    public string CategoryCode { get; set; }
 
     public bool IsCategorySale { get; set; }
 

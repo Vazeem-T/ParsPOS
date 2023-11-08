@@ -5,8 +5,11 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using CommunityToolkit.Maui.Core;
+using Android.Runtime;
+using Android.Widget;
 using ParsPOS.DBHandler;
-using ParsPOS.Platforms.Android.Services;
+using CommunityToolkit.Maui.Core.Platform;
+using Android.Views.InputMethods;
 
 namespace ParsPOS;
 
@@ -17,20 +20,10 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
         Platform.Init(this, savedInstanceState);
-
+        //Xamarin.KeyboardHelper.Platform.Droid.Effects.Init(this);
         CommunityToolkit.Maui.Core.Platform.StatusBar.SetColor(Colors.White);
         CommunityToolkit.Maui.Core.Platform.StatusBar.SetStyle(StatusBarStyle.DarkContent);
-   
 
-        //Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-        //Window.DecorView.SystemUiVisibility |= (StatusBarVisibility)(SystemUiFlags.LayoutFullscreen | SystemUiFlags.LayoutStable);
-        //Window.SetNavigationBarColor(Android.Graphics.Color.Transparent);
+
     }
-
-    //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-    //{
-    //    Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-    //    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    //}
 }

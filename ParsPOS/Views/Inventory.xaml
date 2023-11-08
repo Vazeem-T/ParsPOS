@@ -4,6 +4,8 @@
              x:Class="ParsPOS.Views.Inventory"
              xmlns:b="clr-namespace:CommunityToolkit.Maui.Core.Views;assembly=CommunityToolkit.Maui.Core"
              xmlns:local="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="local:InventoryViewModel"
+             xmlns:viewmodel="clr-namespace:ParsPOS.Model"
              xmlns:fontawesome="clr-namespace:FontAwesome"
              Title="Inventory">
     <ContentPage.ToolbarItems>
@@ -17,9 +19,6 @@
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
-    <ContentPage.BindingContext>
-        <local:InventoryViewModel/>
-    </ContentPage.BindingContext>
     <Grid ColumnDefinitions="250,*">
         <Frame Grid.Column="0" Padding="10" CornerRadius="0">
             <Frame.Shadow>
@@ -64,12 +63,12 @@
                 <Frame BorderColor="LightGray" Grid.Column="1" VerticalOptions="Center" HeightRequest="45" Margin="0,0,10,0" Padding="1" CornerRadius="30">
                     <SearchBar  Placeholder="Search Product" x:Name="search" />
                 </Frame>
-                <Button Text="Import" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="85" Command="{Binding DownloadCommand}"></Button>
+                <Button Text="Import" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="85" Command="{Binding DownloadDataCommand}"></Button>
             </Grid>
             <StackLayout Grid.Row="1">
                 <ListView x:Name="Item" ItemsSource="{Binding Items}">
                     <ListView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="viewmodel:Invitm">
                             <ViewCell>
                                 <StackLayout>
                                     <Grid RowSpacing="1">
@@ -78,6 +77,7 @@
                                             <RowDefinition></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Label Text="{Binding Description, Mode=TwoWay}" TextColor="Black"></Label>
+                                        <Label Text="{Binding ItemCode, Mode=TwoWay}" TextColor="Black" HorizontalTextAlignment="Center" ></Label>
                                         <Label Text="{Binding BarCode, Mode=TwoWay}" Grid.Row="1" TextColor="Gray"></Label>
                                         <Label Text="{Binding UnitPrice, Mode=TwoWay, StringFormat ='{0:F2} AED'}" TextColor="Black" HorizontalOptions="End" FontSize="15" Padding="0,0,10,0"></Label>
                                     </Grid>

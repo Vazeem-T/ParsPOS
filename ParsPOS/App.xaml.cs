@@ -28,7 +28,6 @@ public partial class App : Application
     public App()
     {
         Applocator.DisplayHeight = (DeviceDisplay.Current.MainDisplayInfo.Density) - 125;
-        //App.Current.UserAppTheme = AppTheme.Light;
         InitializeComponent();
         Applocator.Initialize();
         MainPage = new AppShell();

@@ -15,17 +15,5 @@ public partial class MainPage : ContentPage
     {
         base.OnDisappearing();
     }
-    private async void SaleButton_Clicked(object sender, EventArgs e)
-    {
-		await Navigation.PushAsync(new Sale());
-    }
-    private async void InventoryButton_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new Inventory());
-    }
-    private async void UploadDbButton_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new UploadDb());
-    }
 }
 

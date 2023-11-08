@@ -29,7 +29,7 @@ namespace ParsPOS.ViewModel
        
         public InventoryViewModel()
         {
-            LoadDataAsync().GetAwaiter(); // Load initial data
+            LoadDataCommand.Execute(null);
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
             downloadViewModel = new DownloadViewModel();
@@ -118,8 +118,7 @@ namespace ParsPOS.ViewModel
                 if (result)
                 {
                     await App.Database.DeleteAllInvItm();
-                    Items = new ObservableCollection<Invitm>();
-
+                    Items.Clear();
                     while (Progress < Count)
                     {
                         string pageDataUrl = $"{dataApiUrl}{apicurrentPage}";
@@ -135,7 +134,7 @@ namespace ParsPOS.ViewModel
                             {
                                 await App.Database.CreateInvItm(item);
                             }
-                            if (apicurrentPage == 1) await LoadDataAsync();
+                            if (apicurrentPage == 1) LoadDataCommand.Execute(null);
                             Progress += pageData.Count;
                             apicurrentPage++;
                             downloadViewModel.Progress = Progress;
@@ -177,6 +176,7 @@ namespace ParsPOS.ViewModel
         [RelayCommand]
         async Task GoToCategoryAsync()
         {
+
             await Shell.Current.GoToAsync(nameof(AddCategory));
         }
     }

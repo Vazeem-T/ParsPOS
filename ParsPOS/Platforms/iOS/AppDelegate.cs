@@ -1,4 +1,6 @@
 ﻿using Foundation;
+using ParsPOS.Views;
+using UIKit;
 
 namespace ParsPOS;
 

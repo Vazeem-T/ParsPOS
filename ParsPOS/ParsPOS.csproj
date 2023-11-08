@@ -56,23 +56,38 @@
 	  <None Remove="Resources\Fonts\Fa-solid-900.otf" />
 	  <None Remove="Resources\Fonts\JosefinSans-Italic-VariableFont_wght.ttf" />
 	  <None Remove="Resources\Fonts\JosefinSans-VariableFont_wght.ttf" />
+	  <None Remove="Resources\Images\about.png" />
 	  <None Remove="Resources\Images\adddatabase.png" />
+	  <None Remove="Resources\Images\addtobasket.png" />
 	  <None Remove="Resources\Images\azurebackupdatabase.png" />
 	  <None Remove="Resources\Images\backupdatabase.png" />
+	  <None Remove="Resources\Images\barcode.png" />
 	  <None Remove="Resources\Images\bin.png" />
+	  <None Remove="Resources\Images\boxes.png" />
 	  <None Remove="Resources\Images\company.png" />
 	  <None Remove="Resources\Images\coupon.png" />
 	  <None Remove="Resources\Images\database.png" />
 	  <None Remove="Resources\Images\deletedatabase.png" />
+	  <None Remove="Resources\Images\edit.png" />
+	  <None Remove="Resources\Images\folder.png" />
 	  <None Remove="Resources\Images\inventory.png" />
 	  <None Remove="Resources\Images\inventoryone.png" />
+	  <None Remove="Resources\Images\keyboard.png" />
 	  <None Remove="Resources\Images\Logo.png" />
+	  <None Remove="Resources\Images\nodata.png" />
+	  <None Remove="Resources\Images\plus.png" />
+	  <None Remove="Resources\Images\pricetags.png" />
 	  <None Remove="Resources\Images\Roundedadd.png" />
+	  <None Remove="Resources\Images\scroll.png" />
+	  <None Remove="Resources\Images\scrollup.png" />
 	  <None Remove="Resources\Images\setting.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shoppingonline.png" />
+	  <None Remove="Resources\Images\sqlserver.png" />
+	  <None Remove="Resources\Images\substraction.png" />
 	  <None Remove="Resources\Images\trashbin.gif" />
 	  <None Remove="Resources\Images\updatedatabase.png" />
+	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Images\worldgrid.png" />
 	</ItemGroup>
 
@@ -84,6 +99,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.Maui.Popup" Version="1.0.5" />
+		<PackageReference Include="PostSharp.Redist" Version="2024.0.1-preview" />
 		<PackageReference Include="Sharpnado.Tabs.Maui" Version="3.0.1" />
 		<PackageReference Include="Splat" Version="14.7.1" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -94,6 +110,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\ContentViewPage\NumberPadView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Download.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -115,6 +134,12 @@
 	  <MauiXaml Update="Views\Settings\DbSetting.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Settings\GeneralSettings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Settings\ImportDb.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Settings\MainSettings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -133,6 +158,17 @@
 	  <MauiXaml Update="Views\SubForms\CategoryPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\SubForms\PayPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\User\UserInfo.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\User\UserSettings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadGenericExceptionInfoBarParsPOSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

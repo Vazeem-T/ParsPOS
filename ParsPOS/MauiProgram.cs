@@ -1,12 +1,16 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ParsPOS.DBHandler;
+using ParsPOS.InterfaceServices;
+using ParsPOS.PermissionAttributes;
+using ParsPOS.Services;
 using ParsPOS.ViewModel;
 using ParsPOS.Views;
+using ParsPOS.Views.ContentViewPage;
 using ParsPOS.Views.Settings;
 using ParsPOS.Views.SubForms;
+using ParsPOS.Views.User;
 using Sharpnado.Tabs;
 
 namespace ParsPOS;
@@ -34,16 +38,30 @@ public static class MauiProgram
         builder.Services.AddSingleton<DatabaseHelper>();
         builder.Services.AddSingleton<DownloadViewModel>();
         builder.Services.AddSingleton<InventoryViewModel>();
+        builder.Services.AddTransient<Inventory>();
         builder.Services.AddSingleton<CategoryViewModel>();
-
+        builder.Services.AddSingleton<SaleViewModel>();
+        builder.Services.AddSingleton<Sale>();
         builder.Services.AddTransient<AddCategory>();
         builder.Services.AddSingleton<DatabaseHelper>();
         builder.Services.AddSingleton<SaleDatabaseHelper>();
+        builder.Services.AddSingleton<ImportDb>();
+        builder.Services.AddSingleton<ImportDbViewModel>();
+        builder.Services.AddTransient<UserInfo>();
+        builder.Services.AddSingleton<UserViewModel>();
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<AccessControlAttribute>();
+        builder.Services.AddSingleton<PayPopup>();
+        builder.Services.AddSingleton<SaleDatabaseHelper>();
+        builder.Services.AddTransient<NumberPadViewModel>();
+        builder.Services.AddTransient<NumberPadView>();
+        builder.Services.AddSingleton<SharedDispalyTxt>();
+        builder.Services.AddSingleton<IkeyboardHelper, KeyboardHelper>();
         //builder.Services.AddHttpClient("api", httpClient => httpClient.BaseAddress = new Uri(""));
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddSingleton<SaleDatabaseHelper>();
+        
 		return builder.Build();
 	}
 }

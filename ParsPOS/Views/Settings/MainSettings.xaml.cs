@@ -16,4 +16,9 @@ public partial class MainSettings : ContentPage
     {
         await Navigation.PushAsync(new AddNetwork());
     }
+
+    private async void GeneralSettings_Tapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new GeneralSettings());
+    }
 }

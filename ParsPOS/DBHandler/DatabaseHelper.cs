@@ -18,6 +18,10 @@ namespace ParsPOS.DBHandler
             _db.CreateTableAsync<Invitm>();
             _db.CreateTableAsync<NetworkIP>();
             _db.CreateTableAsync<GrpItmTb>();
+            _db.CreateTableAsync<User>();
+            _db.CreateTableAsync<RightNode>();
+            _db.CreateTableAsync<Rights>();
+            _db.CreateTableAsync<PreFixTb>();
         }
 
         public Task<int> CreateInvItm(Invitm invitm)
@@ -32,6 +36,23 @@ namespace ParsPOS.DBHandler
         public Task<int> CreateGrpItmTb(GrpItmTb grpItmTb)
         {
             return _db.InsertAsync(grpItmTb);
+        }
+        public Task<int> CreateUser(User user)
+        {
+            return _db.InsertAsync(user);
+        }
+
+        public Task<int> CreateRights(Rights rights)
+        {
+            return _db.InsertAsync(rights);
+        }
+        public Task<int> CreateRightNode(RightNode rightNode) 
+        {
+            return _db.InsertAsync(rightNode);
+        }
+        public Task<int> CreatePrefixTb(PreFixTb preFixTb)
+        {
+            return _db.InsertAsync(preFixTb);
         }
         //INVITM
         public Task<List<Invitm>> GetAllInvItmPaged(int page, int pageSize)
@@ -123,6 +144,40 @@ namespace ParsPOS.DBHandler
         public Task<int> DeleteAllGrpItm()
         {
             return _db.DeleteAllAsync<GrpItmTb>();
+        }
+
+        //User & their Rights
+        public async Task<List<User>> GetAllUserDt(int page, int pageSize)
+        {
+            int skipCount = (page - 1) * pageSize;
+
+            return await _db.Table<User>()
+                            .OrderBy(x => x.Id)
+                            .Skip(skipCount)
+                            .Take(pageSize)
+                            .ToListAsync();
+        }
+        public Task<bool> GetRight(int Id, string Processcode)
+        {
+            return _db.ExecuteScalarAsync<bool>("SELECT RightYN FROM Rights WHERE ProcessCode = '" + Processcode + "' AND Id = " + Id + " UNION ALL SELECT defRight As Ord FROM RightNode WHERE ProcessCode = '" + Processcode + "'");
+        }
+        public Task<bool> GetMenus(int Id, string Processcode)
+        {
+            string query = "SELECT IsMenu FROM Rights WHERE ProcessCode = '" + Processcode + "' AND Id = " + Id + " UNION ALL SELECT defRight As Ord FROM RightNode WHERE ProcessCode = '" + Processcode + "'";
+            return _db.ExecuteScalarAsync<bool>(query);
+        }
+
+        public Task<List<Rights>> GetRightList()
+        {
+            return _db.Table<Rights>().ToListAsync();
+        }
+        public Task<User> ReadUniqueUser(string UserId)
+        {
+            return _db.Table<User>().Where(x => x.UserId == UserId).FirstOrDefaultAsync();
+        }
+        public Task<int> GetId(string UserId)
+        {
+            return _db.ExecuteScalarAsync<int>("Select Id from User where UserId = '" + UserId + "'");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PARSPOS.SaleModel;
+namespace ParsPOS.SaleModel;
 
 public partial class PostrTb
 {
