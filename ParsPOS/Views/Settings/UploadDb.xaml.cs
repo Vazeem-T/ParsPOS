@@ -67,7 +67,7 @@ public partial class UploadDb : ContentPage
             // Close the existing database connection if it's open
             if (_db != null)
             {
-                _db.CloseAsync();
+                await _db.CloseAsync();
                 _db = null;
             }
 

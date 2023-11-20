@@ -2,11 +2,58 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.Login"
-             Title="Login">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Login"
+             BackgroundColor="AliceBlue"
+             Shell.NavBarIsVisible="False"
+             xmlns:viewModel="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="viewModel:LoginViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             Shell.FlyoutBehavior="Disabled">
+
+    
+    <StackLayout>
+        <Grid>
+            <BoxView Color="#512BD4"  HorizontalOptions="Start" VerticalOptions="Start" CornerRadius="950" HeightRequest="940" WidthRequest="950" Margin="-250,-280,0,0">
+                <BoxView.Shadow>
+                    <Shadow Brush="LightGray"
+                            Offset="20,10"
+                            Radius="10">
+                        
+                    </Shadow>
+                </BoxView.Shadow>
+
+            </BoxView>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <StackLayout.Shadow>
+                    <Shadow Brush="Gray"
+                                Offset="2,2"
+                                Radius="6"
+                                Opacity="0.5">
+                    </Shadow>
+                </StackLayout.Shadow>
+                <Frame HeightRequest="500" Padding="40" WidthRequest="600" BorderColor="Transparent">
+                    <StackLayout>
+                        <Label Text="Login" TextColor="#512BD4" FontAttributes="Bold" FontSize="30">
+                        </Label>
+                        <StackLayout Margin="0,60,0,0" Spacing="15" >
+                            <Frame Style="{StaticResource EntryFrame}"  HeightRequest="60" BorderColor="Transparent">
+                                <Grid ColumnDefinitions="30,*">
+                                    <Label Text="{Static fontawesome:FontAwesomeIcons.User}" VerticalOptions="Center" FontFamily="FAS" TextColor="Gray" Margin="0"></Label>
+                                    <localtxt:BorderlessEntry Text="{Binding UserId}" Grid.Column="1" Placeholder="User Id" HorizontalOptions="FillAndExpand" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Grid>
+                            </Frame>
+                            <Frame Style="{StaticResource EntryFrame}" BorderColor="Transparent" HeightRequest="60">
+                                <Grid ColumnDefinitions="30,*">
+                                    <Label Text="{Static fontawesome:FontAwesomeIcons.Lock}" VerticalOptions="Center"  FontFamily="FAS" TextColor="Gray" Margin="0"></Label>
+                                    <localtxt:BorderlessEntry IsPassword="True" ReturnCommand="{Binding LoginCommand}" Text="{Binding Password}" Grid.Column="1" Placeholder="Password" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                </Grid>
+                            </Frame>
+                            <Button Text="Login" Margin="0,20,0,0" Command="{Binding LoginCommand}"></Button>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
 </ContentPage>

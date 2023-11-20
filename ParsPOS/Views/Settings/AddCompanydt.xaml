@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.Settings.AddCompanydt"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             BackgroundColor="LightGray"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:CompanyViewModel"
+             Title="Company Details">
+    <ContentPage.BindingContext>
+        <vm:CompanyViewModel />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout Spacing="5" Margin="20">
+        <Frame BorderColor="Transparent">
+            <StackLayout>
+                <Grid ColumnDefinitions="*,*"> 
+                    <StackLayout Spacing="5">
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Last User : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastUser}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Invoice Number : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastInvoiceNumber}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Last Inv Time : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastInvTime}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Last Sale status : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastInvoivcestatus}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="User Logout Time : "></Label>
+                            <Label Text="{Binding SettingsTbs.UserLogoutTm}"></Label>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                    
+                    
+                    <StackLayout Grid.Column="1" Spacing="5" HorizontalOptions="Center">
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Current Version : "></Label>
+                            <Label Text="{Binding SettingsTbs.CurrentVersion}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Last Updated : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastUpdated}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Software Setup : "></Label>
+                            <Label Text="{Binding SettingsTbs.SofwareSetUp}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Last Import Time : "></Label>
+                            <Label Text="{Binding SettingsTbs.LstImportTime}"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label FontAttributes="Bold" FontSize="15" Text="Imported User : "></Label>
+                            <Label Text="{Binding SettingsTbs.LastImpUser}"></Label>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </Frame>
+
+        <Frame BorderColor="Transparent">
+            <Grid ColumnDefinitions="3*,*" RowDefinitions="*,40" ColumnSpacing="5">
+                <StackLayout>
+                    <Entry x:Name="Id" Text="{Binding SettingsTbs.Id}" IsVisible="false"></Entry>
+                    <Label Text="Counter Number :" FontAttributes="Bold"/>
+                    <Frame Style="{StaticResource EntryFrame}" BorderColor="Transparent">
+                        <localtxt:BorderlessEntry Text="{Binding SettingsTbs.CounterNumber}" Placeholder="Counter Number" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                    </Frame>
+                    <Label Text="Company Name : (Name displayed above the bill)" FontAttributes="Bold"/>
+                    <Frame Style="{StaticResource EntryFrame}" BorderColor="Transparent">
+                        <localtxt:BorderlessEntry Text="{Binding SettingsTbs.CompanyName}" Placeholder="Company Name"   PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                    </Frame>
+                    <Label Text="Owner :" FontAttributes="Bold"/>
+                    <Frame Style="{StaticResource EntryFrame}" BorderColor="Transparent">
+                        <localtxt:BorderlessEntry Text="{Binding SettingsTbs.CompanyOwner}" Placeholder="Company Owner"  PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                    </Frame>
+                    <Label Text="Validity :" FontAttributes="Bold"/>
+                    <Frame Style="{StaticResource EntryFrame }" BorderColor="Transparent">
+                        <DatePicker Format="dd/MMM/yyyy" Date="{Binding SettingsTbs.SoftwareValidity}"></DatePicker>
+                    </Frame>
+                </StackLayout>
+                <StackLayout Spacing="10" Grid.Column="1">
+                    <Frame HeightRequest="200">
+                        <Image Aspect="AspectFit" Source="Logo.png" VerticalOptions="Center" HorizontalOptions="Center"></Image>
+                    </Frame>
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="CenterAndExpand">
+                        <Button HeightRequest="40" Text="Upload"></Button>
+                        <Button Text="Remove" HeightRequest="40" BackgroundColor="Red"></Button>
+                    </HorizontalStackLayout>
+                </StackLayout>
+                <Button Grid.Row="1" Text="{Binding BtName}" Command="{Binding AddOrUpdateCommand}" WidthRequest="200"></Button>
+            </Grid>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

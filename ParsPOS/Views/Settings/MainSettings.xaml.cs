@@ -21,4 +21,10 @@ public partial class MainSettings : ContentPage
     {
         await Navigation.PushAsync(new GeneralSettings());
     }
+
+    private async void Company_Tapped(object sender, TappedEventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(AddCompanydt));
+    }
+
 }

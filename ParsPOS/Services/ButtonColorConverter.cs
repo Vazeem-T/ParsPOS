@@ -18,7 +18,7 @@ namespace ParsPOS.Services
             string selectedButton = (string)value;
             string buttonName = (string)parameter;
 
-            return selectedButton == buttonName ? Color.FromHex("#007BFF") : (Color)Application.Current.Resources["PrimaryColor"]; // Change to your desired color
+            return selectedButton == buttonName ? Color.FromArgb("#007BFF") : (Color)Application.Current.Resources["PrimaryColor"]; 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

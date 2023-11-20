@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 
-namespace PARSPOS.SaleModel;
+namespace ParsPOS.SaleModel;
 
 public partial class NizPoscmn
 {
     public int? CounterNo { get; set; }
-
     public short? HoldNo { get; set; }
 
     public int? CustNo { get; set; }

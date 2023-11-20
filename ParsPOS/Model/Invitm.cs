@@ -38,6 +38,7 @@ namespace ParsPOS.Model
         public string Dim3Caption { get; set; }
         public bool? EnaDimPara { get; set; }
         public bool? ItemWithSrNo { get; set; }
+        [JsonProperty("IsWeighing")]
         public bool? IsWeighting { get; set; }
         public bool? IsPCS { get; set; }
         public string CreatedBy { get; set; }

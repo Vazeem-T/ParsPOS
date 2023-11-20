@@ -44,13 +44,11 @@ namespace ParsPOS.ViewModel
                 {
                     // Load data for the current page
                     var pageData = await App.Database.GetAllGrpItm(currentPage, itemsPerPage, parent, child);
-
                     if (pageData.Any())
                     {
                         foreach (var item in pageData)
                         {
                             Items.Add(item);
-                           
                         }
                         currentPage++;
                     }
@@ -58,7 +56,6 @@ namespace ParsPOS.ViewModel
                 else
                 {
                     var pageData = await App.Database.GetAllFirstGrpItm(currentPage, itemsPerPage);
-
                     if (pageData.Any())
                     {
                         foreach (var item in pageData)
@@ -76,9 +73,9 @@ namespace ParsPOS.ViewModel
             finally
             {
                 IsBusy = false;
-               
             }
         }
+
         [RelayCommand]
         async Task CategoryUpdate()
         {
@@ -130,6 +127,7 @@ namespace ParsPOS.ViewModel
                 throw ex;
             }
         }
+
         [RelayCommand]
         private async Task<int> DownloadCategoryAsync()
         {

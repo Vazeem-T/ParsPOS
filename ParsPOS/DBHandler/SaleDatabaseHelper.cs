@@ -46,14 +46,10 @@ namespace ParsPOS.DBHandler
         }
         public async Task<TTable> GetItemByIdAsync<TTable>(object primaryKey) where TTable : class, new()
         {
-            //await CreateTableIfNotExist<TTable>();
-            //return await Database.GetAsync<TTable>(primaryKey);
             return await Execute<TTable, TTable>(async () => await Database.GetAsync<TTable>(primaryKey));
         }
         public async Task<bool> AddItemAsync<TTable>(TTable item) where TTable : class, new()
         {
-            //await CreateTableIfNotExist<TTable>();
-            //return await Database.InsertAsync(item) > 0;
             return await Execute<TTable, bool>(async () => await Database.InsertAsync(item) > 0);
         }
 

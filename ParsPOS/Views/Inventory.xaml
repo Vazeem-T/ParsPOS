@@ -20,37 +20,35 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     <Grid ColumnDefinitions="250,*">
-        <Frame Grid.Column="0" Padding="10" CornerRadius="0">
+        <Frame Grid.Column="0" Padding="10" BackgroundColor="{x:StaticResource Gray100}" CornerRadius="10" BorderColor="Transparent" HasShadow="True">
             <Frame.Shadow>
-                <Shadow Brush="Black" Offset="10,10" Opacity="1" />
+                <Shadow Brush="black"
+                        Offset="3,3"
+                        Opacity="0.5"
+                        Radius="0.3">
+                </Shadow>
             </Frame.Shadow>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <!-- SearchBar -->
-                    <RowDefinition Height="*" />
-                    <!-- ListView -->
-                    <RowDefinition Height="Auto" />
-                    <!-- Button -->
-                </Grid.RowDefinitions>
-
                 <!-- SearchBar at the top -->
-                <Frame Grid.Row="0" BorderColor="LightGray" Padding="1" CornerRadius="30">
-                    <SearchBar  Placeholder="Search Category" />
-                </Frame>
-
-
-                <!-- ListView filling the space in between -->
-                <ScrollView Grid.Row="1">
-                    <ListView>
-                        <ListView.ItemTemplate>
-                            <DataTemplate></DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollView>
+                <StackLayout>
+                    <Frame  BorderColor="LightGray" Padding="1" CornerRadius="30">
+                        <SearchBar  Placeholder="Search Category" />
+                    </Frame>
+                    
+                    <!-- ListView filling the space in between -->
+                    <ScrollView>
+                        <StackLayout>
+                            <ListView>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate></DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
 
                 <!-- Button at the bottom -->
-                <Button Grid.Row="2" Command="{Binding GoToCategoryCommand}" Text="Add Category" ZIndex="1" VerticalOptions="End" />
+                <Button Command="{Binding GoToCategoryCommand}" Text="Add Category" ZIndex="1" VerticalOptions="End" />
             </Grid>
         </Frame>
         <Grid Grid.Column="1" Margin="20" RowSpacing="10">

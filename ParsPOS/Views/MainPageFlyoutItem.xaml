@@ -3,96 +3,114 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.MainPageFlyoutItem"
              xmlns:local="clr-namespace:ParsPOS.ViewModel">
+
+    <ContentView.Resources>
+        <ControlTemplate x:Key="MenuItemTemplate">
+            <Grid RowDefinitions="Auto">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource DarkBg1Brush}" />
+                                    <Setter TargetName="OuterBorder" Property="Border.StrokeThickness" Value="1" />
+                                    <Setter TargetName="InnerBorder" Property="Background" Value="Transparent" />
+                                    <Setter TargetName="InnerBorder" Property="Border.StrokeThickness" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter TargetName="OuterBorder" Property="Background" Value="Transparent" />
+                                    <Setter TargetName="OuterBorder" Property="Border.StrokeThickness" Value="0" />
+                                    <Setter TargetName="InnerBorder" Property="Background" Value="Transparent" />
+                                    <Setter TargetName="InnerBorder" Property="Border.StrokeThickness" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+
+                <Border x:Name="OuterBorder" 
+                        Background="Transparent"
+                        Stroke="{StaticResource DarkBg1Brush}" 
+                        StrokeThickness="0"
+                        HorizontalOptions="Fill"
+                        HeightRequest="70"
+                        Margin="15,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12,0,12,0" />
+                    </Border.StrokeShape>
+                </Border>
+
+                <Border x:Name="InnerBorder" 
+                        Background="Transparent"
+                        Margin="20" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"
+                        Stroke="{StaticResource PrimaryBrush}" 
+                        StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                </Border>
+
+                <ContentPresenter x:Name="CP"/>
+            </Grid>
+        </ControlTemplate>
+    </ContentView.Resources>
     <ScrollView Margin="0" Padding="0" VerticalOptions="Start">
-        <VerticalStackLayout VerticalOptions="Start" x:Name="sidebar">
-            <Grid RowDefinitions="Auto, *"
-                  x:Name="sale"
-                      Padding="10,20,10,10"
-                      RowSpacing="10">
-                <Image Grid.Row="0" 
-                           Source="coupon.png"
-                           Aspect="AspectFill"
-                           HeightRequest="40"
-                           WidthRequest="40"/>
+        <Grid Background="{StaticResource DarkBg2Brush}"
+                  RowDefinitions="110,75,75,75,75"
+                  RadioButtonGroup.GroupName="Menu"
+                  RadioButtonGroup.SelectedValue="{Binding SelectedRoute}">
+            <Grid.Resources>
+                <Style TargetType="RadioButton">
+                    <Setter Property="ControlTemplate" Value="{StaticResource MenuItemTemplate}"/>
+                </Style>
+            </Grid.Resources>
+            <RadioButton Value="home" IsChecked="True" Grid.Row="0"
+                             CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="logo.png" HeightRequest="100" WidthRequest="100">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>
 
-                <Label Grid.Row="1" 
-                           Text="Sale"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center"
-                           FontSize="16"
-                           />
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Sale_Tapped"/>
-                </Grid.GestureRecognizers>
+            <RadioButton Value="sale" Grid.Row="1"
+                             CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="coupon.png" HeightRequest="40" WidthRequest="40">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>
 
-            </Grid>
+            <RadioButton Value="inventory" Grid.Row="2"
+                                    CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="inventory.png" HeightRequest="40" WidthRequest="40">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>
 
-            <Grid RowDefinitions="Auto, *"
-                  x:Name="inventory"
-                      Padding="10"
-                 Margin="0,10,0,0"
-                      RowSpacing="10">
-                <Image Grid.Row="0" 
-                           Source="inventory.png"
-                           Aspect="AspectFill"
-                           HeightRequest="40"
-                           WidthRequest="40"/>
+            <RadioButton Value="settings" Grid.Row="3"
+                                CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="settings.png" HeightRequest="40" WidthRequest="40">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>
 
-                <Label Grid.Row="1" 
-                           Text="Inventory"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center"
-                           FontSize="16"
-                           />
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Inventory_Tapped"/>
-                </Grid.GestureRecognizers>
+            <RadioButton Value="user" Grid.Row="4"
+                                CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="user.png" HeightRequest="40" WidthRequest="40">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>
 
-            </Grid>
-            <Grid RowDefinitions="Auto, *"
-                      Padding="10"
-                  x:Name="settings"
-                 Margin="0,10,0,0"
-                      RowSpacing="10">
-                <Image Grid.Row="0" 
-                           Source="settings.png"
-                           Aspect="AspectFill"
-                           HeightRequest="40"
-                           WidthRequest="40"/>
-
-                <Label Grid.Row="1" 
-                           Text="Settings"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center"
-                           FontSize="16"
-                           />
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Settings_Tapped"/>
-                </Grid.GestureRecognizers>
-
-            </Grid>
-            <Grid RowDefinitions="Auto, *"
-                      Padding="10"
-                  x:Name="user"
-                 Margin="0,10,0,0"
-                      RowSpacing="10">
-                <Image Grid.Row="0" 
-                           Source="user.png"
-                           Aspect="AspectFill"
-                           HeightRequest="40"
-                           WidthRequest="40"/>
-
-                <Label Grid.Row="1" 
-                           Text="User"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center"
-                           FontSize="16"
-                           />
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="UserRecognizer_Tapped"/>
-                </Grid.GestureRecognizers>
-
-            </Grid>
-        </VerticalStackLayout>
+            <!--<Image Source="logout.png" Margin="0,15,0,15" Grid.Row="7"/>-->
+        </Grid>
     </ScrollView>
 </ContentView>

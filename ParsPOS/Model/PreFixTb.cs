@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ParsPOS.Model
 {
@@ -28,5 +29,9 @@ namespace ParsPOS.Model
         public short IconNo { get; set; }
         public bool Delld {  get; set; }
         public string? Image { get; set; }
+        [Ignore]
+        public ICommand ButtonCommand { get; set; }
+        [Ignore]
+        public int Selectedbutton {  get; set; }
     }
 }

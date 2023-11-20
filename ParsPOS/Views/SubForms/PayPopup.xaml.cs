@@ -5,9 +5,12 @@ namespace ParsPOS.Views.SubForms;
 
 public partial class PayPopup : Popup
 {
-	public PayPopup(SaleViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    public PayPopup(SaleViewModel viewModel)
+    {
+        NumberPadViewModel numberPadView = new();
+        PayPopupViewModel payPopupView = new(viewModel, numberPadView);
+        BindingContext = payPopupView;
+        InitializeComponent();
+    }
+
 }

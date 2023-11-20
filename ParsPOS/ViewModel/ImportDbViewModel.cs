@@ -55,6 +55,10 @@ namespace ParsPOS.ViewModel
             {
                 categorymodel.DownloadCategoryCommand.Execute(null);
             }
+            if(Prefix)
+            {
+                ImportPrefixCommand.Execute(null);
+            }
         }
 
         [RelayCommand]
@@ -66,7 +70,7 @@ namespace ParsPOS.ViewModel
                 var baseurl = commonHttpServices.GetBaseUrl();
                 string dataApiUrl = $"{baseurl}/api/ImportDb/ImportPrefix";
 
-                var result = await App.Current.MainPage.DisplayAlert("Alert", $"Do you want to delete products and update ?", "Yes", "No");
+                var result = await App.Current.MainPage.DisplayAlert("Alert", $"Do you want to delete Pefix and update ?", "Yes", "No");
                 if (result)
                 {
                     

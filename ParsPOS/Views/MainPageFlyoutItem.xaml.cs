@@ -10,22 +10,22 @@ public partial class MainPageFlyoutItem : ContentView
 	public MainPageFlyoutItem()
 	{
 		InitializeComponent();
-	}
+        BindingContext = this;
+    }
+    private string selectedRoute;
+    public string SelectedRoute
+    {
+        get { return selectedRoute; }
+        set
+        {
+            selectedRoute = value;
+            OnPropertyChanged();
+        }
+    }
 
-    private async void Inventory_Tapped(object sender, TappedEventArgs e)
+    async void OnMenuItemChanged(System.Object sender, CheckedChangedEventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(Inventory));
-    }
-    private async void Sale_Tapped(object sender, TappedEventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(Sale));
-    }
-    private async void Settings_Tapped(object sender, TappedEventArgs e)
-    {
-        await Navigation.PushAsync(new MainSettings());
-    }
-    private async void UserRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        await Navigation.PushAsync(new UserSettings());
+        if (!String.IsNullOrEmpty(selectedRoute))
+            await Shell.Current.GoToAsync($"//{selectedRoute}");
     }
 }

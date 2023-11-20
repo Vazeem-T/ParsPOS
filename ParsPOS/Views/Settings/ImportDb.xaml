@@ -29,7 +29,7 @@
                     <Label Text="User" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
-                    <CheckBox IsChecked="{Binding }"></CheckBox>
+                    <CheckBox IsChecked="{Binding Prefix}"></CheckBox>
                     <Label Text="Prefix" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
                 <Button Text="Import" Command="{Binding ImportCommand}" Margin="20" WidthRequest="200" ></Button>

@@ -20,6 +20,9 @@ public partial class NumberPadView : ContentView
 
     public NumberPadView()
 	{
-		InitializeComponent();
-	}
+        InitializeComponent();
+        //NumberPadView viewModel = new NumberPadView();
+        //BindingContext = viewModel;
+    }
+  
 }

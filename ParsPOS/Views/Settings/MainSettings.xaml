@@ -52,7 +52,7 @@
                     <Label Text="Company" FontAttributes="Bold" Grid.Column="1" Padding="5" FontSize="Medium"></Label>
                     <Label Text="{x:Static fontawesome:FontAwesomeIcons.AngleRight}" TextColor="Gray" FontSize="Large" FontFamily="FAS" Padding="0,0,0,15" HorizontalTextAlignment="End"  Grid.Column="2" VerticalTextAlignment="Center" ></Label>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="Company_Tapped"></TapGestureRecognizer>
                     </Grid.GestureRecognizers>
                 </Grid>
             </StackLayout>

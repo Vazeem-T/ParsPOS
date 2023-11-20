@@ -22,6 +22,7 @@ namespace ParsPOS.DBHandler
             _db.CreateTableAsync<RightNode>();
             _db.CreateTableAsync<Rights>();
             _db.CreateTableAsync<PreFixTb>();
+            _db.CreateTableAsync<SettingsTb>();
         }
 
         public Task<int> CreateInvItm(Invitm invitm)
@@ -53,6 +54,10 @@ namespace ParsPOS.DBHandler
         public Task<int> CreatePrefixTb(PreFixTb preFixTb)
         {
             return _db.InsertAsync(preFixTb);
+        }
+        public Task<int> CreateSettings(SettingsTb settingsTb) 
+        {
+            return _db.InsertAsync(settingsTb);
         }
         //INVITM
         public Task<List<Invitm>> GetAllInvItmPaged(int page, int pageSize)
@@ -179,5 +184,35 @@ namespace ParsPOS.DBHandler
         {
             return _db.ExecuteScalarAsync<int>("Select Id from User where UserId = '" + UserId + "'");
         }
+        public Task<List<PreFixTb>> GetSalePrefixButton()
+        {
+            return  _db.Table<PreFixTb>().Where(x=>x.VrTypeNo == 4).ToListAsync();
+        }
+
+        public Task<PreFixTb> GetSaleVoucherName(int voucherId)
+        {
+            return _db.Table<PreFixTb>().Where(x => x.Id == voucherId).FirstOrDefaultAsync();
+        }
+
+        //UserLogin
+
+        public Task<User> LoginUser(string UserId, string Password)
+        {
+            return _db.Table<User>().Where(x => x.UserId.ToLower() == UserId.ToLower() && x.Password == Password).FirstOrDefaultAsync();
+        }
+
+        //SettingsTb
+
+        public Task<SettingsTb> GetLastSettings()
+        {
+            return _db.Table<SettingsTb>().OrderBy(x => x.Id).FirstOrDefaultAsync();
+        }
+
+        public Task<int> UpdateSettings(SettingsTb settings) 
+        {
+            return _db.UpdateAsync(settings);
+        }
+
     }
+
 }

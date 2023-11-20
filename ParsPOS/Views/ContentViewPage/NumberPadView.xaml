@@ -4,28 +4,113 @@
              x:Class="ParsPOS.Views.ContentViewPage.NumberPadView"
              xmlns:fontawesome="clr-namespace:FontAwesome"
              xmlns:vm="clr-namespace:ParsPOS.ViewModel"
-             x:DataType="vm:SaleViewModel">
+             x:DataType="vm:NumberPadViewModel">
+
     <ContentView.BindingContext>
-        <vm:SaleViewModel/>
+        <vm:NumberPadViewModel />
     </ContentView.BindingContext>
-    <VerticalStackLayout Spacing="5" BackgroundColor="LightGray" Padding="5">
+    <VerticalStackLayout Spacing="5">
         <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="1" Style="{StaticResource NumberButton}" Text="1"></Button>
-            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="2" Style="{StaticResource NumberButton}" Text="2"></Button>
-            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="3" Style="{StaticResource NumberButton}" Text="3"></Button>
-            <Button Grid.Column="3" Command="{Binding DeleteCharCommand}" Style="{StaticResource NumberButton}" Text="{x:Static fontawesome:FontAwesomeIcons.DeleteLeft}" BackgroundColor="Red" FontFamily="FAS"></Button>
+            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="1" Style="{StaticResource NumberButton}" Text="1">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="3"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="2" Style="{StaticResource NumberButton}" Text="2">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="3" Style="{StaticResource NumberButton}" Text="3">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="3" Command="{Binding DeleteCharCommand}" Style="{StaticResource NumberButton}" TextColor="White" Text="{x:Static fontawesome:FontAwesomeIcons.DeleteLeft}" BackgroundColor="Red" FontFamily="FAS">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
         </Grid>
         <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="4" Style="{StaticResource NumberButton}" Text="4"></Button>
-            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="5" Style="{StaticResource NumberButton}" Text="5"></Button>
-            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="6" Style="{StaticResource NumberButton}" Text="6"></Button>
-            <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="." Style="{StaticResource NumberButton}" Padding="0" Text="." FontAttributes="Bold" FontSize="Medium"></Button>
+            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="4" Style="{StaticResource NumberButton}" Text="4">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="5" Style="{StaticResource NumberButton}" Text="5">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="6" Style="{StaticResource NumberButton}" Text="6">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="." Style="{StaticResource NumberButton}" Padding="0" Text="." FontAttributes="Bold" FontSize="Medium">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
         </Grid>
         <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="7" Style="{StaticResource NumberButton}" Text="7"></Button>
-            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="8" Style="{StaticResource NumberButton}" Text="8"></Button>
-            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="9" Style="{StaticResource NumberButton}" Text="9"></Button>
-            <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="0" Style="{StaticResource NumberButton}" Text="0"></Button>
+            <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="7" Style="{StaticResource NumberButton}" Text="7">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="8" Style="{StaticResource NumberButton}" Text="8">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="9" Style="{StaticResource NumberButton}" Text="9">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
+            <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="0" Style="{StaticResource NumberButton}" Text="0">
+                <Button.Shadow>
+                    <Shadow Brush="Black"
+                                                Offset="3,3"
+                                                Radius="1"
+                                                Opacity="0.2" />
+                </Button.Shadow>
+            </Button>
         </Grid>
     </VerticalStackLayout>
 </ContentView>

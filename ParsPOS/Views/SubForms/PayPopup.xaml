@@ -2,9 +2,15 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.SubForms.PayPopup"
+             xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
              xmlns:viemodel="clr-namespace:ParsPOS.ViewModel"
+             xmlns:vm="clr-namespace:ParsPOS.Model"
              xmlns:local="clr-namespace:ParsPOS.Views.ContentViewPage"
-             x:DataType="viemodel:SaleViewModel"  
+             xmlns:rvm="clr-namespace:ParsPOS.ResultModel"
+             x:DataType="viemodel:PayPopupViewModel"
+             xmlns:buttonstyle="clr-namespace:ParsPOS.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <Frame HeightRequest="500" WidthRequest="800" CornerRadius="10" Padding="0" BorderColor="Transparent">
         <VerticalStackLayout>
@@ -14,41 +20,48 @@
             <StackLayout Padding="10" Spacing="5">
                 <HorizontalStackLayout>
                     <Label Text="Grand Total : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Totalprice}" TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding TotalPrice}" TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <Label Text="Total Paid : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
-                    <Label TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label TextColor="Green" Text="{Binding TotalPaid}" FontSize="Medium" FontAttributes="Bold"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <Label Text="Change : " TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
-                    <Label TextColor="Green" FontSize="Medium" FontAttributes="Bold"></Label>
+                    <Label TextColor="Green" Text="{Binding Balance}" FontSize="Medium" FontAttributes="Bold"></Label>
                 </HorizontalStackLayout>
             </StackLayout>
             <StackLayout Padding="10">
                 <Grid ColumnDefinitions="150,*,200" ColumnSpacing="5">
                     <VerticalStackLayout Grid.Column="0" Spacing="5">
-                        <Button Text="Cash"></Button>
-                        <Button Text="Credit Card"></Button>
-                        <Button Text="Wallet"></Button>
-                        <Button Text="Loyality Card"></Button>
-                        <Button Text="UPI"></Button>
+                        <CollectionView ItemsSource="{Binding PrefixButtons}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PreFixTb">
+                                    <Button Text="{Binding VoucherName}" Command="{Binding ButtonCommand}" CommandParameter="{Binding Id}" Margin="0,0,0,5"></Button>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </VerticalStackLayout>
-                    <VerticalStackLayout Grid.Column="1" Spacing="5">
-                        <local:NumberPadView HeightRequest="150"/>
-                        <Frame Padding="0" HeightRequest="95">
-                            <CollectionView>
+                    <VerticalStackLayout Grid.Column="1" Padding="10,0" Spacing="5">
+                        <local:NumberPadView>
+                            <local:NumberPadView.BindingContext>
+                                <viemodel:NumberPadViewModel/>
+                            </local:NumberPadView.BindingContext>
+                        </local:NumberPadView>
+                        <Frame Padding="0" HeightRequest="110" VerticalOptions="End">
+                            <CollectionView ItemsSource="{Binding PaymentOptions}" SelectionMode="Single" SelectedItem="{Binding PaymentOptionModel}">
                                 <CollectionView.Header>
-                                    <Grid ColumnDefinitions="*,100" BackgroundColor="{StaticResource Primary}">
+                                    <Grid ColumnDefinitions="*,100" Padding="3" BackgroundColor="{StaticResource Primary}">
                                         <Label Text="Payment Mode" TextColor="White"></Label>
-                                        <Label Text="Amount" TextColor="White"></Label>
+                                        <Label Text="Amount" Grid.Column="1" TextColor="White"></Label>
                                     </Grid>
                                 </CollectionView.Header>
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*,100">
-                                            <Label></Label>
-                                            <Label></Label>
+                                    <DataTemplate x:DataType="rvm:PaymentOption">
+                                        <Grid ColumnDefinitions="*,100" Padding="3" RowDefinitions="23,1" HeightRequest="30">
+                                            <Label Text="{Binding PaymentMode}" FontSize="Medium"></Label>
+                                            <Label Grid.Column="1" FontSize="Medium" Text="{Binding PaymentAmount}"></Label>
+                                            <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="{StaticResource Gray200}"></BoxView>
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
@@ -57,12 +70,12 @@
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="2" Spacing="5">
                         <Frame Padding="10,0" BackgroundColor="AliceBlue">
-                            <Entry Placeholder="0.00"  FontSize="Medium" FlowDirection="RightToLeft"></Entry>
+                            <Entry Placeholder="0.00" ReturnCommand="{Binding AmountReturnCommand}" Text="{Binding NumberText, Mode=TwoWay}" FontSize="Medium" FontAttributes="Bold"></Entry>
                         </Frame>
                         <Button Text="Complete Sale"></Button>
                         <Button Text="Clear"></Button>
-                        <Button Text="Remove"></Button>
-                        <Button Text="Close"></Button>
+                        <Button Text="Remove" Command="{Binding RemovePaymentCommand}"></Button>
+                        <Button BackgroundColor="Red" TextColor="White" Text="Close"></Button>
                     </VerticalStackLayout>
                 </Grid>
             </StackLayout>

@@ -10,6 +10,7 @@ namespace ParsPOS;
 public partial class App : Application
 {
     //public static DownloadViewModel SharedDownloadViewModel { get; } = new DownloadViewModel();
+    public static string UserId { get; set; }
 
     private static DatabaseHelper db;
     public static DatabaseHelper Database
@@ -31,16 +32,23 @@ public partial class App : Application
         InitializeComponent();
         Applocator.Initialize();
         MainPage = new AppShell();
+        if(App.UserId != null)
+        {
+            ((AppShell)MainPage).GoToAsync("//MainPage");
+        }
+        else 
+        {
+            ((AppShell)MainPage).GoToAsync("//Login");
+        }
+        
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (Handler, View) =>
-            {
-#if __ANDROID__
-            Handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-#elif __IOS__
-                Handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
-                Handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-#endif
-            });
+        {
+            #if __ANDROID__
+                        Handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            #elif __IOS__
+                            Handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
+                            Handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+            #endif
+        });
     }
-
-
 }

@@ -60,6 +60,7 @@
 	  <None Remove="Resources\Images\adddatabase.png" />
 	  <None Remove="Resources\Images\addtobasket.png" />
 	  <None Remove="Resources\Images\azurebackupdatabase.png" />
+	  <None Remove="Resources\Images\back.jpg" />
 	  <None Remove="Resources\Images\backupdatabase.png" />
 	  <None Remove="Resources\Images\barcode.png" />
 	  <None Remove="Resources\Images\bin.png" />
@@ -73,6 +74,7 @@
 	  <None Remove="Resources\Images\inventory.png" />
 	  <None Remove="Resources\Images\inventoryone.png" />
 	  <None Remove="Resources\Images\keyboard.png" />
+	  <None Remove="Resources\Images\leftarrow.png" />
 	  <None Remove="Resources\Images\Logo.png" />
 	  <None Remove="Resources\Images\nodata.png" />
 	  <None Remove="Resources\Images\plus.png" />
@@ -101,6 +103,7 @@
 		<PackageReference Include="Plugin.Maui.Popup" Version="1.0.5" />
 		<PackageReference Include="PostSharp.Redist" Version="2024.0.1-preview" />
 		<PackageReference Include="Sharpnado.Tabs.Maui" Version="3.0.1" />
+		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 		<PackageReference Include="Splat" Version="14.7.1" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
@@ -110,7 +113,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\ControlTemplate.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\Converters.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\CustomColor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ContentViewPage\NumberPadView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CustomView\FlyoutButtonView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Download.xaml">
@@ -126,6 +141,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Sale.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Settings\AddCompanydt.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Settings\AddNetwork.xaml">
@@ -156,6 +174,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SubForms\CategoryPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SubForms\LoadHold.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SubForms\PayPopup.xaml">

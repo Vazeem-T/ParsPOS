@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Core.Platform;
 using ParsPOS.DBHandler;
 using ParsPOS.InterfaceServices;
 using ParsPOS.ViewModel;

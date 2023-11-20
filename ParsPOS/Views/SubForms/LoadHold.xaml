@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.SubForms.LoadHold"
+             xmlns:viewModel ="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="viewModel:SaleHoldViewModel"
+             xmlns:vm="clr-namespace:ParsPOS.SaleModel"  
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <Frame HeightRequest="500" BackgroundColor="LightGray" WidthRequest="800" CornerRadius="10" Padding="0" BorderColor="Transparent">
+        <VerticalStackLayout >
+            <StackLayout HeightRequest="50" BackgroundColor="{StaticResource Gray100}">
+                <Label Text="On Hold" HorizontalTextAlignment="Center" FontSize="Medium" Padding="10" VerticalTextAlignment="Center" TextColor="{StaticResource Gray900}" FontAttributes="Bold"></Label>
+            </StackLayout>
+            <StackLayout Margin="10">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                    <Frame Padding="10" BorderColor="Transparent" HeightRequest="420">
+                        <StackLayout>
+                            <Label Text="Hold List" BackgroundColor="AliceBlue" FontAttributes="Bold" Padding="0,0,0,5"></Label>
+                            <CollectionView ItemsSource="{Binding NizPoscmns}" Margin="0,10,0,0" >
+                                <CollectionView.Header>
+                                    <Grid ColumnDefinitions="40,*,*,*,*" BackgroundColor="{StaticResource Primary}">
+                                        <Label Grid.Column="0" Text="Slno"></Label>
+                                        <Label Grid.Column="1" Text="Customer"></Label>
+                                        <Label Grid.Column="2" Text="Total Item"></Label>
+                                        <Label Grid.Column="3" Text="Time"></Label>
+                                        <Label Grid.Column="4" Text="Total Amount"></Label>
+                                    </Grid>
+                                </CollectionView.Header>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:NizPoscmn">
+                                        <Grid ColumnDefinitions="40,*,*,*,*" RowDefinitions="*,1" HeightRequest="50">
+                                            <Label   Grid.Column="0" Text="{Binding HoldNo}"></Label>
+                                            <Label   Grid.Column="1" Text="{Binding CustNo}"></Label>
+                                            <Label   Grid.Column="2" Text="Total Item"></Label>
+                                            <Label   Grid.Column="3" Text="{Binding Tm}"></Label>
+                                            <Label   Grid.Column="4" Text="Total Amount"></Label>
+                                            <BoxView Grid.Row="1" HeightRequest="1" Color="LightGray"></BoxView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Grid.Column="1" Padding="10" BorderColor="Transparent">
+                        <StackLayout IsVisible="{Binding RecieptVisibility}">
+                            <Label Text="{Binding CompanyName}" FontAttributes="Bold"></Label>
+                            <Grid RowDefinitions="*,40">
+                                <ListView Grid.Column="0">
+                                    <ListView.Header>
+                                        <Grid ColumnDefinitions="40,*,*,*,*">
+                                            <Label Grid.Column="0" Text="SlNo"></Label>
+                                            <Label Grid.Column="1" Text="Description"></Label>
+                                            <Label Grid.Column="2" Text="Qty"></Label>
+                                            <Label Grid.Column="3" Text="Unit Price"></Label>
+                                            <Label Grid.Column="4" Text="Total"></Label>
+                                        </Grid>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:NizPosdet">
+                                            <ViewCell>
+                                                <Grid ColumnDefinitions="40,*,*,*,*">
+                                                    <Label Grid.Column="0" Text="{Binding SlNo}"></Label>
+                                                    <Label Grid.Column="1" Text="{Binding CatDescription}"></Label>
+                                                    <Label Grid.Column="2" Text="{Binding Qty}"></Label>
+                                                    <Label Grid.Column="3" Text="{Binding UnitPrice}"></Label>
+                                                    <Label Grid.Column="4" Text="Total"></Label>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Grid Grid.Row="1" ColumnDefinitions="*,*" VerticalOptions="End" ColumnSpacing="5">
+                                    <Button Text="Use"></Button>
+                                    <Button Grid.Column="1" Text="Remove" BackgroundColor="Red"></Button>
+                                </Grid>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </VerticalStackLayout>
+    </Frame>
+</toolkit:Popup>

@@ -2,30 +2,32 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ParsPOS.DBHandler;
+using ParsPOS.InterfaceServices;
+using ParsPOS.ResultModel;
 using ParsPOS.SaleModel;
 using ParsPOS.Services;
 using ParsPOS.Views.SubForms;
+using PARSPOS.SaleModel;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace ParsPOS.ViewModel
 {
     public partial class SaleViewModel : BaseViewModel
     {
         public ObservableCollection<CanPostrTb> Items { get; set; } = new();
+      
+        public ObservableCollection<NizPosdet> HodldItemdet { get; set; } = new();
+        public ObservableCollection<NizPoscmn>  HoldItem { get; set; } = new();
+        //public ObservableCollection<PrefixTbCombination> PrefixTbCombinations { get; set; } = new();
+
         private int Slno = 1;
         private readonly SaleDatabaseHelper _context;
+
         public SaleViewModel()
         {
-            AddCharCommand = new Command<string>((key) => InputString += key);
-
-            DeleteCharCommand =
-                new Command(
-                    () => InputString = InputString.Substring(0, InputString.Length - 1),
-
-                    () => InputString.Length > 0
-                );
+            
         }
+        
 
         [ObservableProperty]
         string textHeader;
@@ -66,6 +68,12 @@ namespace ParsPOS.ViewModel
         string _busyText;
 
         [RelayCommand]
+        async Task PrefixButtonSelection(string button)
+        {
+
+        }
+
+        [RelayCommand]
         async Task OptionButton(string button)
         {
             if(Optionaddoredit == SaleAddorEdit.Edit)
@@ -79,7 +87,7 @@ namespace ParsPOS.ViewModel
                         case SaleSelectedOption.Barcode:
                             Code = "Barcode/ ItemCode";
                             BarcodeText = "";
-                            InputString = "";
+                            //InputString = "";
                             BarcodeText = BarcodeText.Trim();
                             break;
                         case SaleSelectedOption.Qty:
@@ -102,20 +110,48 @@ namespace ParsPOS.ViewModel
         [RelayCommand]
         async Task AddorEdit(string selectbutton)
         {
-            if (Enum.TryParse(selectbutton, true, out SaleAddorEdit Option))
+            if(Optionaddoredit==SaleAddorEdit.Edit)
             {
-                Optionaddoredit = Option;
-
-                switch (Option)
+                if (Enum.TryParse(selectbutton, true, out SaleAddorEdit Option))
                 {
-                    case SaleAddorEdit.Add:
-                        TextHeader = "Add";
-                        break;
-                    case SaleAddorEdit.Edit:
-                        TextHeader = "Edit";
-                        break;
+                    Optionaddoredit = Option;
+
+                    switch (Option)
+                    {
+                        case SaleAddorEdit.Add:
+                            TextHeader = "Add";
+                            break;
+                        case SaleAddorEdit.Edit:
+                            TextHeader = "Edit";
+                            break;
+                    }
                 }
             }
+            else
+            {
+                if(PostrTbs == null)
+                {
+                    await Shell.Current.DisplayAlert("Alert", "Select One Item First", "OK");
+                }
+                else
+                {
+                    if (Enum.TryParse(selectbutton, true, out SaleAddorEdit Option))
+                    {
+                        Optionaddoredit = Option;
+
+                        switch (Option)
+                        {
+                            case SaleAddorEdit.Add:
+                                TextHeader = "Add";
+                                break;
+                            case SaleAddorEdit.Edit:
+                                TextHeader = "Edit";
+                                break;
+                        }
+                    }
+                }
+            }
+           
         }
 
 
@@ -125,61 +161,66 @@ namespace ParsPOS.ViewModel
             IsBusy = true;
             try
             {
-                if (Optionaddoredit == SaleAddorEdit.Add && OptionSelectedButton == SaleSelectedOption.Barcode)
+                if(!string.IsNullOrWhiteSpace(BarcodeText))
                 {
-                    var item = AddItem();
-                    if(item != null) 
+
+                    if (Optionaddoredit == SaleAddorEdit.Add && OptionSelectedButton == SaleSelectedOption.Barcode)
                     {
-                        Slno++;
-                        Items.Add(PostrTbs);
-                        Itemcount = Items.Count;
-                        Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
-                        Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
-                        BarcodeText = "";
-                        InputString = "";
-                        BarcodeText.Trim();
-                    }
-                }
-                else
-                {
-                    if(OptionSelectedButton == SaleSelectedOption.Qty)
-                    {
-                        PostrTbs.TrQty = double.Parse(BarcodeText);
-                        PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}",double.Parse(BarcodeText) * PostrTbs.UnitCost));
-                        Items.Remove(PostrTbs);
-                        Items.Add(PostrTbs);
-                        Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
-                        Totalprice = double.Parse(string.Format("{0:0.00}",Items.Sum(item => item.PriceWithTax)));
-                    }
-                    else if (OptionSelectedButton == SaleSelectedOption.Price)
-                    {
-                        PostrTbs.UnitCost = double.Parse(BarcodeText);
-                        PostrTbs.PriceWithTax = double.Parse(BarcodeText) * (PostrTbs.TrQty ?? 1);
-                        Items.Remove(PostrTbs);
-                        Items.Add(PostrTbs);
-                        Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
-                    }
-                    else
-                    {
-                        var Slno = PostrTbs.SlNo;
-                        Items.Remove(PostrTbs);
                         var item = AddItem();
                         if (item != null)
                         {
-                            PostrTbs.SlNo = Slno;   
+                            Slno++;
                             Items.Add(PostrTbs);
                             Itemcount = Items.Count;
                             Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
                             Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
                             BarcodeText = "";
-                            InputString = "";
+                            //InputString = "";
                             BarcodeText.Trim();
+                        }
+                    }
+                    else
+                    {
+                        if (OptionSelectedButton == SaleSelectedOption.Qty)
+                        {
+                            PostrTbs.TrQty = double.Parse(BarcodeText);
+                            PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}", double.Parse(BarcodeText) * PostrTbs.UnitCost));
+                            Items.Remove(PostrTbs);
+                            Items.Add(PostrTbs);
+                            Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                            Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                        }
+                        else if (OptionSelectedButton == SaleSelectedOption.Price)
+                        {
+                            PostrTbs.UnitCost = double.Parse(BarcodeText);
+                            PostrTbs.PriceWithTax = double.Parse(BarcodeText) * (PostrTbs.TrQty ?? 1);
+                            Items.Remove(PostrTbs);
+                            Items.Add(PostrTbs);
+                            Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                        }
+                        else
+                        {
+                            var Slno = PostrTbs.SlNo;
+                            Items.Remove(PostrTbs);
+                            var item = AddItem();
+                            if (item != null)
+                            {
+                                PostrTbs.SlNo = Slno;
+                                Items.Add(PostrTbs);
+                                Itemcount = Items.Count;
+                                Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                                Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                                BarcodeText = "";
+                                //InputString = "";
+                                BarcodeText.Trim();
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
             finally 
             {
@@ -193,34 +234,81 @@ namespace ParsPOS.ViewModel
             PostrTbs = selecteditem;
         }
 
-        private CanPostrTb AddItem()
+        private async Task<CanPostrTb> AddItem()
         {
-            var item = App.Database.EntryChk(InputString).Result;
-            if (item != null)
-            {
-                PostrTbs = new CanPostrTb
+            bool isweighted = false;
+            try
+            { 
+                var Isweighting = SplitBarcode(BarcodeText);
                 {
-                    SysDateTime = DateTime.Now,
-                    ItemId = item.ItemId,
-                    SlNo = Slno,
-                    TrQty = 1,
-                    Unit = item.Unit,
-                    UnitCost = double.Parse(string.Format("{0:0.00}", item.UnitPrice)),
-                    Idescription = item.Description,
-                    UnitDiscount = item.DiscountVal,
-                    IsReturn = false,
-                    CounterNo = 1,
-                    CategoryCode = "Item",
-                    IsCategorySale = false,
-                    CatDescription = "NA",
-                    PriceWithTax = double.Parse(string.Format("{0:0.00}", item.UnitPrice))
-                };
+                    var BCode = Isweighting.BarCode;
+                    var Isweighingitem = App.Database.EntryChk(BCode).Result;
+
+                    if (Isweighingitem.IsWeighting == true)
+                    {
+                        isweighted = true;
+                        PostrTbs = new CanPostrTb
+                        {
+                            SysDateTime = DateTime.Now,
+                            ItemId = Isweighingitem.ItemId,
+                            SlNo = Slno,
+                            TrQty = double.Parse(string.Format("{0:0.000}", Isweighting.Price / Isweighingitem.UnitPrice)),
+                            Unit = Isweighingitem.Unit,
+                            UnitCost = double.Parse(string.Format("{0:0.00}", Isweighingitem.UnitPrice)),
+                            Idescription = Isweighingitem.Description,
+                            UnitDiscount = Isweighingitem.DiscountVal,
+                            IsReturn = false,
+                            CounterNo = 1,
+                            CategoryCode = "Item",
+                            IsCategorySale = false,
+                            CatDescription = "NA",
+                            PriceWithTax = double.Parse(string.Format("{0:0.00}", Isweighting.Price))
+                        };
+                        return PostrTbs;
+                    }
+                    if (isweighted == false)
+                    {
+                        var item = App.Database.EntryChk(BarcodeText).Result;
+                        if (item != null)
+                        {
+                            PostrTbs = new CanPostrTb
+                            {
+                                SysDateTime = DateTime.Now,
+                                ItemId = item.ItemId,
+                                SlNo = Slno,
+                                TrQty = 1,
+                                Unit = item.Unit,
+                                UnitCost = double.Parse(string.Format("{0:0.00}", item.UnitPrice)),
+                                Idescription = item.Description,
+                                UnitDiscount = item.DiscountVal,
+                                IsReturn = false,
+                                CounterNo = 1,
+                                CategoryCode = "Item",
+                                IsCategorySale = false,
+                                CatDescription = "NA",
+                                PriceWithTax = double.Parse(string.Format("{0:0.00}", item.UnitPrice))
+                            };
+                            return PostrTbs;
+                        }
+                        else
+                        {
+                            App.Current.MainPage.DisplayAlert("Alert", "Item Not found !", "OK");
+                            return null;
+                        }
+
+                    }
+                }
+                isweighted = false;
                 return PostrTbs;
             }
-            else
+            catch (Exception ex)
             {
-                App.Current.MainPage.DisplayAlert("Alert", "Item Not found !", "OK");
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
                 return null;
+            }
+            finally
+            {
+                isweighted = false;
             }
         }
 
@@ -233,6 +321,7 @@ namespace ParsPOS.ViewModel
                 if (result)
                 {
                     Items.Remove(PostrTbs);
+                    PostrTbs = null;
                     Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
                     Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
                     Itemcount = Items.Count;
@@ -274,45 +363,107 @@ namespace ParsPOS.ViewModel
         {
             if (PostrTbs != null)
             {
-                PostrTbs.TrQty = PostrTbs.TrQty - 1;
-                PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}", PostrTbs.TrQty * PostrTbs.UnitCost));
-                Items.Remove(PostrTbs);
-                Items.Add(PostrTbs);
-                Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
-                Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
-            }
-        }
-
-
-        //NumberPad ContentView
-        private string _inputString = "";
-        private char[] _specialChars = { '*', '#' };
-
-        public ICommand AddCharCommand { get; private set; }
-        public ICommand DeleteCharCommand { get; private set; }
-
-        public string InputString
-        {
-            get => _inputString;
-            private set
-            {
-                if (_inputString != value)
+                if(PostrTbs.TrQty !<= 0)
                 {
-                    _inputString = value;
-                    OnPropertyChanged();
-                    BarcodeText = FormatText(_inputString);
-                    OnPropertyChanged(nameof(BarcodeText));
-                    ((Command)DeleteCharCommand).ChangeCanExecute();
+                    PostrTbs.TrQty = PostrTbs.TrQty - 1;
+                    PostrTbs.PriceWithTax = double.Parse(string.Format("{0:0.00}", PostrTbs.TrQty * PostrTbs.UnitCost));
+                    Items.Remove(PostrTbs);
+                    Items.Add(PostrTbs);
+                    Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                    Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+
                 }
             }
         }
-
-        string FormatText(string str)
+        public static BarcodeInfo SplitBarcode(string input)
         {
-            bool hasNonNumbers = str.IndexOfAny(_specialChars) != -1;
-            string formatted = str;
+            if (input.Length == 13)
+            {
+                string barcode = input.Substring(0, 7);
+                string pricePart = input.Substring(7, 5);
+                int priceIntegerPart = int.Parse(pricePart.Substring(0, 3));
+                int priceDecimalPart = int.Parse(pricePart.Substring(3, 2));
+                int certificate = int.Parse(input.Substring(12, 1));
+                BarcodeInfo barcodeInfo = new BarcodeInfo
+                {
+                    BarCode = barcode,
+                    Price = double.Parse($"{priceIntegerPart}.{priceDecimalPart}"),
+                    Certificate = certificate
+                };
 
-            return formatted;
+                return barcodeInfo;
+            }
+            return new BarcodeInfo { BarCode = input};
+        }
+        [RelayCommand]
+        async Task GotoOnHoldPopupAsync()
+        {
+            SaleDatabaseHelper helper = new SaleDatabaseHelper();
+            SaleHoldViewModel viewModel = new SaleHoldViewModel(helper);
+            var HoldPopup = new LoadHold(viewModel);
+            await Shell.Current.ShowPopupAsync(HoldPopup);
+        }
+        [RelayCommand]
+        async Task HoldDataAsync()
+        {
+            try
+            {
+                if (Items.Count > 0)
+                {   
+                    foreach(var item in Items)
+                    {
+                        NizPosdet nizPosdet = new NizPosdet
+                        {
+                            CounterNo = 1,
+                            HoldNo = 1,
+                            SlNo = Convert.ToInt16(item.SlNo),
+
+                        };
+                        await _context.AddItemAsync<NizPosdet>(nizPosdet);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Alert", "Add Atleast one Item", "OK");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        //OnHold
+
+
+
+
+
+
+
+
+
+
+
+
+        [RelayCommand]
+        async Task HideKeyboardAsync()
+        {
+
+            DependencyService.Get<IkeyboardHelper>()?.HideKeyboard();
+//#if ANDROID
+//            //var imm = (Android.Views.InputMethods.InputMethodManager)MauiApplication.Current.GetSystemService(Android.Content.Context.InputMethodService);
+
+//            //if (imm != null)
+//            //{
+//            //    //this stuff came from here:  https://www.syncfusion.com/kb/12559/how-to-hide-the-keyboard-when-scrolling-in-xamarin-forms-listview-sflistview
+//            //    var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+//            //    Android.OS.IBinder wToken = activity.CurrentFocus?.WindowToken;
+//            //    imm.HideSoftInputFromWindow(wToken, 0);
+//            //}
+//#endif
         }
     }
 }

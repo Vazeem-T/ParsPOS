@@ -4,30 +4,48 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ParsPOS.Views"
-    FlyoutWidth="120"
+    xmlns:settings="clr-namespace:ParsPOS.Views.Settings"
+    xmlns:user="clr-namespace:ParsPOS.Views.User"
+    FlyoutWidth="104"
+    xmlns:fontawesome="clr-namespace:FontAwesome"
     Shell.NavBarHasShadow="True"
-    FlyoutBackgroundColor="#383E44"
+    FlyoutBackgroundColor="#1F1D2B"
     Shell.FlyoutBehavior="Locked">
-
-    <Shell.FlyoutHeader>
-        <Image Source="logo.png" WidthRequest="120" >
-        </Image>
-    </Shell.FlyoutHeader>
+    <!--<Shell.FlyoutHeader>
+        <ImageButton Clicked="ImageButton_Clicked" HeightRequest="120" Source="logo.png" WidthRequest="120" >
+        </ImageButton>
+    </Shell.FlyoutHeader>-->
     <Shell.FlyoutContent>
-        <local:MainPageFlyoutItem />
+        <local:MainPageFlyoutItem/>
     </Shell.FlyoutContent>
     <Shell.FlyoutFooter>
         <Label Text="&#xA9; PARS"
                TextColor="White"
                HorizontalTextAlignment="Center"
                Padding="5">
-            
         </Label>
     </Shell.FlyoutFooter>
-
-    
-        <ShellContent
+    <FlyoutItem Title="Home" Route="home">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Inventory" Route="inventory">
+        <ShellContent ContentTemplate="{DataTemplate local:Inventory}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Sale" Route="sale">
+        <ShellContent ContentTemplate="{DataTemplate local:Sale}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Setting" Route="settings">
+        <ShellContent ContentTemplate="{DataTemplate settings:MainSettings}" />
+    </FlyoutItem>
+    <FlyoutItem Title="User Detail" Route="user">
+        <ShellContent ContentTemplate="{DataTemplate user:UserSettings}" />
+    </FlyoutItem>
+    <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    <ShellContent 
+        Title="Sign In"
+        ContentTemplate="{DataTemplate local:Login}"
+        Route="Login"/>
 </Shell>
