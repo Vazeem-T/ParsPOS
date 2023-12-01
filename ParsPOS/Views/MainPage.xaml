@@ -2,18 +2,70 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             x:Class="ParsPOS.Views.MainPage">
-    <!--<StackLayout>
-        <Grid ColumnSpacing="5" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Clicked="SaleButton_Clicked" Text="Sale"></Button>
-            <Button Grid.Column="1" Clicked="InventoryButton_Clicked" Text="Inventory" ></Button>
-            <Button Grid.Column="2" Clicked="UploadDbButton_Clicked" Text="UploadDb" ></Button>
-        </Grid>
-    </StackLayout>-->
-    
+             x:Class="ParsPOS.Views.MainPage"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:MainPageViewModel"
+             BackgroundColor="LightGray"
+             Title="Home">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem>
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                Glyph="user"
+                FontFamily="FAS"
+                Size="20"
+                Color="Black"  />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem Text="LogOut" Command="{Binding LogoutCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <Frame Margin="10" BorderColor="Transparent">
+        <StackLayout>
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10" HeightRequest="120">
+                <Frame Grid.Column="0" BackgroundColor="Tan" BorderColor="Transparent" HorizontalOptions="FillAndExpand" CornerRadius="10">
+                    <StackLayout>
+                        <Label Text="Opening Balance" FontSize="17" FontAttributes="Bold"></Label>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Column="1" HorizontalOptions="FillAndExpand" CornerRadius="10"></Frame>
+                <Frame Grid.Column="2" HorizontalOptions="FillAndExpand" CornerRadius="10"></Frame>
+                <Frame Grid.Column="3" HorizontalOptions="FillAndExpand" CornerRadius="10"></Frame>
+            </Grid>
+            <Label Text="Inventory" Margin="0,10" FontAttributes="Bold" FontSize="18"></Label>
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10" HeightRequest="70">
+                <Button Grid.Column="0" BackgroundColor="CornflowerBlue" Command="{Binding PurchaseCommand}" Text="PURCHASE" FontSize="16">
+                    <Button.Shadow>
+                        <Shadow Radius="6"
+                                Brush="{StaticResource Gray400}"
+                                Offset="3,3">
+                        </Shadow>
+                    </Button.Shadow>
+                </Button>
+                <Button Grid.Column="1" BackgroundColor="CornflowerBlue" Text="PURCHASE RETURN" FontSize="16">
+                    <Button.Shadow>
+                        <Shadow Radius="6"
+                                Brush="{StaticResource Gray400}"
+                                Offset="3,3">
+                        </Shadow>
+                    </Button.Shadow>
+                </Button>
+                <Button Grid.Column="2" BackgroundColor="CornflowerBlue" Text="ENQUIRY" FontSize="16">
+                    <Button.Shadow>
+                        <Shadow Radius="6"
+                                Brush="{StaticResource Gray400}"
+                                Offset="3,3">
+                        </Shadow>
+                    </Button.Shadow>
+                </Button>
+                <Button Grid.Column="3" BackgroundColor="CornflowerBlue" Text="SALES" FontSize="16">
+                    <Button.Shadow>
+                        <Shadow Radius="6"
+                                Brush="{StaticResource Gray400}"
+                                Offset="3,3">
+                        </Shadow>
+                    </Button.Shadow>
+                </Button>
+            </Grid>
+        </StackLayout>
+    </Frame>
 </ContentPage>

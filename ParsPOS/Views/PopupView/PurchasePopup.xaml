@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.PopupView.PurchasePopup"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:PurchasePopupViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <Frame>
+        <VerticalStackLayout HeightRequest="{Binding Height}" WidthRequest="{Binding Width}">
+            <StackLayout HeightRequest="50" BackgroundColor="{StaticResource Gray100}">
+                <Label Text="{Binding Title}" FontSize="Medium" Padding="10" VerticalTextAlignment="Center" TextColor="{StaticResource Gray900}" FontAttributes="Bold"></Label>
+                <Button Text="{x:Static fontawesome:FontAwesomeIcons.Xmark}" FontFamily="FAS" Padding="5" CornerRadius="5" BackgroundColor="Red"></Button>
+            </StackLayout>
+            <CollectionView >
+                <CollectionView.Header>
+                    <Grid BindableLayout.ItemTemplate="{Binding Headergrid}" BindingContext="{Binding Headers}"></Grid>
+                </CollectionView.Header>
+                
+            </CollectionView>
+        </VerticalStackLayout>
+    </Frame>
+</toolkit:Popup>

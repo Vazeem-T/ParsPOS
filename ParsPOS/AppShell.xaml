@@ -11,13 +11,11 @@
     Shell.NavBarHasShadow="True"
     FlyoutBackgroundColor="#1F1D2B"
     Shell.FlyoutBehavior="Locked">
-    <!--<Shell.FlyoutHeader>
-        <ImageButton Clicked="ImageButton_Clicked" HeightRequest="120" Source="logo.png" WidthRequest="120" >
-        </ImageButton>
-    </Shell.FlyoutHeader>-->
+
     <Shell.FlyoutContent>
         <local:MainPageFlyoutItem/>
     </Shell.FlyoutContent>
+    
     <Shell.FlyoutFooter>
         <Label Text="&#xA9; PARS"
                TextColor="White"
@@ -25,6 +23,8 @@
                Padding="5">
         </Label>
     </Shell.FlyoutFooter>
+
+
     <FlyoutItem Title="Home" Route="home">
         <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
     </FlyoutItem>

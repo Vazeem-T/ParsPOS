@@ -50,8 +50,8 @@ namespace ParsPOS.ViewModel
         public NumberPadViewModel()
         {
             
-            _SaleView = new SaleViewModel();
-            _payPopupViewModel = new PayPopupViewModel(_SaleView,this);
+            //_SaleView = new SaleViewModel();
+            //_payPopupViewModel = new PayPopupViewModel(_SaleView,this);
             AddCharCommand = new Command<string>((key) =>
             {
                 InputString += key;

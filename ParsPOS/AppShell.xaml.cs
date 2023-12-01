@@ -1,4 +1,5 @@
 ﻿using ParsPOS.Views;
+using ParsPOS.Views.InventoryView;
 using ParsPOS.Views.Settings;
 using ParsPOS.Views.SubForms;
 using ParsPOS.Views.User;
@@ -24,6 +25,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(Inventory), typeof(Inventory));
         Routing.RegisterRoute(nameof(PayPopup), typeof(PayPopup));
         Routing.RegisterRoute(nameof(AddCompanydt), typeof(AddCompanydt));
+        Routing.RegisterRoute(nameof(Purchase), typeof(Purchase));
 
     }
     private async void ImageButton_Clicked(object sender, EventArgs e)

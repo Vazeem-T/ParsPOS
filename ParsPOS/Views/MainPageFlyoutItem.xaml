@@ -55,7 +55,6 @@
                         <RoundRectangle CornerRadius="8" />
                     </Border.StrokeShape>
                 </Border>
-
                 <ContentPresenter x:Name="CP"/>
             </Grid>
         </ControlTemplate>
@@ -109,6 +108,14 @@
                     </Image>
                 </RadioButton.Content>
             </RadioButton>
+            
+            <!--<RadioButton Value="Login" Grid.Row="5"
+                                CheckedChanged="OnMenuItemChanged">
+                <RadioButton.Content>
+                    <Image Source="rightarrow.png" HeightRequest="40" WidthRequest="40">
+                    </Image>
+                </RadioButton.Content>
+            </RadioButton>-->
 
             <!--<Image Source="logout.png" Margin="0,15,0,15" Grid.Row="7"/>-->
         </Grid>

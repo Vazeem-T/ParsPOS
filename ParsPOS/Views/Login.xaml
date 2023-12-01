@@ -10,8 +10,6 @@
              xmlns:fontawesome="clr-namespace:FontAwesome"
              xmlns:localtxt="clr-namespace:ParsPOS.Services"
              Shell.FlyoutBehavior="Disabled">
-
-    
     <StackLayout>
         <Grid>
             <BoxView Color="#512BD4"  HorizontalOptions="Start" VerticalOptions="Start" CornerRadius="950" HeightRequest="940" WidthRequest="950" Margin="-250,-280,0,0">

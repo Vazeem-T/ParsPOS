@@ -26,6 +26,8 @@ public partial class MainPageFlyoutItem : ContentView
     async void OnMenuItemChanged(System.Object sender, CheckedChangedEventArgs e)
     {
         if (!String.IsNullOrEmpty(selectedRoute))
+        {
             await Shell.Current.GoToAsync($"//{selectedRoute}");
+        }   
     }
 }

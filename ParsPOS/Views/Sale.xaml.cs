@@ -7,9 +7,9 @@ namespace ParsPOS.Views;
 
 public partial class Sale : ContentPage
 {
-    public Sale(SaleViewModel viewModel)
+    public Sale(SaleHoldViewModel viewModel)
 	{
 		InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = new SaleViewModel(viewModel);
     }
 }

@@ -1,5 +1,6 @@
-using CommunityToolkit.Maui.Views;
 using ParsPOS.ViewModel;
+using CommunityToolkit.Maui.Views;
+
 
 namespace ParsPOS.Views.SubForms;
 

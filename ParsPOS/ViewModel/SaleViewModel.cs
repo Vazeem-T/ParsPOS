@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.IdentityModel.Tokens;
 using ParsPOS.DBHandler;
 using ParsPOS.InterfaceServices;
 using ParsPOS.ResultModel;
@@ -19,15 +20,15 @@ namespace ParsPOS.ViewModel
         public ObservableCollection<NizPosdet> HodldItemdet { get; set; } = new();
         public ObservableCollection<NizPoscmn>  HoldItem { get; set; } = new();
         //public ObservableCollection<PrefixTbCombination> PrefixTbCombinations { get; set; } = new();
-
+        private readonly SaleHoldViewModel _model;
         private int Slno = 1;
-        private readonly SaleDatabaseHelper _context;
-
-        public SaleViewModel()
+        public SaleViewModel(SaleHoldViewModel viewModel)
         {
-            
+            _model = viewModel;
+            LoadfromOnHoldAsync().GetAwaiter();
         }
-        
+        [ObservableProperty]
+        int? customerdt;
 
         [ObservableProperty]
         string textHeader;
@@ -398,8 +399,7 @@ namespace ParsPOS.ViewModel
         [RelayCommand]
         async Task GotoOnHoldPopupAsync()
         {
-            SaleDatabaseHelper helper = new SaleDatabaseHelper();
-            SaleHoldViewModel viewModel = new SaleHoldViewModel(helper);
+            SaleHoldViewModel viewModel = new SaleHoldViewModel();
             var HoldPopup = new LoadHold(viewModel);
             await Shell.Current.ShowPopupAsync(HoldPopup);
         }
@@ -409,33 +409,109 @@ namespace ParsPOS.ViewModel
             try
             {
                 if (Items.Count > 0)
-                {   
-                    foreach(var item in Items)
+                {
+                    var getcounterno = await App.Database.GetLastSettings();
+                    int holddtcount = 0;
+                    var holddt = await App.SaleDb.GetAllNizPoscmn();
+                    if (holddt is not null && holddt.Any())
+                    {
+                        holddtcount = holddt.LastOrDefault().HoldNo + 1 ;
+                    }
+                    else
+                    {
+                        
+                        holddtcount = 1;
+                    }
+                    NizPoscmn nizPoscmn = new NizPoscmn
+                    {
+                        CounterNo = getcounterno.CounterNumber,
+                        HoldNo = Convert.ToInt16(holddtcount),
+                        UserId = App.UserId,
+                        Tm = DateTime.Now,
+                        CustNo = Customerdt,
+                        SlsManId = App.UserId
+                    };
+                    await App.SaleDb.CreateNizPosCmn(nizPoscmn);
+                    foreach (var item in Items)
                     {
                         NizPosdet nizPosdet = new NizPosdet
                         {
-                            CounterNo = 1,
-                            HoldNo = 1,
+                            CounterNo = getcounterno.CounterNumber,
+                            HoldNo = Convert.ToInt16(holddtcount),
                             SlNo = Convert.ToInt16(item.SlNo),
-
+                            ItemId = item.ItemId,
+                            Unit = item.Unit,
+                            IsRet = item.IsReturn,
+                            Qty = item.TrQty,
+                            UnitPrice = item.UnitCost,
+                            Discount = item.LineDiscount,
+                            CategotyCode = item.CategoryCode,
+                            IsCategorySale = item.IsCategorySale,
+                            CatDescription = item.Idescription,
+                            Expirydt = item.ExpiryDt,
+                            WhatInAssrtd = item.WhatInAssrtd,
+                            IsLnDisc = item.IsLineDisc ?? 0,
+                            DoTrWithTax = item.DoTrWithTax,
+                            PriceWithTax = item.PriceWithTax,
                         };
-                        await _context.AddItemAsync<NizPosdet>(nizPosdet);
+                        await App.SaleDb.CreateNizPosDet(nizPosdet);
                     }
+                    Items.Clear();
+                    Customerdt = null;
+                    Totalprice = 0;
+                    Totaltrqty = 0;
+                    Itemcount = 0;
                 }
                 else
                 {
                     await Shell.Current.DisplayAlert("Alert", "Add Atleast one Item", "OK");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
         }
 
+        private async Task LoadfromOnHoldAsync()
+        {
+            if (_model.CompanyName != null)
+            {
+                var nizposcmn = _model.NizPoscmns.FirstOrDefault();
+                Customerdt = nizposcmn.CustNo;
+                var HoldData = await App.SaleDb.GetNizdetOnHoldNo(nizposcmn.HoldNo);
+                foreach (var item in HoldData)
+                {
+                    CanPostrTb postrTb = new CanPostrTb
+                    {
+                        CounterNo = nizposcmn.CounterNo ?? 0,
+                        SlNo = Convert.ToInt16(item.SlNo),
+                        ItemId = item.ItemId,
+                        Unit = item.Unit,
+                        IsReturn = item.IsRet,
+                        TrQty = item.Qty,
+                        UnitCost = item.UnitPrice,
+                        LineDiscount = item.Discount,
+                        CategoryCode = item.CategotyCode,
+                        IsCategorySale = item.IsCategorySale,
+                        Idescription = item.CatDescription,
+                        ExpiryDt = item.Expirydt,
+                        WhatInAssrtd = item.WhatInAssrtd,
+                        IsLineDisc = item.IsLnDisc,
+                        DoTrWithTax = item.DoTrWithTax,
+                        PriceWithTax = item.PriceWithTax,
+                    };
+                    Items.Add(postrTb);
+                }
+                Totalprice = double.Parse(string.Format("{0:0.00}", Items.Sum(item => item.PriceWithTax)));
+                Totaltrqty = Items.Sum(item => item.TrQty) ?? 0.0;
+                Itemcount = Items.Count;
+                await App.SaleDb.DeletenizPosdtOnHold(nizposcmn.HoldNo);
+                await App.SaleDb.DeleteSelectedPoscmn(nizposcmn.HoldNo);
+            }
+        }
 
-        //OnHold
+                //OnHold
 
 
 
@@ -448,7 +524,7 @@ namespace ParsPOS.ViewModel
 
 
 
-        [RelayCommand]
+                [RelayCommand]
         async Task HideKeyboardAsync()
         {
 

@@ -16,14 +16,14 @@
                     <Frame Padding="10" BorderColor="Transparent" HeightRequest="420">
                         <StackLayout>
                             <Label Text="Hold List" BackgroundColor="AliceBlue" FontAttributes="Bold" Padding="0,0,0,5"></Label>
-                            <CollectionView ItemsSource="{Binding NizPoscmns}" Margin="0,10,0,0" >
+                            <CollectionView SelectionMode="Single" SelectionChangedCommand="{Binding SelectedItemCommand}" SelectionChangedCommandParameter="{Binding SelectedOnHold}" SelectedItem="{Binding SelectedOnHold}" ItemsSource="{Binding NizPoscmns}" Margin="0,10,0,0" >
                                 <CollectionView.Header>
-                                    <Grid ColumnDefinitions="40,*,*,*,*" BackgroundColor="{StaticResource Primary}">
-                                        <Label Grid.Column="0" Text="Slno"></Label>
-                                        <Label Grid.Column="1" Text="Customer"></Label>
-                                        <Label Grid.Column="2" Text="Total Item"></Label>
-                                        <Label Grid.Column="3" Text="Time"></Label>
-                                        <Label Grid.Column="4" Text="Total Amount"></Label>
+                                    <Grid ColumnDefinitions="40,*,*,*,*" BackgroundColor="#512BD4">
+                                        <Label Grid.Column="0" TextColor="White" Text="Slno"></Label>
+                                        <Label Grid.Column="1" TextColor="White" Text="Customer"></Label>
+                                        <Label Grid.Column="2" TextColor="White" Text="Total Item"></Label>
+                                        <Label Grid.Column="3" TextColor="White" Text="Time"></Label>
+                                        <Label Grid.Column="4" TextColor="White" Text="Total Amount"></Label>
                                     </Grid>
                                 </CollectionView.Header>
                                 <CollectionView.ItemTemplate>
@@ -31,10 +31,10 @@
                                         <Grid ColumnDefinitions="40,*,*,*,*" RowDefinitions="*,1" HeightRequest="50">
                                             <Label   Grid.Column="0" Text="{Binding HoldNo}"></Label>
                                             <Label   Grid.Column="1" Text="{Binding CustNo}"></Label>
-                                            <Label   Grid.Column="2" Text="Total Item"></Label>
+                                            <Label   Grid.Column="2" Text="{Binding TotalQty}"></Label>
                                             <Label   Grid.Column="3" Text="{Binding Tm}"></Label>
-                                            <Label   Grid.Column="4" Text="Total Amount"></Label>
-                                            <BoxView Grid.Row="1" HeightRequest="1" Color="LightGray"></BoxView>
+                                            <Label   Grid.Column="4" Text="{Binding TotalPrice}"></Label>
+                                            <BoxView Grid.Row="1" Grid.ColumnSpan="5" HeightRequest="1" Color="LightGray"></BoxView>
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
@@ -43,35 +43,47 @@
                     </Frame>
                     <Frame Grid.Column="1" Padding="10" BorderColor="Transparent">
                         <StackLayout IsVisible="{Binding RecieptVisibility}">
-                            <Label Text="{Binding CompanyName}" FontAttributes="Bold"></Label>
-                            <Grid RowDefinitions="*,40">
-                                <ListView Grid.Column="0">
+                            <Label Text="{Binding CompanyName}" FontSize="16" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,10"></Label>
+                            <HorizontalStackLayout>
+                                <Label Text="Customer Id : "></Label>
+                                <Label Text="{Binding SelectedOnHold.CustNo}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Salesman : "></Label>
+                                <Label Text="{Binding SelectedOnHold.SlsManId}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Date : "></Label>
+                                <Label Text="{Binding SelectedOnHold.Tm}"/>
+                            </HorizontalStackLayout>
+                            <Grid RowDefinitions="250,40">
+                                <ListView ItemsSource="{Binding NizPosdet}" Margin="0,10" HasUnevenRows="True">
                                     <ListView.Header>
-                                        <Grid ColumnDefinitions="40,*,*,*,*">
-                                            <Label Grid.Column="0" Text="SlNo"></Label>
-                                            <Label Grid.Column="1" Text="Description"></Label>
-                                            <Label Grid.Column="2" Text="Qty"></Label>
-                                            <Label Grid.Column="3" Text="Unit Price"></Label>
-                                            <Label Grid.Column="4" Text="Total"></Label>
+                                        <Grid ColumnDefinitions="40,1.5*,*,*,*" HeightRequest="30">
+                                            <Label Grid.Column="0" FontAttributes="Bold" Text="SlNo"></Label>
+                                            <Label Grid.Column="1" FontAttributes="Bold" Text="Description"></Label>
+                                            <Label Grid.Column="2" HorizontalTextAlignment="Center" FontAttributes="Bold" Text="Qty"></Label>
+                                            <Label Grid.Column="3" FontAttributes="Bold" Text="Unit Price"></Label>
+                                            <Label Grid.Column="4" HorizontalTextAlignment="Center" FontAttributes="Bold" Text="Total"></Label>
                                         </Grid>
                                     </ListView.Header>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:NizPosdet">
                                             <ViewCell>
-                                                <Grid ColumnDefinitions="40,*,*,*,*">
+                                                <Grid ColumnDefinitions="40,1.5*,*,*,*" Margin="0,10">
                                                     <Label Grid.Column="0" Text="{Binding SlNo}"></Label>
                                                     <Label Grid.Column="1" Text="{Binding CatDescription}"></Label>
-                                                    <Label Grid.Column="2" Text="{Binding Qty}"></Label>
+                                                    <Label Grid.Column="2" HorizontalTextAlignment="Center" Text="{Binding Qty}"></Label>
                                                     <Label Grid.Column="3" Text="{Binding UnitPrice}"></Label>
-                                                    <Label Grid.Column="4" Text="Total"></Label>
+                                                    <Label Grid.Column="4" HorizontalTextAlignment="Center" Text="{Binding PriceWithTax}"></Label>
                                                 </Grid>
                                             </ViewCell>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
                                 <Grid Grid.Row="1" ColumnDefinitions="*,*" VerticalOptions="End" ColumnSpacing="5">
-                                    <Button Text="Use"></Button>
-                                    <Button Grid.Column="1" Text="Remove" BackgroundColor="Red"></Button>
+                                    <Button Text="Use" Command="{Binding UseOnHoldCommand}" HeightRequest="40"></Button>
+                                    <Button Grid.Column="1" Command="{Binding RemoveOnHoldSelectedItemCommand}" HeightRequest="40" Text="Remove" BackgroundColor="Red"></Button>
                                 </Grid>
                             </Grid>
                         </StackLayout>

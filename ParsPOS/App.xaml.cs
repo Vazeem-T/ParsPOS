@@ -13,6 +13,7 @@ public partial class App : Application
     public static string UserId { get; set; }
 
     private static DatabaseHelper db;
+    private static SaleDatabaseHelper _db;
     public static DatabaseHelper Database
     {
         get
@@ -24,7 +25,18 @@ public partial class App : Application
             return db;
         }
     }
- 
+    public static SaleDatabaseHelper SaleDb
+    {
+        get
+        {
+            if (_db == null)
+            {
+                _db = new SaleDatabaseHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PARSCOUNTER.db3"));
+            }
+            return _db;
+        }
+    }
+
 
     public App()
     {

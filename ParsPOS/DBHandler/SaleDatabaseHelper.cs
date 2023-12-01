@@ -1,4 +1,5 @@
-﻿using PARSPOS.SaleModel;
+﻿using ParsPOS.SaleModel;
+using PARSPOS.SaleModel;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -9,69 +10,128 @@ using System.Threading.Tasks;
 
 namespace ParsPOS.DBHandler
 {
-    public class SaleDatabaseHelper : IAsyncDisposable
+    public class SaleDatabaseHelper : SQLiteAsyncConnection           //IAsyncDisposable
     {
-        private const string DbName = "PARSPOSSaleDb.db3";
-        private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
-        private SQLiteAsyncConnection _connection;
 
-        private SQLiteAsyncConnection Database =>
-            (_connection ??= new SQLiteAsyncConnection(DbPath,
-                SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+        private readonly SQLiteAsyncConnection _db;
 
-        private async Task CreateTableIfNotExist<TTable>() where TTable : class , new()
+
+        public SaleDatabaseHelper(string dbpath) : base(dbpath) 
         {
-            await Database.CreateTableAsync<TTable>();
+            _db = new SQLiteAsyncConnection(dbpath);
+            _db.CreateTableAsync<NizPosdet>();
+            _db.CreateTableAsync<NizPoscmn>();
         }
-        private async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable : class , new()
+        public Task<int> CreateNizPosCmn(NizPoscmn nizPoscmn)
         {
-            await CreateTableIfNotExist<TTable>();
-            return Database.Table<TTable>();
+            return _db.InsertAsync(nizPoscmn);
         }
-        public async Task<IEnumerable<TTable>> GetAllAsync<TTable>() where TTable : class, new()
+        public Task<int> CreateNizPosDet(NizPosdet nizPosdet)
         {
-            var table = await GetTableAsync<TTable>();
-            return await table.ToListAsync();
-        }
-        public async Task<IEnumerable<TTable>>GetFilteredAsync<TTable>(Expression<Func<TTable, bool>> predicate) where TTable : class, new()
-        {
-            var table = await GetTableAsync<TTable>();
-            return await table.Where(predicate).ToListAsync();
+            return _db.InsertAsync(nizPosdet);
         }
 
-        private async Task<TResult> Execute<TTable, TResult>(Func<Task<TResult>> action) where TTable : class, new()
+        //NizPosCmn
+        public Task<List<NizPoscmn>> GetAllNizPoscmn() 
         {
-            await CreateTableIfNotExist<TTable>();
-            return await action();
+            return _db.Table<NizPoscmn>().ToListAsync();
         }
-        public async Task<TTable> GetItemByIdAsync<TTable>(object primaryKey) where TTable : class, new()
+        public Task<List<NizPosdet>> GetNizdetOnHoldNo(short HoldNo)
         {
-            return await Execute<TTable, TTable>(async () => await Database.GetAsync<TTable>(primaryKey));
-        }
-        public async Task<bool> AddItemAsync<TTable>(TTable item) where TTable : class, new()
-        {
-            return await Execute<TTable, bool>(async () => await Database.InsertAsync(item) > 0);
+            return _db.Table<NizPosdet>().Where(x=>x.HoldNo == HoldNo).ToListAsync();
         }
 
-        public async Task<bool> UpdateItemAsync<TTable>(TTable item) where TTable : class, new()
+        public Task<int> DeleteSelectedPoscmn(short OnHold)
         {
-            await CreateTableIfNotExist<TTable>();
-            return await Database.UpdateAsync(item) > 0;
+            return _db.ExecuteScalarAsync<int>("Delete From NizPoscmn where HoldNo = " + OnHold + "");
         }
-        public async Task<bool> DeleteItemAsync<TTable>(TTable item) where TTable : class, new()
+        public Task<int> DeletenizPosdtOnHold(short OnHold)
         {
-            await CreateTableIfNotExist<TTable>();
-            return await Database.DeleteAsync(item) > 0;
-        }
-        public async Task<bool> DeleteItemByIdAsync<TTable>(object primaryKey) where TTable : class, new()
-        {
-            await CreateTableIfNotExist<TTable>();
-            return await Database.DeleteAsync<TTable>(primaryKey) > 0;
+            return _db.ExecuteScalarAsync<int>("Delete From NizPosdet where HoldNo = "+OnHold+"");
+
         }
 
-        public async ValueTask DisposeAsync()
-        {
-            await _connection?.CloseAsync();
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //private const string DbName = "PARSPOSSaleDb.db3";
+        //private static string DbPath => Path.Combine(FileSystem.AppDataDirectory, DbName);
+        //private SQLiteAsyncConnection _connection;
+
+        //private SQLiteAsyncConnection Database =>
+        //    (_connection ??= new SQLiteAsyncConnection(DbPath,
+        //        SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.SharedCache));
+
+        //private async Task CreateTableIfNotExist<TTable>() where TTable : class , new()
+        //{
+        //    await Database.CreateTableAsync<TTable>();
+        //}
+        //private async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable : class , new()
+        //{
+        //    await CreateTableIfNotExist<TTable>();
+        //    return Database.Table<TTable>();
+        //}
+        //public async Task<IEnumerable<TTable>> GetAllAsync<TTable>() where TTable : class, new()
+        //{
+        //    var table = await GetTableAsync<TTable>();
+        //    return await table.ToListAsync();
+        //}
+        //public async Task<IEnumerable<TTable>>GetFilteredAsync<TTable>(Expression<Func<TTable, bool>> predicate) where TTable : class, new()
+        //{
+        //    var table = await GetTableAsync<TTable>();
+        //    return await table.Where(predicate).ToListAsync();
+        //}
+
+        //private async Task<TResult> Execute<TTable, TResult>(Func<Task<TResult>> action) where TTable : class, new()
+        //{
+        //    await CreateTableIfNotExist<TTable>();
+        //    return await action();
+        //}
+        //public async Task<TTable> GetItemByIdAsync<TTable>(object primaryKey) where TTable : class, new()
+        //{
+        //    return await Execute<TTable, TTable>(async () => await Database.GetAsync<TTable>(primaryKey));
+        //}
+        //public async Task<bool> AddItemAsync<TTable>(TTable item) where TTable : class, new()
+        //{
+        //    return await Execute<TTable, bool>(async () => await Database.InsertAsync(item) > 0);
+        //}
+
+        //public async Task<bool> UpdateItemAsync<TTable>(TTable item) where TTable : class, new()
+        //{
+        //    await CreateTableIfNotExist<TTable>();
+        //    return await Database.UpdateAsync(item) > 0;
+        //}
+        //public async Task<bool> DeleteItemAsync<TTable>(TTable item) where TTable : class, new()
+        //{
+        //    await CreateTableIfNotExist<TTable>();
+        //    return await Database.DeleteAsync(item) > 0;
+        //}
+        //public async Task<bool> DeleteItemByIdAsync<TTable>(object primaryKey) where TTable : class, new()
+        //{
+        //    await CreateTableIfNotExist<TTable>();
+        //    return await Database.DeleteAsync<TTable>(primaryKey) > 0;
+        //}
+
+        //public async ValueTask DisposeAsync()
+        //{
+        //    await _connection?.CloseAsync();
+        //}
     }
 }

@@ -9,11 +9,12 @@
              xmlns:localview="clr-namespace:ParsPOS.Views.ContentViewPage"
              x:DataType="vm:SaleViewModel"             
              BackgroundColor="#E4E3EA"
+             xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
              xmlns:buttonstyle="clr-namespace:ParsPOS.Converters"
              xmlns:fontawesome="clr-namespace:FontAwesome"
              Title="Sale"
              NavigationPage.HasNavigationBar="False">
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding HideKeyboardCommand}">
             <ToolbarItem.IconImageSource>
                 <FontImageSource
@@ -23,13 +24,17 @@
                 Color="Black"  />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
+    <!--<foldable:TwoPaneView TallModeConfiguration="SinglePane"
+                          WideModeConfiguration="LeftRight"
+                          PanePriority="Pane1">
+        <foldable:TwoPaneView.Pane1>-->
     <StackLayout Margin="20,10" >
         <Frame Margin="0,0,0,5" Padding="9" BorderColor="Transparent">
             <Grid ColumnDefinitions="Auto,Auto,*,*" ColumnSpacing="10" HeightRequest="35">
                 <!--<Button Grid.Column="0" Padding="10,-1" Text="Details"></Button>-->
                 <Button Grid.Column="0" Padding="10,-1" Text="Clear"></Button>
-                <Button Grid.Column="1" Padding="10,-1" Text="Hold"></Button>
+                <Button Grid.Column="1" Padding="10,-1" Text="Hold" Command="{Binding HoldDataCommand}"></Button>
                 <!--<Button Grid.Column="3" Padding="10,-1" Text="New"></Button>-->
                 <Label Grid.Column="2" TextColor="Red" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="{Binding TextHeader}"></Label>
                 <HorizontalStackLayout Spacing="10" Grid.Column="3" HorizontalOptions="End" >
@@ -75,7 +80,7 @@
                                 <Frame Grid.Row="1"
                                        Margin="0,5,0,0"
                                        Padding="10,0,0,0">
-                                    <Entry Placeholder="Customer Name" FontSize="12" PlaceholderColor="Gray"></Entry>
+                                    <Entry Placeholder="Customer Name" Text="{Binding Customerdt}" FontSize="12" PlaceholderColor="Gray"></Entry>
                                 </Frame>
                             </Grid>
                         </Grid>
@@ -219,7 +224,7 @@
                                 </Frame.GestureRecognizers>
                             </Frame>
                             <Frame Padding="5" BorderColor="Transparent" BackgroundColor="{StaticResource Primary}" Grid.Column="1">
-                                
+
                                 <Grid ColumnDefinitions="*,auto" HorizontalOptions="Center">
                                     <Label Padding="2" Text="{x:Static fontawesome:FontAwesomeIcons.Minus}" TextColor="White" FontFamily="FAS" VerticalOptions="Center" FontSize="Medium" HorizontalOptions="Start"></Label>
                                     <Label Text="Minus Qty" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" Padding="10,0,0,0"></Label>
@@ -231,10 +236,10 @@
                         </Grid>
                         <Grid ColumnDefinitions="*,*" HeightRequest="45" ColumnSpacing="5">
                             <Button Text="Load Hold" Command="{Binding GotoOnHoldPopupCommand}" BackgroundColor="{StaticResource Gray400}">
-                               
+
                             </Button>
                             <Button Text="Settings" BackgroundColor="{StaticResource Gray400}" Grid.Column="1">
-                                
+
                             </Button>
                         </Grid>
                     </StackLayout>
@@ -246,114 +251,16 @@
                                 <vm:NumberPadViewModel/>
                             </localview:NumberPadView.BindingContext>-->
                         </localview:NumberPadView>
-                        <!--<localview:NumberPadView/>-->
-                        <!--<VerticalStackLayout Spacing="5" >
-                            <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-                                <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="1" Style="{StaticResource NumberButton}" Text="1">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="3"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="2" Style="{StaticResource NumberButton}" Text="2">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="3" Style="{StaticResource NumberButton}" Text="3">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="3" Command="{Binding DeleteCharCommand}" Style="{StaticResource NumberButton}" TextColor="White" Text="{x:Static fontawesome:FontAwesomeIcons.DeleteLeft}" BackgroundColor="Red" FontFamily="FAS">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                            </Grid>
-                            <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-                                <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="4" Style="{StaticResource NumberButton}" Text="4">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="5" Style="{StaticResource NumberButton}" Text="5">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="6" Style="{StaticResource NumberButton}" Text="6">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="." Style="{StaticResource NumberButton}" Padding="0" Text="." FontAttributes="Bold" FontSize="Medium">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                            </Grid>
-                            <Grid ColumnSpacing="5" ColumnDefinitions="*,*,*,*">
-                                <Button Grid.Column="0" Command="{Binding AddCharCommand}" CommandParameter="7" Style="{StaticResource NumberButton}" Text="7">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="1" Command="{Binding AddCharCommand}" CommandParameter="8" Style="{StaticResource NumberButton}" Text="8">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="2" Command="{Binding AddCharCommand}" CommandParameter="9" Style="{StaticResource NumberButton}" Text="9">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>
-                                <Button Grid.Column="3" Command="{Binding AddCharCommand}" CommandParameter="0" Style="{StaticResource NumberButton}" Text="0">
-                                    <Button.Shadow>
-                                        <Shadow Brush="Black"
-                                                Offset="3,3"
-                                                Radius="1"
-                                                Opacity="0.2" />
-                                    </Button.Shadow>
-                                </Button>-->
-                            <!--</Grid>
-                        </VerticalStackLayout>-->
                     </StackLayout>
                 </Frame>
             </Grid>
         </Grid>
     </StackLayout>
+    <!--</foldable:TwoPaneView.Pane1>
+        <foldable:TwoPaneView.Pane2>
+            <StackLayout>
+                <Label Text="hELLO WORLD"></Label>
+            </StackLayout>
+        </foldable:TwoPaneView.Pane2>
+    </foldable:TwoPaneView>-->
 </ContentPage>

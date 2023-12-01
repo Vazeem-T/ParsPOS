@@ -37,7 +37,7 @@ public partial class NizPosdet
 
     public byte WhatInAssrtd { get; set; }
 
-    public bool IsLnDisc { get; set; }
+    public byte IsLnDisc { get; set; }
 
     public bool DoTrWithTax { get; set; }
 
