@@ -5,4 +5,5 @@
 		<item name="android:statusBarColor">@android:color/white</item>
 		<item name="android:windowLightStatusBar">true</item>
 	</style>
+	<style name="Maui.MainTheme" parent="Theme.Material3.DayNight"></style>
 </resources>

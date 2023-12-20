@@ -75,7 +75,7 @@
                                             <RowDefinition></RowDefinition>
                                         </Grid.RowDefinitions>
                                         <Label Text="{Binding Description, Mode=TwoWay}" TextColor="Black"></Label>
-                                        <Label Text="{Binding ItemCode, Mode=TwoWay}" TextColor="Black" HorizontalTextAlignment="Center" ></Label>
+                                        <!--<Label Text="{Binding ItemCode, Mode=TwoWay}" TextColor="Black" HorizontalTextAlignment="Center" ></Label>-->
                                         <Label Text="{Binding BarCode, Mode=TwoWay}" Grid.Row="1" TextColor="Gray"></Label>
                                         <Label Text="{Binding UnitPrice, Mode=TwoWay, StringFormat ='{0:F2} AED'}" TextColor="Black" HorizontalOptions="End" FontSize="15" Padding="0,0,10,0"></Label>
                                     </Grid>

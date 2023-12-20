@@ -1,8 +1,11 @@
 ﻿using ParsPOS.Model;
 using ParsPOS.ResultModel;
+using ParsPOS.Services;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -213,6 +216,43 @@ namespace ParsPOS.DBHandler
             return _db.UpdateAsync(settings);
         }
 
-    }
 
+
+        //Popup
+        public async Task<List<T>> GetItemforPopup<T>(int page, int pageSize, string popupButtons) where T : new()
+        {
+            if (Enum.TryParse(popupButtons, true, out PopupButtonsSelection selection))
+            {
+                int skipCount = (page - 1) * pageSize;
+                string query = "";
+                switch (selection)
+                {
+                    case PopupButtonsSelection.ProductCode:
+                        query = $"SELECT ItemCode, Description, Unit, ActiveCost, UnitPrice, BarCode FROM InvItm ORDER BY ItemCode LIMIT {pageSize} OFFSET {skipCount}";
+                        break;
+                    case PopupButtonsSelection.ProductDescr:
+                        query = $"SELECT A.ItemCode, A.Description, A.Unit, A.ActiveCost, A.UnitPrice, A.BarCode FROM InvItm A";
+                        break;
+                    default:
+                        return new List<T>();
+                }
+
+                var result = await _db.QueryAsync<T>(query);
+
+                Console.WriteLine(result.ToList());
+                return result.ToList();
+            }
+            else
+            {
+                return new List<T>();
+            }
+        }
+
+        public Task<List<Invitm>> GetPopProductSearch(string search,string selected, int page, int pageSize)
+        {
+            int skipCount = (page - 1) * pageSize;
+            var query = $"select ItemCode , Description, Unit, ActiveCost, UnitPrice, BarCode from Invitm where {selected} like '%{search}%' LIMIT {pageSize} OFFSET {skipCount}";
+            return _db.QueryAsync<Invitm>(query);
+        }
+    }
 }

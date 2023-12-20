@@ -1,85 +1,134 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ParsPOS.Model;
+using ParsPOS.Services;
+using ParsPOS.Services.ViewSevices;
+using ParsPOS.Views.InventoryView;
 using System.Collections.ObjectModel;
 
 namespace ParsPOS.ViewModel
 {
     public partial class PurchasePopupViewModel : BaseViewModel
     {
-        public ObservableCollection<dynamic> Items { get; set; } = new();
-
-        [ObservableProperty]
-        List<string> _headers;
-
-        [ObservableProperty]
-        List<List<string>> _data;
-        
-        [ObservableProperty]
-        Grid headergrid;
-
+       
+        public ObservableCollection<Invitm> PurchaseList { get; set;} = new();
+        private int currentPage = 1;
+        private int itemsPerPage = 10;
         [ObservableProperty]
         double height;
 
         [ObservableProperty]
-        double width;
-        public PurchasePopupViewModel(int width,int height ,string title) 
+        string selectedItem = "ItemCode";
+
+        [ObservableProperty]
+        double listHeight;
+
+        [ObservableProperty]
+        Invitm selectedInv ;
+
+        string searchtxt;
+        public string Searchtxt
         {
-            Height = height;
-            Width = width;
-            Title = title;
-        }
-
-
-
-        private void CreateDynamicGrid()
-        {
-            // Define the number of columns dynamically
-            int numberOfColumns = GetNumberOfColumns(); // Implement this method based on your logic
-
-            // Create columns dynamically
-            for (int i = 0; i < numberOfColumns; i++)
+            get => searchtxt;
+            set
             {
-                Headergrid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            // Populate data dynamically
-            List<List<string>> dynamicData = GetDynamicData(); // Implement this method based on your logic
-
-            for (int row = 0; row < dynamicData.Count; row++)
-            {
-                for (int col = 0; col < dynamicData[row].Count; col++)
+                if (searchtxt != value)
                 {
-                    // Create a label for each data item
-                    Label label = new Label
-                    {
-                        Text = dynamicData[row][col],
-                        FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.Center
-                    };
-
-                    // Add the label to the grid
-                    Headergrid.Add(label, col, row);
+                    searchtxt = value;
+                    currentPage = 1;
+                    PurchaseList.Clear();
+                    LoadDataCommand.Execute(null);
+                    OnPropertyChanged(nameof(Searchtxt));
                 }
             }
         }
 
-        // Implement your logic to get the number of columns dynamically
-        private int GetNumberOfColumns()
+        [ObservableProperty]
+        PopupButtonsSelection popselect;
+
+        private readonly PopupButtonsSelectionWrapper _popSelectWrapper;
+
+        [ObservableProperty]
+        double width;
+
+        [ObservableProperty]
+        Grid gridData;
+
+        private readonly SharedPurchaseService _sharedDataService;
+        public PurchasePopupViewModel(PopupButtonsSelectionWrapper popSelectWrapper,SharedPurchaseService sharedPurchase) 
         {
-            // Example logic, replace with your implementation
-            return 3;
+            Popselect = popSelectWrapper.Selection;
+            _sharedDataService = sharedPurchase;
+            LoadDataCommand.Execute(null);
+           
+        }
+        [RelayCommand]
+        private async Task LoadDataAsync()
+        {
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            try
+            {
+                string select = Enum.GetName<PopupButtonsSelection>(Popselect);
+                if(Searchtxt == null || Searchtxt == "")
+                {
+                    var pageData = await App.Database.GetItemforPopup<Invitm>(currentPage, itemsPerPage, select);
+                    if (pageData.Any())
+                    {
+                        foreach (var item in pageData)
+                        {
+                            PurchaseList.Add(item);
+                        }
+                        currentPage++;
+                    }
+                }
+                else
+                {
+                    var pageData = await App.Database.GetPopProductSearch(Searchtxt, SelectedItem, currentPage, itemsPerPage);
+                    if (pageData.Any())
+                    {
+                        foreach (var item in pageData)
+                        {
+                            PurchaseList.Add(item);
+                        }
+                        currentPage++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", ex.Message, "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        
+        [RelayCommand]
+        async Task SearchTextChange()
+        {
+            currentPage = 1;
+            PurchaseList.Clear();
+            LoadDataCommand.Execute(null);
         }
 
-        // Implement your logic to get dynamic data
-        private List<List<string>> GetDynamicData()
+        [RelayCommand]
+        async Task SelectedListItem()
         {
-            // Example logic, replace with your implementation
-            return new List<List<string>>
+            if (SelectedInv != null)
             {
-                new List<string> { "Data 1", "Data 2", "Data 3" },
-                new List<string> { "Data 4", "Data 5", "Data 6" },
-                new List<string> { "Data 7", "Data 8", "Data 9" }
-            };
+               _sharedDataService.Onselected(SelectedInv);
+               //await Shell.Current.GoToAsync(nameof(AddPurchase));
+               RequestCloseAction();
+            }
+        }
+
+        public event EventHandler RequestClose;
+        private void RequestCloseAction()
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
         }
     }
 }

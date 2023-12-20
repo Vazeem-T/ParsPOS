@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             x:Class="ParsPOS.Views.InventoryView.AddPurchase"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:PurchaseViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="Add Purchase" 
+             Padding="10">
+    <VerticalStackLayout>
+        <Frame Padding="10" BorderColor="Transparent">
+            <StackLayout>
+                <Grid ColumnDefinitions="*,*">
+                    <HorizontalStackLayout Grid.Column="1" Spacing="5" HorizontalOptions="End">
+                        <Border Stroke="{StaticResource DarkBg1}" StrokeShape="RoundRectangle 10">
+                            <Button HeightRequest="37" Padding="0" Text="{Static fontawesome:FontAwesomeIcons.ArrowLeft}" FontSize="23" FontFamily="FAS" BackgroundColor="{StaticResource DarkBg1}" ></Button>
+                        </Border>
+
+                        <Border Stroke="{StaticResource DarkBg1}" HeightRequest="37" StrokeShape="RoundRectangle 10" Padding="0" WidthRequest="60"  Grid.Column="1" Grid.ColumnSpan="2">
+                            <Label Text="1" Padding="0"  HorizontalOptions="Center" VerticalOptions="Center" FontSize="23"></Label>
+                        </Border>
+                        <Border Stroke="{StaticResource DarkBg1}" StrokeShape="RoundRectangle 10">
+                            <Button HeightRequest="37" Padding="0" Text="{Static fontawesome:FontAwesomeIcons.ArrowRight}" FontSize="23" FontFamily="FAS" BackgroundColor="{StaticResource DarkBg1}"></Button>
+                        </Border>
+                        <Button HeightRequest="37" WidthRequest="100" Padding="10,0" Text="New"></Button>
+                    </HorizontalStackLayout>
+                </Grid>
+            </StackLayout>
+        </Frame>
+        <Frame Padding="10" Margin="0,5" BorderColor="Transparent">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" RowDefinitions="*,*,*,*,*,*,*" RowSpacing="5">
+                <Border Style="{StaticResource BorderFrame}" Stroke="{StaticResource DarkBg1}"    HeightRequest="60"  Margin="0" >
+                    <StackLayout>
+                        <Label Text="Prod Code"></Label>
+                        <Entry BackgroundColor="Transparent" Text="{Binding PurchaseDets.Code,Mode=TwoWay}" Margin="5,0,0,0" FontAttributes="Bold" PlaceholderColor="LightGray"  HorizontalOptions="Start" Placeholder="Prod. Code"></Entry>
+                    </StackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddPrdCodeCommand}" CommandParameter="ProductCode"></TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}"  Stroke="{StaticResource DarkBg1}"  HeightRequest="60" Margin="0" Grid.Column="1" Grid.ColumnSpan="2">
+                    <StackLayout>
+                        <Label Text="Prod. Descr"></Label>
+                        <Entry BackgroundColor="Transparent" Text="{Binding PurchaseDets.ProdDesr,Mode=TwoWay}" Margin="5,0,0,0" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="Prod. Descr"></Entry>
+                    </StackLayout>
+                </Border>
+                
+                <!---SecondLine-->
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="2">
+                    <CheckBox IsChecked="{Binding PurchaseDets.IsRtn}"></CheckBox>
+                    <Label Text="IsRtn" FontAttributes="Bold" VerticalTextAlignment="Center"></Label>
+                </HorizontalStackLayout>
+                <Border Style="{StaticResource BorderFrame}"  HeightRequest="60"  Margin="0" Grid.Row="1" Grid.Column="1" Stroke="{StaticResource DarkBg1}">
+                    <StackLayout>
+                        <Label Text="Unit" ></Label>
+                        <localtxt:BorderlessEntry Text="{Binding PurchaseDets.Unit}" Margin="5,0,0,0" FontAttributes="Bold" ></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}" Stroke="{StaticResource DarkBg1}"  HeightRequest="60"  Margin="0" Grid.Row="1">
+                    <StackLayout>
+                        <Label Text="Quantity"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" ReturnCommand="{Binding QtyChangedCommand}" ReturnType="Go" Text="{Binding PurchaseDets.Qty}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <!---ThirdLine-->
+                <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="4">
+                    <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Column="0">
+                        <StackLayout>
+                            <Label Text="FOC"></Label>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.FOC}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.000"></localtxt:BorderlessEntry>
+                        </StackLayout>
+                    </Border>
+                    <Border BackgroundColor="LightGray" Stroke="Transparent" Style="{StaticResource BorderFrame}" Grid.Column="1" Padding="0">
+                        <ImageButton  HeightRequest="60" Command="{Binding FOCButtonCommand}" WidthRequest="40" Padding="2"  Source="googleforms.png" BackgroundColor="LightGray"></ImageButton>
+                    </Border>
+                </Grid>
+                
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="2" Grid.Column="1">
+                    <StackLayout>
+                        <Label Text="Cost / Unit"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Cost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0"  Grid.Column="2" Grid.Row="2">
+                    <StackLayout>
+                        <Label Text="Line Total"></Label> 
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Linetotal,Mode=TwoWay}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <!---ForthLine-->
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="3">
+                    <StackLayout>
+                        <Label Text="Disc %"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discpercent}" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="3" Grid.Column="1" >
+                    <StackLayout>
+                        <Label Text="Discount"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discount}" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <HorizontalStackLayout Grid.Row="3" Grid.Column="2">
+                    <CheckBox IsChecked="{Binding PurchaseDets.Ispercent}"></CheckBox>
+                    <Label Text="Is %" FontAttributes="Bold" VerticalTextAlignment="Center"></Label>
+                </HorizontalStackLayout>
+                <!---FifthLine-->
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="4" >
+                    <StackLayout>
+                        <Label Text="Net Cost/ Unit"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.NetCost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="4" Grid.Column="1" >
+                    <StackLayout>
+                        <Label Text="Act S.Price"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.ActS_Price}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <!---FifthLine-->
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="5">
+                    <StackLayout>
+                        <Label Text="FOC Mapping"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.FOCMapg}" FontAttributes="Bold" PlaceholderColor="LightGray"></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="1" >
+                    <StackLayout>
+                        <Label Text="FOC CostMpg"></Label>
+                        <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.FOCCostMapg}" PlaceholderColor="LightGray" Placeholder=""></localtxt:BorderlessEntry>
+                    </StackLayout>
+                </Border>
+                <!---SixthLine-->
+                <Button Text="Submit" Grid.Row="6" Grid.Column="1" Margin="0,10,0,0" HeightRequest="40"></Button>
+                <Button Text="Clear" Grid.Row="6" Grid.Column="2" Margin="0,10,0,0" BackgroundColor="IndianRed"  HeightRequest="40"></Button>
+            </Grid>
+        </Frame>
+        <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
+            <StackLayout>
+                <ListView HeightRequest="200" HorizontalScrollBarVisibility="Default" WidthRequest="1400">
+                    <ListView.Header>
+                        <Grid BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".5*,.5*,.4*,.4*,.5*,.5*,.5*,*,.5*,.5*,.5*,.5*,.5*,.5*,.7*,*" HeightRequest="40">
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrDate" TextColor="White"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="InvNo" TextColor="White" Grid.Column="1"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Mode" TextColor="White" Grid.Column="2"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrUnit" TextColor="White" Grid.Column="3"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Tr Qty" TextColor="White" Grid.Column="4"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="UValue" TextColor="White" Grid.Column="5"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="BQty" TextColor="White" Grid.Column="6"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Party" TextColor="White" Grid.Column="7"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="BCost" TextColor="White" Grid.Column="8"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Discount" TextColor="White" Grid.Column="9"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="UserId" TextColor="White" Grid.Column="10"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Location" TextColor="White" Grid.Column="11"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Packing" TextColor="White" Grid.Column="12"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Reference" TextColor="White" Grid.Column="13"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrDescription" TextColor="White" Grid.Column="14"></Label>
+                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="IDescription" TextColor="White" Grid.Column="15"></Label>
+                        </Grid>
+                    </ListView.Header>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>

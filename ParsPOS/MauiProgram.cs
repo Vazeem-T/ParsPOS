@@ -1,17 +1,24 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ParsPOS.DBHandler;
 using ParsPOS.InterfaceServices;
 using ParsPOS.PermissionAttributes;
+using ParsPOS.Services;
 using ParsPOS.ViewModel;
 using ParsPOS.Views;
+using ParsPOS.Views.BottomSheet;
 using ParsPOS.Views.ContentViewPage;
 using ParsPOS.Views.InventoryView;
 using ParsPOS.Views.Settings;
 using ParsPOS.Views.SubForms;
 using ParsPOS.Views.User;
 using Sharpnado.Tabs;
+using SQLite;
+using SQLitePCL;
+using System.Data;
+using The49.Maui.BottomSheet;
 
 namespace ParsPOS;
 
@@ -20,9 +27,12 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+        
         builder
         .UseMauiApp<App>()
+        .UseBottomSheet()
         .UseMauiCommunityToolkit()
+
         .UseSharpnadoTabs(loggerEnable: false)
         .ConfigureFonts(fonts =>
         {
@@ -38,40 +48,15 @@ public static class MauiProgram
             handlers.AddHandler(typeof(Shell), typeof(ParsPOS.Platforms.CustomShellRenderer));
 #endif
         });
+        
+        ConfigurationServices.ConfigureService(builder.Services);
 
-        builder.Services.AddSingleton<DatabaseHelper>();
-        builder.Services.AddSingleton<DownloadViewModel>();
-        builder.Services.AddTransient<InventoryViewModel>();
-        builder.Services.AddTransient<MainSettings>();
-        builder.Services.AddTransient<Inventory>();
-        builder.Services.AddTransient<CategoryViewModel>();
-        builder.Services.AddSingleton<SaleViewModel>();
-        builder.Services.AddTransient<Sale>();
-        builder.Services.AddTransient<AddCategory>();
-        builder.Services.AddSingleton<DatabaseHelper>();
-        builder.Services.AddSingleton<SaleDatabaseHelper>();
-        builder.Services.AddSingleton<ImportDb>();
-        builder.Services.AddSingleton<ImportDbViewModel>();
-        builder.Services.AddTransient<UserInfo>();
-        builder.Services.AddTransient<UserSettings>();
-        builder.Services.AddSingleton<UserViewModel>();
-        builder.Services.AddTransient<MainPage>();
-        builder.Services.AddSingleton<MainPageViewModel>();
-        builder.Services.AddTransient<AccessControlAttribute>();
-        builder.Services.AddSingleton<PayPopup>();
-        builder.Services.AddSingleton<SaleDatabaseHelper>();
-        builder.Services.AddTransient<NumberPadViewModel>();
-        builder.Services.AddTransient<NumberPadView>();
-        builder.Services.AddSingleton<INumberPad, NumberPad>();
-        builder.Services.AddSingleton<PayPopupViewModel>();
-        builder.Services.AddSingleton<LoginViewModel>();
-        builder.Services.AddTransient<Login>();
-        builder.Services.AddTransient<AddCompanydt>();
-        builder.Services.AddSingleton<CompanyViewModel>();
-        builder.Services.AddSingleton<SaleHoldViewModel>();
-        builder.Services.AddTransient<LoadHold>();
-        builder.Services.AddSingleton<PurchaseViewModel>();
-        builder.Services.AddTransient<Purchase>();
+        builder.Services.AddScoped<IDbConnection>(sp =>
+        {
+            var sqliteConnection = sp.GetRequiredService<SQLiteAsyncConnection>();
+            return (IDbConnection)sqliteConnection;
+        });
+
 
         //builder.Services.AddHttpClient("api", httpClient => httpClient.BaseAddress = new Uri(""));
 #if DEBUG

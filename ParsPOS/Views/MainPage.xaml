@@ -5,7 +5,6 @@
              x:Class="ParsPOS.Views.MainPage"
              xmlns:vm="clr-namespace:ParsPOS.ViewModel"
              x:DataType="vm:MainPageViewModel"
-             BackgroundColor="LightGray"
              Title="Home">
     <ContentPage.ToolbarItems>
         <ToolbarItem>

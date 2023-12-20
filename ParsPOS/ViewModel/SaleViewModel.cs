@@ -512,34 +512,5 @@ namespace ParsPOS.ViewModel
         }
 
                 //OnHold
-
-
-
-
-
-
-
-
-
-
-
-
-                [RelayCommand]
-        async Task HideKeyboardAsync()
-        {
-
-            DependencyService.Get<IkeyboardHelper>()?.HideKeyboard();
-//#if ANDROID
-//            //var imm = (Android.Views.InputMethods.InputMethodManager)MauiApplication.Current.GetSystemService(Android.Content.Context.InputMethodService);
-
-//            //if (imm != null)
-//            //{
-//            //    //this stuff came from here:  https://www.syncfusion.com/kb/12559/how-to-hide-the-keyboard-when-scrolling-in-xamarin-forms-listview-sflistview
-//            //    var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
-//            //    Android.OS.IBinder wToken = activity.CurrentFocus?.WindowToken;
-//            //    imm.HideSoftInputFromWindow(wToken, 0);
-//            //}
-//#endif
-        }
     }
 }

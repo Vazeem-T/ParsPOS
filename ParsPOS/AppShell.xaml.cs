@@ -26,6 +26,8 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(PayPopup), typeof(PayPopup));
         Routing.RegisterRoute(nameof(AddCompanydt), typeof(AddCompanydt));
         Routing.RegisterRoute(nameof(Purchase), typeof(Purchase));
+        Routing.RegisterRoute(nameof(AddPurchase), typeof(AddPurchase));
+        Routing.RegisterRoute(nameof(FOC),typeof(FOC));
 
     }
     private async void ImageButton_Clicked(object sender, EventArgs e)

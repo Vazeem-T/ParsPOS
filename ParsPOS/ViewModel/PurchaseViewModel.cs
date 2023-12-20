@@ -1,6 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ParsPOS.Model;
 using ParsPOS.ResultModel;
+using ParsPOS.Services;
+using ParsPOS.Services.ViewSevices;
+using ParsPOS.Views.BottomSheet;
+using ParsPOS.Views.InventoryView;
+using ParsPOS.Views.PopupView;
+using PostSharp;
 using System.Collections.ObjectModel;
 
 namespace ParsPOS.ViewModel
@@ -9,11 +17,21 @@ namespace ParsPOS.ViewModel
     {
         public ObservableCollection<PurchaseDetTb> PurchaseItem { get; set; } = new();
         [ObservableProperty]
-        PurchaseDetTb _purchaseDet = new();
+        PurchaseDetTb _purchaseDets; 
 
-        public PurchaseViewModel() 
+        [ObservableProperty]
+        short slno;
+
+
+        private readonly SharedPurchaseService _sharedPurchaseService;    
+        private readonly PopupButtonsSelectionWrapper _popSelectWrapper = new();
+        [ObservableProperty]
+        PurchasePopupViewModel _model ;
+        
+        public PurchaseViewModel(SharedPurchaseService purchaseService) 
         {
-
+            _sharedPurchaseService = purchaseService;
+            _sharedPurchaseService.ItemSelected += SharedDataService_ItemSelected;
         }
 
         [RelayCommand]
@@ -21,26 +39,7 @@ namespace ParsPOS.ViewModel
         {
             try
             {
-                if (PurchaseItem.Count == 0)
-                {
-                    PurchaseDet = new();
-                    PurchaseDet.SlNo = 1;
-                    PurchaseItem.Add(PurchaseDet);
-
-                }
-                else
-                {
-                    var lastItem = PurchaseItem.LastOrDefault();
-                    if (lastItem != null && lastItem.Code.HasValue)
-                    {
-                        var slno = (short)(lastItem.SlNo + 1);
-                        PurchaseDet = null;
-                        PurchaseDet = new();
-                        PurchaseDet.SlNo = slno;
-                        PurchaseItem.Add(PurchaseDet);
-                    }
-                }
-                
+                await Shell.Current.GoToAsync(nameof(AddPurchase));
             }
             catch (Exception ex)
             {
@@ -53,15 +52,65 @@ namespace ParsPOS.ViewModel
         {
             try
             {
-                PurchaseItem.Remove(PurchaseDet);
-                //for (short i = 0; i < PurchaseItem.Count; i++)
-                //{
-                //    PurchaseItem[i].SlNo = (short)(i + 1);
-                //}
+                PurchaseItem.Remove(PurchaseDets);
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
+            }
+        }
+
+        //AddPurchase
+        [RelayCommand]
+        async Task AddPrdCodeAsync(string purchaseopt)
+        {
+            if (Enum.TryParse(purchaseopt, true, out PopupButtonsSelection selection))
+            {
+                switch (selection)
+                {
+                    case PopupButtonsSelection.ProductCode:
+                        _popSelectWrapper.Selection = PopupButtonsSelection.ProductCode;
+                        break;
+                    case PopupButtonsSelection.ProductDescr:
+                        _popSelectWrapper.Selection = PopupButtonsSelection.ProductDescr;
+                        break;
+                }
+            }
+            Model = new PurchasePopupViewModel(_popSelectWrapper,_sharedPurchaseService);
+            PurchAdd Page = new PurchAdd(Model);
+            await Page.ShowAsync();
+        }
+        
+        [RelayCommand]
+        async Task QtyChanged()
+        {
+            if(PurchaseDets.Qty != 0)
+            {
+                PurchaseDets.Linetotal = PurchaseDets.Qty * PurchaseDets.Cost;
+                OnPropertyChanged(nameof(PurchaseDets));
+            }
+        }
+        [RelayCommand]
+        async Task FOCButtonAsync()
+        {
+            await Shell.Current.GoToAsync(nameof(FOC));
+        }
+        private async void SharedDataService_ItemSelected(object sender, Invitm selectedItem)
+        {
+            var ItemCode = selectedItem.ItemCode; 
+            if (ItemCode != null)
+            {
+                Slno = Convert.ToInt16(PurchaseItem.Count() + 1);
+                var a = await App.Database.EntryChk(ItemCode);
+                PurchaseDets = new()
+                {
+                    SlNo = Slno,
+                    Code = ItemCode,
+                    ProdDesr = a.Description,
+                    Unit = a.Unit,
+                    Cost = a.ActiveCost,
+                    NetCost = a.ActiveCost
+                };
             }
         }
     }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.InventoryView.FOC"
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:FOCViewModel"
+             Title="FOC" 
+             Padding="20">
+    <VerticalStackLayout Spacing="10">
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Quantity" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="15"></Label>
+            <Border Style="{StaticResource BorderFrame}" HeightRequest="45" WidthRequest="150" Padding="0">
+                <Entry BackgroundColor="AliceBlue" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
+            </Border>
+        </HorizontalStackLayout>
+        <Border Style="{StaticResource BorderFrame}" BackgroundColor="Transparent" HeightRequest="200">
+            <CollectionView >
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions=".2*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*">
+                        <Label HorizontalTextAlignment="Center" Text="SlNo" FontAttributes="Bold" FontSize="17"></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Qty" Grid.Column="1" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Unit" Grid.Column="2" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Packing" Grid.Column="3" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Prod. Code" Grid.Column="4" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="BarCode" Grid.Column="5" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Product Name" Grid.Column="6" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="LP. Cost" Grid.Column="7" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Active Cost" Grid.Column="8" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" Text="Price" Grid.Column="9" FontAttributes="Bold" FontSize="17" ></Label>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions=".2*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*">
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" RowSpacing="10">
+            <Label Text="Pack Mapping :" FontSize="15"></Label>
+            <Label Grid.Row="1" Text="Cost Mapping :" FontSize="15"></Label>
+            <HorizontalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10">
+                <Label Text="TotalFOC" VerticalOptions="Center"></Label>
+                <Border Style="{StaticResource BorderFrame}" HeightRequest="40" WidthRequest="250" Padding="0">
+                    <Entry BackgroundColor="AliceBlue" IsReadOnly="True" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
+                </Border>
+                <Label Text="OUT" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+            </HorizontalStackLayout>
+        </Grid>
+        <Grid ColumnDefinitions="*,.2*" ColumnSpacing="10">
+            <Border Style="{StaticResource BorderFrame}" BackgroundColor="Transparent" HeightRequest="200">
+                <CollectionView >
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,*,.8*">
+                            <Label HorizontalTextAlignment="Center" Text="SlNo" FontAttributes="Bold" FontSize="17"></Label>
+                            <Label HorizontalTextAlignment="Center" Text="Apply" Grid.Column="1" FontAttributes="Bold" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" Text="Prod. Code" Grid.Column="2" FontAttributes="Bold" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" Text="Product Name" Grid.Column="3" FontAttributes="Bold" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" Text="Unit" Grid.Column="4" FontAttributes="Bold" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" Text="Qty" Grid.Column="5" FontAttributes="Bold" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" Text="FOC Qty" Grid.Column="6" FontAttributes="Bold" FontSize="17" ></Label>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,*,.8*">
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                <Button HeightRequest="40" Text="Select All"></Button>
+                <Button HeightRequest="40" Text="Select All Except Source"></Button>
+                <Button HeightRequest="40" Text="Select All Except FOC"></Button>
+                <Button HeightRequest="40" Text="De-Select All"></Button>
+            </VerticalStackLayout>
+        </Grid>
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="OK" Command="{Binding OKButtonCommand}" WidthRequest="150"></Button>
+            <Button Text="Cancel" Command="{Binding CancelButtonCommand}" WidthRequest="150" BackgroundColor="IndianRed"></Button>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

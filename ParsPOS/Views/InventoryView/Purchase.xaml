@@ -8,7 +8,6 @@
              xmlns:vm="clr-namespace:ParsPOS.ViewModel"
              x:DataType="vm:PurchaseViewModel"
              xmlns:resultvm="clr-namespace:ParsPOS.ResultModel"
-             BackgroundColor="LightGray"
              Title="Purchase">
     <StackLayout Margin="10" Spacing="3">
         <Frame BorderColor="Transparent" Padding="10">
@@ -32,7 +31,7 @@
                 </HorizontalStackLayout>
             </Grid>
         </Frame>
-        <Frame  BorderColor="Transparent" HeightRequest="560">
+        <Frame BorderColor="Transparent" HeightRequest="570">
             <ScrollView >
                 <StackLayout>
                     <Grid ColumnDefinitions="*,*,.5*,*" Padding="0" RowDefinitions="*,*,*,*" ColumnSpacing="10" RowSpacing="5">
@@ -51,7 +50,7 @@
                             </Picker>
                         </Frame>
                         <Frame Style="{StaticResource EntryFrame}" Margin="0" BorderColor="Transparent" Grid.Column="1" Grid.Row="1">
-                            <localtxt:BorderlessEntry Placeholder="Description"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry  Placeholder="Description"></localtxt:BorderlessEntry>
                         </Frame>
                         <Frame Style="{StaticResource EntryFrame}" Margin="0" BorderColor="Transparent" Grid.Column="2" Grid.Row="1">
                             <DatePicker Format="dd / MMM / yyyy"></DatePicker>
@@ -105,9 +104,9 @@
                     </Grid>
                     <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
                         <StackLayout Margin="0,10">
-                            <ListView ItemsSource="{Binding PurchaseItem}" SelectionMode="Single" SelectedItem="{Binding PurchaseDet}" HeightRequest="230" WidthRequest="1500">
+                            <ListView ItemsSource="{Binding PurchaseItem}" SelectionMode="Single" SelectedItem="{Binding PurchaseDets}" HeightRequest="230" WidthRequest="1500">
                                 <ListView.Header>
-                                    <Grid HeightRequest="50" BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".3*,.8*,*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*">
+                                    <Grid HeightRequest="50" BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*">
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="SlNo" TextColor="White"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Code" TextColor="White" Grid.Column="1"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Name/Desc" TextColor="White" Grid.Column="2"></Label>
@@ -129,13 +128,19 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="resultvm:PurchaseDetTb">
                                         <ViewCell>
-                                            <Grid ColumnSpacing="1" ColumnDefinitions=".3*,.8*,*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*" >
+                                            <Grid ColumnSpacing="1" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*" >
                                                 <Label Text="{Binding SlNo}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
                                                 <Frame Style="{StaticResource EntryFrame}" CornerRadius="0" Grid.Column="1" Margin="0">
-                                                    <Entry Text="{Binding Code}"  ></Entry>
+                                                    <Grid ColumnDefinitions="*,auto">
+                                                        <Entry Text="{Binding Code}"></Entry>
+                                                        <Button CornerRadius="10" Padding="0" Grid.Column="1" Command="{Binding PopButCommand}" CommandParameter="ProductCode" Text="{x:Static fontawesome:FontAwesomeIcons.ListCheck}" FontFamily="FAS" HeightRequest="30" WidthRequest="30" FontAttributes="Bold" BackgroundColor="{StaticResource Gray400}"></Button>
+                                                    </Grid>
                                                 </Frame>
                                                 <Frame Style="{StaticResource EntryFrame}" CornerRadius="0" Grid.Column="2" Margin="0">
-                                                    <Entry Text="{Binding ProdDesr}"></Entry>
+                                                    <Grid ColumnDefinitions="*,auto">
+                                                        <Entry Text="{Binding ProdDesr}"  ></Entry>
+                                                        <Button CornerRadius="10" Padding="0" Grid.Column="1" Command="{Binding PopButCommand}" CommandParameter="ProductDescr" Text="{x:Static fontawesome:FontAwesomeIcons.ListCheck}" FontFamily="FAS" HeightRequest="30" WidthRequest="30" FontAttributes="Bold" BackgroundColor="{StaticResource Gray400}"></Button>
+                                                    </Grid>
                                                 </Frame>
                                                 <Frame Style="{StaticResource EntryFrame}" CornerRadius="0" Grid.Column="3" Margin="0">
                                                     <CheckBox IsChecked="{Binding IsRtn}" HorizontalOptions="Center"></CheckBox>
@@ -212,32 +217,6 @@
                             </Frame>
                         </HorizontalStackLayout>
                         <Grid ColumnDefinitions="3*,*" Margin="0,5,0,0" ColumnSpacing="5">
-                            <ScrollView Grid.Column="0" HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
-                                <StackLayout>
-                                    <ListView HeightRequest="200" HorizontalScrollBarVisibility="Default" WidthRequest="1400">
-                                        <ListView.Header>
-                                            <Grid BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".5*,.5*,.4*,.4*,.5*,.5*,.5*,*,.5*,.5*,.5*,.5*,.5*,.5*,.7*,*" HeightRequest="40">
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrDate" TextColor="White"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="InvNo" TextColor="White" Grid.Column="1"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Mode" TextColor="White" Grid.Column="2"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrUnit" TextColor="White" Grid.Column="3"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Tr Qty" TextColor="White" Grid.Column="4"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="UValue" TextColor="White" Grid.Column="5"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="BQty" TextColor="White" Grid.Column="6"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Party" TextColor="White" Grid.Column="7"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="BCost" TextColor="White" Grid.Column="8"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Discount" TextColor="White" Grid.Column="9"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="UserId" TextColor="White" Grid.Column="10"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Location" TextColor="White" Grid.Column="11"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Packing" TextColor="White" Grid.Column="12"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Reference" TextColor="White" Grid.Column="13"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="TrDescription" TextColor="White" Grid.Column="14"></Label>
-                                                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="IDescription" TextColor="White" Grid.Column="15"></Label>
-                                            </Grid>
-                                        </ListView.Header>
-                                    </ListView>
-                                </StackLayout>
-                            </ScrollView>
                             <StackLayout Grid.Column="1">
                                 <HorizontalStackLayout HeightRequest="40" Spacing="10">
                                     <Button Text="Discount"></Button>
