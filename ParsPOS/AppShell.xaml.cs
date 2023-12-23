@@ -28,10 +28,16 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(Purchase), typeof(Purchase));
         Routing.RegisterRoute(nameof(AddPurchase), typeof(AddPurchase));
         Routing.RegisterRoute(nameof(FOC),typeof(FOC));
+        Routing.RegisterRoute(nameof(Download), typeof(Download));
 
     }
     private async void ImageButton_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//MainPage");
+    }
+
+    private async void DownloadItem_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(Download));
     }
 }

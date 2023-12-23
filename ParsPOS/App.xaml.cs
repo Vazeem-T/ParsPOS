@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using ParsPOS.DBHandler;
+#if ANDROID
+using Android.Content.Res;
+#endif
 using ParsPOS.Services;
 using ParsPOS.ViewModel;
 using ParsPOS.Views;
@@ -14,6 +17,8 @@ public partial class App : Application
 
     private static DatabaseHelper db;
     private static SaleDatabaseHelper _db;
+
+    private static DapperDbHelper helper;
     public static DatabaseHelper Database
     {
         get
@@ -55,12 +60,12 @@ public partial class App : Application
         
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (Handler, View) =>
         {
-            #if __ANDROID__
-                        Handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            #elif __IOS__
+#if __ANDROID__
+                        Handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#elif __IOS__
                             Handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
                             Handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-            #endif
+#endif
         });
     }
 }

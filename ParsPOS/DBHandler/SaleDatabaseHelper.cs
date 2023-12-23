@@ -21,6 +21,7 @@ namespace ParsPOS.DBHandler
             _db = new SQLiteAsyncConnection(dbpath);
             _db.CreateTableAsync<NizPosdet>();
             _db.CreateTableAsync<NizPoscmn>();
+            _db.CreateTableAsync<DownloadDt>();
         }
         public Task<int> CreateNizPosCmn(NizPoscmn nizPoscmn)
         {
@@ -30,7 +31,10 @@ namespace ParsPOS.DBHandler
         {
             return _db.InsertAsync(nizPosdet);
         }
-
+        public Task<int> CreateDownloadDt(DownloadDt downloadDt) 
+        {
+            return _db.InsertAsync(downloadDt);
+        }
         //NizPosCmn
         public Task<List<NizPoscmn>> GetAllNizPoscmn() 
         {
@@ -50,8 +54,31 @@ namespace ParsPOS.DBHandler
             return _db.ExecuteScalarAsync<int>("Delete From NizPosdet where HoldNo = "+OnHold+"");
 
         }
-
-
+        //DownloadDt
+        public Task<List<DownloadDt>> GetDownloadList()
+        {
+            return _db.Table<DownloadDt>().OrderByDescending(x=>x.DownloadId).ToListAsync();
+        }
+        public Task<DownloadDt> GetDownloadItm(string desc)
+        {
+            return _db.Table<DownloadDt>().Where(x => x.DownloadDescription == desc && x.IsRunning == true).FirstOrDefaultAsync();
+        }
+        public Task<int> UpdateDownloadProgress(int Id,int Progress)
+        {
+            return _db.ExecuteScalarAsync<int>("Update DownloadDt Set Progress = "+Progress+ " where DownloadId = "+Id+" ");
+        }
+        public Task<int> UpdateDownloadComplete(int Id,bool IsSuccess)
+        {
+            return _db.ExecuteScalarAsync<int>("Update DownloadDt Set IsCompleted = true,IsRunning = false,IsSuccess = "+IsSuccess+" where DownloadId = " + Id + " ");
+        }
+        public Task<int> GetProgress(int Id)
+        {
+            return _db.ExecuteScalarAsync<int>("Select Progress from DownloadDt where DownloadId = "+Id+"");
+        }
+        public Task<int> DeleteAllDownloadDt()
+        {
+            return _db.DeleteAllAsync<DownloadDt>();
+        }
 
 
 

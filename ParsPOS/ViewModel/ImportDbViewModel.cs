@@ -13,15 +13,20 @@ namespace ParsPOS.ViewModel
 {
     public partial class ImportDbViewModel : BaseViewModel
     {
-        readonly InventoryViewModel inventorymodel;
-        readonly CategoryViewModel categorymodel ;
+        readonly InventoryViewModel _inventorymodel;
+        readonly CategoryViewModel _categorymodel ;
+        readonly BaseItmDetViewModel _baseItmDetmodel;
+        readonly UnitsViewModel _unitsViewModel;
         private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
 
-        public ImportDbViewModel(InventoryViewModel inventoryModel, CategoryViewModel categoryModel) 
+        public ImportDbViewModel(InventoryViewModel inventoryModel, CategoryViewModel categoryModel,BaseItmDetViewModel baseItmDetViewModel,
+             UnitsViewModel unitsViewModel) 
         {
-            inventorymodel = inventoryModel;
-            categorymodel = categoryModel;
+            _inventorymodel = inventoryModel;
+            _categorymodel = categoryModel;
+            _baseItmDetmodel = baseItmDetViewModel;
+            _unitsViewModel = unitsViewModel;
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
         }
@@ -44,21 +49,42 @@ namespace ParsPOS.ViewModel
         [ObservableProperty]
         bool prefix;
 
+        [ObservableProperty]
+        bool baseItm;
+        [ObservableProperty]
+        bool units;
+
         [RelayCommand]
         async Task ImportAsync()
         {
-            if(Product) 
+            try
             {
-                inventorymodel.DownloadDataCommand.Execute(null);
+                if (Product)
+                {
+                    _inventorymodel.DownloadDataCommand.Execute(null);
+                }
+                if (Category)
+                {
+                    _categorymodel.DownloadCategoryCommand.Execute(null);
+                }
+                if (Prefix)
+                {
+                    ImportPrefixCommand.Execute(null);
+                }
+                if (BaseItm)
+                {
+                    _baseItmDetmodel.DownloadDataCommand.Execute(null);
+                }
+                if(Units)
+                {
+                    _unitsViewModel.DownloadDataCommand.Execute(null);
+                }
             }
-            if(Category)
+            catch (Exception ex)
             {
-                categorymodel.DownloadCategoryCommand.Execute(null);
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
-            if(Prefix)
-            {
-                ImportPrefixCommand.Execute(null);
-            }
+            
         }
 
         [RelayCommand]

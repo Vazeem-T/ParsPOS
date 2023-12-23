@@ -21,6 +21,7 @@ namespace ParsPOS.ViewModel
     {
         public ObservableCollection<Invitm> Items { get; set; } = new();
         private int currentPage = 1;
+        int downloadId = 0;
         private int itemsPerPage = 15;
         private DownloadViewModel downloadViewModel;
         private int apicurrentPage = 1;
@@ -103,6 +104,7 @@ namespace ParsPOS.ViewModel
         {
             IsDownloading = true;
             int Progress = 0;
+            int loadProgress = 0;
             try
             {
                 var baseurl = commonHttpServices.GetBaseUrl();
@@ -119,7 +121,18 @@ namespace ParsPOS.ViewModel
                 {
                     await App.Database.DeleteAllInvItm();
                     Items.Clear();
-                    while (Progress < Count)
+                    await App.SaleDb.CreateDownloadDt(new SaleModel.DownloadDt
+                    {
+                        Description = "Downloading",
+                        DownloadDescription = "Item Master",
+                        DownloadTime = DateTime.Now,
+                        IsRunning = true,
+                        TotalCount = Count,
+                        Progress = 0
+                    });
+                    SaleModel.DownloadDt downloadDt = await App.SaleDb.GetDownloadItm("Item Master");
+                    downloadId = downloadDt.DownloadId;
+                    while (loadProgress < Count)
                     {
                         string pageDataUrl = $"{dataApiUrl}{apicurrentPage}";
 
@@ -133,12 +146,12 @@ namespace ParsPOS.ViewModel
                             foreach (var item in pageData)
                             {
                                 await App.Database.CreateInvItm(item);
+                                loadProgress = loadProgress + 1;
+                                await App.SaleDb.UpdateDownloadProgress(downloadId, loadProgress);
                             }
                             if (apicurrentPage == 1) LoadDataCommand.Execute(null);
                             Progress += pageData.Count;
                             apicurrentPage++;
-                            downloadViewModel.Progress = Progress;
-                            downloadViewModel.ProgressText = $"{Progress}/{Count}";
                         }
                         else
                         {
@@ -150,8 +163,8 @@ namespace ParsPOS.ViewModel
             }
             catch (Exception ex)
             {
-                // Handle exceptions
-                // You can log the error or show an alert
+                await App.SaleDb.UpdateDownloadComplete(downloadId, false);
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
             finally
             {

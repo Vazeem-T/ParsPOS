@@ -8,7 +8,7 @@
              xmlns:viewmodel="clr-namespace:ParsPOS.Model"
              xmlns:fontawesome="clr-namespace:FontAwesome"
              Title="Inventory">
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Clicked="Download_Clicked">
             <ToolbarItem.IconImageSource>
                 <FontImageSource
@@ -18,22 +18,15 @@
                 Color="Black"  />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     <Grid ColumnDefinitions="250,*">
-        <Frame Grid.Column="0" Padding="10" BackgroundColor="{x:StaticResource Gray100}" CornerRadius="10" BorderColor="Transparent" HasShadow="True">
-            <Frame.Shadow>
-                <Shadow Brush="black"
-                        Offset="3,3"
-                        Opacity="0.5"
-                        Radius="0.3">
-                </Shadow>
-            </Frame.Shadow>
+        <Border Grid.Column="0" Padding="10" BackgroundColor="{x:StaticResource Gray100}" Style="{StaticResource CommonFrame}" Stroke="Transparent">
             <Grid>
                 <!-- SearchBar at the top -->
                 <StackLayout>
-                    <Frame  BorderColor="LightGray" Padding="1" CornerRadius="30">
-                        <SearchBar  Placeholder="Search Category" />
-                    </Frame>
+                    <Border Style="{StaticResource CommonFrame}" BackgroundColor="White">
+                        <SearchBar Placeholder="Search Category" />
+                    </Border>
                     
                     <!-- ListView filling the space in between -->
                     <ScrollView>
@@ -50,7 +43,7 @@
                 <!-- Button at the bottom -->
                 <Button Command="{Binding GoToCategoryCommand}" Text="Add Category" ZIndex="1" VerticalOptions="End" />
             </Grid>
-        </Frame>
+        </Border>
         <Grid Grid.Column="1" Margin="20" RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -58,9 +51,9 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" ColumnDefinitions="*,auto,auto">
                 <Label Text="Product List" FontSize="Medium" Grid.Column="0" FontAttributes="Bold" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                <Frame BorderColor="LightGray" Grid.Column="1" VerticalOptions="Center" HeightRequest="45" Margin="0,0,10,0" Padding="1" CornerRadius="30">
-                    <SearchBar  Placeholder="Search Product" x:Name="search" />
-                </Frame>
+                <Border Grid.Column="1" VerticalOptions="Center" Style="{StaticResource CommonFrame}" HeightRequest="45" Margin="0,0,10,0" Padding="1">
+                    <SearchBar  Placeholder="Search Product" WidthRequest="250" x:Name="search" />
+                </Border>
                 <Button Text="Import" Grid.Column="2" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="85" Command="{Binding DownloadDataCommand}"></Button>
             </Grid>
             <StackLayout Grid.Row="1">

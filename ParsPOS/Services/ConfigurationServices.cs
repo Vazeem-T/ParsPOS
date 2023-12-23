@@ -33,7 +33,7 @@ namespace ParsPOS.Services
             services.AddSingleton<SharedPurchaseService>();
 
             //ViewModels
-            services.AddSingleton<DownloadViewModel>();
+            services.AddTransient<DownloadViewModel>();
             services.AddTransient<InventoryViewModel>();
             services.AddTransient<CategoryViewModel>();
             services.AddSingleton<SaleViewModel>();
@@ -49,7 +49,8 @@ namespace ParsPOS.Services
             services.AddSingleton<PurchasePopupViewModel>();
             services.AddSingleton<PopupButtonsSelectionWrapper>();
             services.AddSingleton<FOCViewModel>();
-
+            services.AddSingleton<BaseItmDetViewModel>();
+            services.AddSingleton<UnitsViewModel>();
             //Views
             services.AddTransient<Sale>();
             services.AddTransient<AddCategory>();

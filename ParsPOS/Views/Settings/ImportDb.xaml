@@ -13,6 +13,10 @@
                     <Label Text="Products" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding BaseItm}"></CheckBox>
+                    <Label Text="BaseItems" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
                     <CheckBox></CheckBox>
                     <Label Text="Category" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
@@ -27,6 +31,10 @@
                 <HorizontalStackLayout>
                     <CheckBox></CheckBox>
                     <Label Text="User" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding Units}"></CheckBox>
+                    <Label Text="Units" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <CheckBox IsChecked="{Binding Prefix}"></CheckBox>

@@ -6,6 +6,9 @@
              x:DataType="vm:FOCViewModel"
              Title="FOC" 
              Padding="20">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding CancelButtonCommand}"></BackButtonBehavior>
+    </Shell.BackButtonBehavior>
     <VerticalStackLayout Spacing="10">
         <HorizontalStackLayout Spacing="10">
             <Label Text="Quantity" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="15"></Label>
@@ -13,20 +16,20 @@
                 <Entry BackgroundColor="AliceBlue" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
             </Border>
         </HorizontalStackLayout>
-        <Border Style="{StaticResource BorderFrame}" BackgroundColor="Transparent" HeightRequest="200">
-            <CollectionView >
+        <Border Style="{StaticResource BorderFrame}" Padding="0" BackgroundColor="Transparent" HeightRequest="200">
+            <CollectionView>
                 <CollectionView.Header>
-                    <Grid ColumnDefinitions=".2*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*">
-                        <Label HorizontalTextAlignment="Center" Text="SlNo" FontAttributes="Bold" FontSize="17"></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Qty" Grid.Column="1" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Unit" Grid.Column="2" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Packing" Grid.Column="3" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Prod. Code" Grid.Column="4" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="BarCode" Grid.Column="5" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Product Name" Grid.Column="6" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="LP. Cost" Grid.Column="7" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Active Cost" Grid.Column="8" FontAttributes="Bold" FontSize="17" ></Label>
-                        <Label HorizontalTextAlignment="Center" Text="Price" Grid.Column="9" FontAttributes="Bold" FontSize="17" ></Label>
+                    <Grid ColumnDefinitions=".3*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*" BackgroundColor="{StaticResource Gray600}">
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="SlNo"  FontSize="17"></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Qty" Grid.Column="1"  FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Unit" Grid.Column="2" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Packing" Grid.Column="3" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Prod. Code" Grid.Column="4" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="BarCode" Grid.Column="5" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Product Name" Grid.Column="6" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="LP. Cost" Grid.Column="7"  FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Active Cost" Grid.Column="8" FontSize="17" ></Label>
+                        <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Price" Grid.Column="9" FontSize="17" ></Label>
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
@@ -50,17 +53,17 @@
             </HorizontalStackLayout>
         </Grid>
         <Grid ColumnDefinitions="*,.2*" ColumnSpacing="10">
-            <Border Style="{StaticResource BorderFrame}" BackgroundColor="Transparent" HeightRequest="200">
-                <CollectionView >
+            <Border Style="{StaticResource BorderFrame}" Padding="0" BackgroundColor="Transparent" HeightRequest="200" >
+                <CollectionView>
                     <CollectionView.Header>
-                        <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,*,.8*">
-                            <Label HorizontalTextAlignment="Center" Text="SlNo" FontAttributes="Bold" FontSize="17"></Label>
-                            <Label HorizontalTextAlignment="Center" Text="Apply" Grid.Column="1" FontAttributes="Bold" FontSize="17" ></Label>
-                            <Label HorizontalTextAlignment="Center" Text="Prod. Code" Grid.Column="2" FontAttributes="Bold" FontSize="17" ></Label>
-                            <Label HorizontalTextAlignment="Center" Text="Product Name" Grid.Column="3" FontAttributes="Bold" FontSize="17" ></Label>
-                            <Label HorizontalTextAlignment="Center" Text="Unit" Grid.Column="4" FontAttributes="Bold" FontSize="17" ></Label>
-                            <Label HorizontalTextAlignment="Center" Text="Qty" Grid.Column="5" FontAttributes="Bold" FontSize="17" ></Label>
-                            <Label HorizontalTextAlignment="Center" Text="FOC Qty" Grid.Column="6" FontAttributes="Bold" FontSize="17" ></Label>
+                        <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,.7*" BackgroundColor="{StaticResource Gray600}">
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="SlNo"  FontSize="17"></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Apply" Grid.Column="1" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Prod. Code" Grid.Column="2"  FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Product Name" Grid.Column="3"  FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Unit" Grid.Column="4" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Qty" Grid.Column="5" FontSize="17" ></Label>
+                            <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="FOC Qty" Grid.Column="6" FontSize="17" ></Label>
                         </Grid>
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>

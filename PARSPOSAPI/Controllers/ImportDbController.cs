@@ -23,7 +23,7 @@ namespace PARSPOSAPI.Controllers
             {
                 int skipCount = (page - 1) * pageSize;
 
-                string sqlQuery = $"SELECT * FROM InvItm ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+                string sqlQuery = $"Select dbo.getTAXPer(BaseId) Taxper, * from invitm ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var invItems = await _connection.QueryAsync<dynamic>(sqlQuery);
 
@@ -135,6 +135,68 @@ namespace PARSPOSAPI.Controllers
                 // Handle any exceptions that may occur during the query execution
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+        [HttpGet("BaseItmDet")]
+        public async Task<IActionResult> GetBaseItmDet(int page = 1, int pageSize = 100)
+        {
+            try
+            {
+                int skipCount = (page - 1) * pageSize;
+
+                string sqlQuery = $"SELECT * FROM BaseItmDet ORDER BY BaseItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+
+                var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
+
+                var ItemsList = Items.AsList();
+
+                return Ok(ItemsList);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during the query execution
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("GetBaseItemCount")]
+        public async Task<int> GetBaseItemCount()
+        {
+            string sqlQuery = $" Select count (*) from BaseItmDet";
+
+            var invItems = await _connection.ExecuteScalarAsync<int>(sqlQuery);
+
+            return invItems;
+        }
+        [HttpGet("UnitsTbDet")]
+        public async Task<IActionResult> GetUnitsTbDet(int page = 1, int pageSize = 100)
+        {
+            try
+            {
+                int skipCount = (page - 1) * pageSize;
+
+                string sqlQuery = $"SELECT * FROM UnitsTb ORDER BY Units OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+
+                var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
+
+                var ItemsList = Items.AsList();
+
+                return Ok(ItemsList);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during the query execution
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("GetUnitCount")]
+        public async Task<int> GetUnitCount()
+        {
+            string sqlQuery = $" Select count (*) from UnitsTb";
+
+            var invItems = await _connection.ExecuteScalarAsync<int>(sqlQuery);
+
+            return invItems;
         }
     }
 }

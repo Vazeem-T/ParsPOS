@@ -4,17 +4,22 @@ namespace ParsPOS.Model
 {
     public class BaseItmDet
     {
-        public int BaseItmId { get; set; }
-        public int? BaseItmId1 { get; set; }
+        public int BaseItemId { get; set; }
+        public int? BaseItemID1 { get; set; }
         public float QtyOpn { get; set; }
         public float CostOpen { get; set; }
+        public float CostAverage { get; set; }
+        [MaxLength(10)]
         public string ItemCategory { get; set; }
         public float LastPurchCost { get; set; }
-        public short LastCostMethdUsed { get; set; }
+        public short LastCostMthdUsed { get; set; }
         public float CostAsOn { get; set; }
         public int SupplierNo { get; set; }
+        [MaxLength(40)]
         public string? LstPurchInf1 { get; set; }
+        [MaxLength(40)]
         public string? LstPurchInf2 { get; set; }
+        [MaxLength(40)]
         public string? LstPurchInf3 { get; set; }
         public float IssdQty { get; set; }
         public float RcvdQty { get; set; }
@@ -37,7 +42,8 @@ namespace ParsPOS.Model
         public short Prvlg1 { get; set; }
         [Column("[Prvlg2%]")]
         public short Prvlg2 { get; set; }
-        public bool ExcldPerChkg {  get; set; }
+        public bool ExcldPerChkg { get; set; }
+        [MaxLength(60)]
         public string? SupplInf { get; set; }
         public long? HSNNo { get; set; }
         public short PrdCostMthd { get; set; }

@@ -19,7 +19,7 @@ namespace ParsPOS.SaleModel
         public DateTime DownloadTime { get; set; } = DateTime.Now;
         public bool IsRunning { get; set; }
         public bool? IsSuccess { get; set; }
-
+        public bool IsCompleted {  get; set; } = false;
         public DownloadDt Clone() => MemberwiseClone() as DownloadDt;
     }
 }

@@ -8,7 +8,7 @@
     <ScrollView Margin="0" Padding="0" VerticalOptions="Start">
         <Frame Margin="20" Padding="15,15,15,0" BorderColor="Transparent">
             <StackLayout>
-                <Grid Padding="5" HeightRequest="60" RowDefinitions="*,auto" ColumnDefinitions="auto,*,70">
+                <Grid Padding="5" HeightRequest="60" RowDefinitions="*,auto" ColumnDefinitions="auto,*,auto">
                     <Frame Grid.Column="0" Padding="5,5,20,10" VerticalOptions="Start" BorderColor="Transparent">
                         <Image Source="sqlserver.png" Grid.Column="0"></Image>
                     </Frame>
@@ -19,7 +19,7 @@
                         <TapGestureRecognizer Tapped="ImportDbRecognizer_Tapped"></TapGestureRecognizer>
                     </Grid.GestureRecognizers>
                 </Grid>
-                <Grid Padding="5" HeightRequest="60" RowDefinitions="*,auto" ColumnDefinitions="auto,*,70">
+                <Grid Padding="5" HeightRequest="60" RowDefinitions="*,auto" ColumnDefinitions="auto,*,auto">
                     <Frame Grid.Column="0" Padding="5,5,20,10" VerticalOptions="Start" BorderColor="Transparent">
                         <Image Source="azurebackupdatabase.png" Grid.Column="0"></Image>
                     </Frame>

@@ -30,11 +30,11 @@
                                 Opacity="0.5">
                     </Shadow>
                 </StackLayout.Shadow>
-                <Frame HeightRequest="430" Padding="40" WidthRequest="600" BorderColor="Transparent">
+                <Border HeightRequest="430" Padding="40" WidthRequest="600" BackgroundColor="White" Style="{StaticResource BorderFrame}" Stroke="Transparent">
                     <StackLayout>
-                        <Label Text="Login" TextColor="#512BD4" FontAttributes="Bold" FontSize="30">
+                        <Label Text="Login" TextColor="#512BD4" FontAttributes="Bold" FontSize="30" >
                         </Label>
-                        <StackLayout Margin="0,60,0,0" Spacing="15" >
+                        <StackLayout Margin="0,50,0,0" Spacing="15" >
                             <Border  HeightRequest="60" StrokeShape="RoundRectangle 10" BackgroundColor="AliceBlue" StrokeThickness=".3" Padding="10" Stroke="{StaticResource Gray900}">
                                 <Grid ColumnDefinitions="30,*">
                                     <Label Text="{Static fontawesome:FontAwesomeIcons.User}" VerticalOptions="Center" FontFamily="FAS" TextColor="Gray" Margin="0"></Label>
@@ -50,7 +50,7 @@
                             <Button Text="Login" Margin="0,20,0,0" Command="{Binding LoginCommand}"></Button>
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
             </StackLayout>
         </Grid>
     </StackLayout>

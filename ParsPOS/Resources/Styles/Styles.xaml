@@ -110,7 +110,7 @@
 
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
@@ -422,7 +422,18 @@
         <Setter Property="Stroke" Value="#252836"/>
         <Setter Property="BackgroundColor" Value="AliceBlue"/>
     </Style>
-    
+    <Style x:Key="CommonFrame" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="StrokeThickness" Value=".3" />
+        <Setter Property="Stroke" Value="#252836"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+    <Style x:Key="EntryBorder" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="StrokeThickness" Value=".3" />
+        <Setter Property="Stroke" Value="#252836"/>
+        <Setter Property="BackgroundColor" Value="AliceBlue"/>
+    </Style> 
     <Style x:Key="PickerStyle" TargetType="Picker">
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="TitleColor"  Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"/>

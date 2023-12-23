@@ -11,7 +11,17 @@
     Shell.NavBarHasShadow="True"
     FlyoutBackgroundColor="#1F1D2B"
     Shell.FlyoutBehavior="Locked">
-
+    <Shell.ToolbarItems>
+        <ToolbarItem Clicked="DownloadItem_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                Glyph="{x:Static fontawesome:FontAwesomeIcons.Download}"
+                FontFamily="FAS"
+                Size="20"
+                Color="Black"  />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </Shell.ToolbarItems>
     <Shell.FlyoutContent>
         <local:MainPageFlyoutItem/>
     </Shell.FlyoutContent>

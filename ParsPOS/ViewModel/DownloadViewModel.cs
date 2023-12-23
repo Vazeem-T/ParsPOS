@@ -1,64 +1,53 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using ParsPOS.SaleModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ParsPOS.ViewModel
 {
-    public class DownloadViewModel : INotifyPropertyChanged
+    public partial class DownloadViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        int progress;
-        int totalCount;
-        string progressText;
-        public Guid InstanceId { get; } = Guid.NewGuid();
-
-        public int Progress
+        public ObservableCollection<DownloadDt> Items { get; set; } = new();
+        [ObservableProperty]
+        DownloadDt downloadDt;
+        public DownloadViewModel()
         {
-            get { return progress; }
-            set
+            LoadDataCommand.Execute(null);
+        }
+        [RelayCommand]
+        async Task LoadData()
+        {
+            try
             {
-                progress = value;
-                OnPropertyChanged(nameof(Progress));
+                var pageData = await App.SaleDb.GetDownloadList();
+                foreach (var item in pageData)
+                {
+                    Items.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
         }
-        public int TotalCount
+        [RelayCommand]
+        async Task ClearDownloadAsync()
         {
-            get { return totalCount; }
-            set
+            var result = await Shell.Current.DisplayAlert("Deleting", "Are you Sure! It will Clear all your History", "yes", "No");
+            if (result)
             {
-                totalCount = value;
-                OnPropertyChanged(nameof(TotalCount));
-            }
-        }
-
-
-        public string ProgressText
-        {
-            get { return progressText; }
-            set
-            {
-                progressText = value;
-                OnPropertyChanged(nameof(ProgressText));
-            }
-        }
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Debug.WriteLine($"Property {propertyName} changed.");
-
-            // Get the property value using reflection
-            var propertyInfo = GetType().GetProperty(propertyName);
-            if (propertyInfo != null)
-            {
-                var propertyValue = propertyInfo.GetValue(this);
-                Debug.WriteLine($"Current value of {propertyName}: {propertyValue}");
+                await App.SaleDb.DeleteAllDownloadDt();
+                Items.Clear();
             }
         }
     }

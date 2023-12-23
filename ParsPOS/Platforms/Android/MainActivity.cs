@@ -1,15 +1,8 @@
-﻿using Android;
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using CommunityToolkit.Maui.Core;
-using Android.Runtime;
-using Android.Widget;
-using ParsPOS.DBHandler;
-using CommunityToolkit.Maui.Core.Platform;
-using Android.Views.InputMethods;
 
 namespace ParsPOS;
 
@@ -21,6 +14,7 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         Platform.Init(this, savedInstanceState);
         //Xamarin.KeyboardHelper.Platform.Droid.Effects.Init(this);
+        //Window.SetSoftInputMode(SoftInput.AdjustResize);
         CommunityToolkit.Maui.Core.Platform.StatusBar.SetColor(Colors.White);
         CommunityToolkit.Maui.Core.Platform.StatusBar.SetStyle(StatusBarStyle.DarkContent);
     }

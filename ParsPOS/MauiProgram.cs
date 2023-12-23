@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ParsPOS.DBHandler;
@@ -51,10 +52,12 @@ public static class MauiProgram
         
         ConfigurationServices.ConfigureService(builder.Services);
 
-        builder.Services.AddScoped<IDbConnection>(sp =>
+        builder.Services.AddScoped<IDbConnection>((sp) =>
         {
-            var sqliteConnection = sp.GetRequiredService<SQLiteAsyncConnection>();
-            return (IDbConnection)sqliteConnection;
+            var config = sp.GetRequiredService<IConfiguration>();
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PARSPOS.db3");
+            var connectionstring = $"Data Source={filePath};";
+            return new SqliteConnection(connectionstring);
         });
 
 

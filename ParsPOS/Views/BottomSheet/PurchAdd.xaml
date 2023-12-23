@@ -34,7 +34,7 @@
                     <Label Grid.Column="1" Text="{x:Static fontawesome:FontAwesomeIcons.CaretDown}" TextColor="{StaticResource Gray600}" VerticalTextAlignment="Center" FontFamily="FAS"></Label>
                 </Grid>
             </Border>
-            <Border Stroke="{StaticResource DarkBg1}" Padding="0,3" HeightRequest="40" StrokeShape="RoundRectangle 10" StrokeThickness=".3" HorizontalOptions="FillAndExpand">
+            <Border Stroke="{StaticResource DarkBg1}" Padding="0,3" HeightRequest="40" StrokeShape="RoundRectangle 10" StrokeThickness=".3" WidthRequest="300" HorizontalOptions="FillAndExpand">
                 <SearchBar Placeholder="Search" Text="{Binding Searchtxt}" SearchCommand="{Binding LoadDataCommand}"></SearchBar>
             </Border>
         </HorizontalStackLayout>

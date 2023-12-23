@@ -1,22 +1,18 @@
-﻿using ParsPOS.Model;
+﻿using Microsoft.Data.Sqlite;
+using ParsPOS.Model;
 using ParsPOS.ResultModel;
 using ParsPOS.Services;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParsPOS.DBHandler
 {
     public class DatabaseHelper : SQLiteAsyncConnection
     {
         private readonly SQLiteAsyncConnection _db;
+        string con;
         public DatabaseHelper(string dbPath) : base(dbPath)
         {
+            con = dbPath;
             _db = new SQLiteAsyncConnection(dbPath);
             _db.CreateTableAsync<Invitm>();
             _db.CreateTableAsync<NetworkIP>();
@@ -26,8 +22,9 @@ namespace ParsPOS.DBHandler
             _db.CreateTableAsync<Rights>();
             _db.CreateTableAsync<PreFixTb>();
             _db.CreateTableAsync<SettingsTb>();
+            _db.CreateTableAsync<BaseItmDet>();
+            _db.CreateTableAsync<UnitsTb>();
         }
-
         public Task<int> CreateInvItm(Invitm invitm)
         {
             return _db.InsertAsync(invitm);
@@ -61,6 +58,14 @@ namespace ParsPOS.DBHandler
         public Task<int> CreateSettings(SettingsTb settingsTb) 
         {
             return _db.InsertAsync(settingsTb);
+        }
+        public Task<int> CreateBaseItmDet(BaseItmDet settingsTb)
+        {
+            return _db.InsertAsync(settingsTb);
+        }
+        public Task<int> CreateUnitsTb(UnitsTb unitsTb) 
+        {
+            return _db.InsertAsync(unitsTb);
         }
         //INVITM
         public Task<List<Invitm>> GetAllInvItmPaged(int page, int pageSize)
@@ -254,5 +259,15 @@ namespace ParsPOS.DBHandler
             var query = $"select ItemCode , Description, Unit, ActiveCost, UnitPrice, BarCode from Invitm where {selected} like '%{search}%' LIMIT {pageSize} OFFSET {skipCount}";
             return _db.QueryAsync<Invitm>(query);
         }
+        public Task<int> DeleteAllBaseItm()
+        {
+            return _db.DeleteAllAsync<BaseItmDet>();
+        }
+
+        public Task<int> DeleteAllUnitItm()
+        {
+            return _db.DeleteAllAsync<UnitsTb>();
+        }
+        
     }
 }
