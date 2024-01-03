@@ -198,5 +198,36 @@ namespace PARSPOSAPI.Controllers
 
             return invItems;
         }
+        [HttpGet("SuppPrdDt")]
+        public async Task<IActionResult> SuppPrdDt(int page = 1, int pageSize = 100)
+        {
+            try
+            {
+                int skipCount = (page - 1) * pageSize;
+
+                string sqlQuery = $"SELECT * FROM SuppPrdTb ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+
+                var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
+
+                var ItemsList = Items.AsList();
+
+                return Ok(ItemsList);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during the query execution
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("SuppPrdDtCount")]
+        public async Task<int> SuppPrdDtCount()
+        {
+            string sqlQuery = $" Select count (*) from SuppPrdTb";
+
+            var invItems = await _connection.ExecuteScalarAsync<int>(sqlQuery);
+
+            return invItems;
+        }
     }
 }

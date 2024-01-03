@@ -14,11 +14,10 @@ public partial class App : Application
 {
     //public static DownloadViewModel SharedDownloadViewModel { get; } = new DownloadViewModel();
     public static string UserId { get; set; }
+    public static bool _Connected = false;
 
     private static DatabaseHelper db;
     private static SaleDatabaseHelper _db;
-
-    private static DapperDbHelper helper;
     public static DatabaseHelper Database
     {
         get
@@ -49,6 +48,7 @@ public partial class App : Application
         InitializeComponent();
         Applocator.Initialize();
         MainPage = new AppShell();
+   
         if(App.UserId != null)
         {
             ((AppShell)MainPage).GoToAsync("//MainPage");
@@ -68,4 +68,5 @@ public partial class App : Application
 #endif
         });
     }
+    
 }

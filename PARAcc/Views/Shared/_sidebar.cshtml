@@ -1,0 +1,122 @@
+﻿@model IEnumerable<MenuTb>
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+	<div data-simplebar class="h-100">
+
+		<!--- Sidemenu -->
+		<div id="sidebar-menu">
+			<!-- Left Menu Start -->
+			<ul class="metismenu list-unstyled" id="side-menu">
+				<li class="menu-title">Menu</li>
+				<li>
+					<a href=@Url.Action("Index", "Home") class="waves-effect">
+						<i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
+						<span>Dashboard</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript: void(0)" class="waves-effect">
+						<i class="ri-file-text-line"></i>
+						<span>File</span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript: void(0)" class="waves-effect">
+						<i class="ri-briefcase-2-fill"></i>
+						<span>Masters</span>
+					</a>
+				</li>
+				@foreach (var topLevelItem in Model)
+				{
+					<li>
+						@if (topLevelItem.IsParent)
+						{
+							<a href="javascript: void(0)" class="has-arrow">
+								<i class="@topLevelItem.IconKey"></i>
+								<span>@topLevelItem.langEnglish</span>
+							</a>
+						}
+						else
+						{
+							<a href="@Url.Action(topLevelItem.ModuleCode, "ControllerName")" class="waves-effect">
+								<i class="@topLevelItem.IconKey"></i>
+								<span>@topLevelItem.langEnglish</span>
+							</a>
+						}
+
+						@if (topLevelItem.HasSubItems)
+						{
+							<ul class="sub-menu" aria-expanded="true">
+								@foreach (var subItem in topLevelItem.SubItems)
+								{
+									<li>
+										@if (subItem.IsParent)
+										{
+											<a href="javascript: void(0)" class="has-arrow">@subItem.langEnglish</a>
+											
+										}
+										else
+										{
+											<a href="@Url.Action(subItem.ModuleCode, "ControllerName")" class="waves-effect">
+												@subItem.langEnglish
+											</a>
+										}
+
+										@if (subItem.HasSubItems)
+										{
+											<ul class="sub-menu" aria-expanded="true">
+												@foreach (var subSubMenu in subItem.SubItems)
+												{
+													<li>
+														<a href="@Url.Action(subSubMenu.ModuleCode, "ControllerName")" class="waves-effect">
+															@subSubMenu.langEnglish
+														</a>
+													</li>
+												}
+											</ul>
+										}
+									</li>
+								}
+							</ul>
+						}
+					</li>
+				}
+
+				<li class="menu-title">SideBar</li>
+				<li>
+					<a href="javascript: void(0);" class="has-arrow waves-effect">
+						<i class="ri-layout-3-line"></i>
+						<span>Layouts</span>
+					</a>
+					<ul class="sub-menu" aria-expanded="true">
+						<li>
+							<a href="javascript: void(0);" class="has-arrow">Vertical</a>
+							<ul class="sub-menu" aria-expanded="true">
+								<li><a href=@Url.Action("Index", "LayoutsLightSidebar")>Light Sidebar</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsCompactSidebar")>Compact Sidebar</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsIconSidebar")>Icon Sidebar</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsBoxed")>Boxed Layout</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsPreloader")>Preloader</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsColoredSidebar")>Colored Sidebar</a></li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="javascript: void(0);" class="has-arrow">Horizontal</a>
+							<ul class="sub-menu" aria-expanded="true">
+								<li><a href=@Url.Action("Index", "LayoutsHorizontal")>Horizontal</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsHoriTopbarLight")>Topbar light</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsHoriBoxedWidth")>Boxed width</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsHoriPreloader")>Preloader</a></li>
+								<li><a href=@Url.Action("Index", "LayoutsHoriColoredHeader")>Colored Header</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+		<!-- Sidebar -->
+	</div>
+</div>

@@ -17,16 +17,18 @@ namespace ParsPOS.ViewModel
         readonly CategoryViewModel _categorymodel ;
         readonly BaseItmDetViewModel _baseItmDetmodel;
         readonly UnitsViewModel _unitsViewModel;
+        readonly SupplierPrdViewModel _supplierPrdViewModel;
         private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
 
         public ImportDbViewModel(InventoryViewModel inventoryModel, CategoryViewModel categoryModel,BaseItmDetViewModel baseItmDetViewModel,
-             UnitsViewModel unitsViewModel) 
+             UnitsViewModel unitsViewModel,SupplierPrdViewModel supplierPrdViewModel) 
         {
             _inventorymodel = inventoryModel;
             _categorymodel = categoryModel;
             _baseItmDetmodel = baseItmDetViewModel;
             _unitsViewModel = unitsViewModel;
+            _supplierPrdViewModel = supplierPrdViewModel;
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
         }
@@ -53,32 +55,25 @@ namespace ParsPOS.ViewModel
         bool baseItm;
         [ObservableProperty]
         bool units;
+        [ObservableProperty]
+        bool suppPrd;
 
         [RelayCommand]
         async Task ImportAsync()
         {
             try
             {
-                if (Product)
-                {
-                    _inventorymodel.DownloadDataCommand.Execute(null);
-                }
-                if (Category)
-                {
-                    _categorymodel.DownloadCategoryCommand.Execute(null);
-                }
-                if (Prefix)
-                {
-                    ImportPrefixCommand.Execute(null);
-                }
-                if (BaseItm)
-                {
-                    _baseItmDetmodel.DownloadDataCommand.Execute(null);
-                }
-                if(Units)
-                {
-                    _unitsViewModel.DownloadDataCommand.Execute(null);
-                }
+                if (Product) _inventorymodel.DownloadDataCommand.Execute(null);
+              
+                if (Category) _categorymodel.DownloadCategoryCommand.Execute(null);
+                
+                if (Prefix) ImportPrefixCommand.Execute(null);
+               
+                if (BaseItm) _baseItmDetmodel.DownloadDataCommand.Execute(null);
+               
+                if(Units) _unitsViewModel.DownloadDataCommand.Execute(null);
+
+                if(SuppPrd) _supplierPrdViewModel.DownloadDataCommand.Execute(null);
             }
             catch (Exception ex)
             {

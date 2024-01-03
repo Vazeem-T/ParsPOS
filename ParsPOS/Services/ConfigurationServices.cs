@@ -31,6 +31,9 @@ namespace ParsPOS.Services
             services.AddSingleton<INumberPad, NumberPad>();
             services.AddTransient<AccessControlAttribute>();
             services.AddSingleton<SharedPurchaseService>();
+            services.AddHostedService<APIConnectionMonitorServices>();
+            services.AddHttpClient<APIConnectionMonitorServices>();
+
 
             //ViewModels
             services.AddTransient<DownloadViewModel>();
@@ -48,9 +51,12 @@ namespace ParsPOS.Services
             services.AddSingleton<PurchaseViewModel>();
             services.AddSingleton<PurchasePopupViewModel>();
             services.AddSingleton<PopupButtonsSelectionWrapper>();
-            services.AddSingleton<FOCViewModel>();
+            services.AddTransient<FOCViewModel>();
             services.AddSingleton<BaseItmDetViewModel>();
             services.AddSingleton<UnitsViewModel>();
+            services.AddSingleton<SupplierPrdViewModel>();
+
+
             //Views
             services.AddTransient<Sale>();
             services.AddTransient<AddCategory>();

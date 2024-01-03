@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ParsPOS.DBHandler;
 using ParsPOS.InterfaceServices;
@@ -15,6 +16,7 @@ using ParsPOS.Views.InventoryView;
 using ParsPOS.Views.Settings;
 using ParsPOS.Views.SubForms;
 using ParsPOS.Views.User;
+using PostSharp;
 using Sharpnado.Tabs;
 using SQLite;
 using SQLitePCL;
@@ -39,8 +41,10 @@ public static class MauiProgram
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            fonts.AddFont("JosefinSans-Italic-VariableFont_wght.ttf", "JosefinSansItalic");
-            fonts.AddFont("JosefinSans-VariableFont_wght.ttf", "JosefinSansRegular");
+            fonts.AddFont("Roboto-Regular.ttf", "RobotoRegular");
+            fonts.AddFont("Roboto-Bold.ttf", "RobotoBold");
+            fonts.AddFont("Roboto-Italic.ttf", "RobotoItalic");
+
             fonts.AddFont("fa-brands-400.otf", "FAB");
             fonts.AddFont("Fa-Regular-400.otf", "FAR");
             fonts.AddFont("Fa-solid-900.otf", "FAS");
@@ -59,8 +63,6 @@ public static class MauiProgram
             var connectionstring = $"Data Source={filePath};";
             return new SqliteConnection(connectionstring);
         });
-
-
         //builder.Services.AddHttpClient("api", httpClient => httpClient.BaseAddress = new Uri(""));
 #if DEBUG
         builder.Logging.AddDebug();

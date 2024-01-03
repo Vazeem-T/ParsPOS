@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using ParsPOS.Model;
+﻿using ParsPOS.Model;
 using ParsPOS.ResultModel;
 using ParsPOS.Services;
 using SQLite;
@@ -24,6 +23,7 @@ namespace ParsPOS.DBHandler
             _db.CreateTableAsync<SettingsTb>();
             _db.CreateTableAsync<BaseItmDet>();
             _db.CreateTableAsync<UnitsTb>();
+            _db.CreateTableAsync<SuppPrdTb>();
         }
         public Task<int> CreateInvItm(Invitm invitm)
         {
@@ -67,6 +67,11 @@ namespace ParsPOS.DBHandler
         {
             return _db.InsertAsync(unitsTb);
         }
+        public Task<int> CreateSupplierPrdTb(SuppPrdTb supplierPrdTb) 
+        {
+            return _db.InsertAsync(supplierPrdTb);
+        }
+
         //INVITM
         public Task<List<Invitm>> GetAllInvItmPaged(int page, int pageSize)
         {
@@ -81,6 +86,22 @@ namespace ParsPOS.DBHandler
         public Task<int> InvitmCount()
         {
             return _db.Table<Invitm>().CountAsync();
+        }
+        public Task<List<Invitm>> GetItemOnBaseId(int? BaseId)
+        {
+            return _db.Table<Invitm>().Where(x=>x.BaseId == BaseId).ToListAsync();
+        }
+        public Task<Invitm> GetItemOnItemId(int? ItemId)
+        {
+            return _db.Table<Invitm>().Where(x => x.ItemId == ItemId).FirstOrDefaultAsync();
+        }
+        public async Task<double> GetPMult(string ItemCode)
+        {
+            return _db.Table<Invitm>().Where(x => x.ItemCode == ItemCode).FirstOrDefaultAsync().Result.PMult;
+        }
+        public Task<string> GetUnitOnBaseItm(int Baseid)
+        {
+            return _db.ExecuteScalarAsync<string>($"Select Unit from Invitm where BaseId = {Baseid} AND ItemId = {Baseid}");
         }
         public Task<int> DeleteAllInvItm()
         {
@@ -263,10 +284,13 @@ namespace ParsPOS.DBHandler
         {
             return _db.DeleteAllAsync<BaseItmDet>();
         }
-
         public Task<int> DeleteAllUnitItm()
         {
             return _db.DeleteAllAsync<UnitsTb>();
+        }
+        public Task<int> DeleteAllSuppPrdTb()
+        {
+            return _db.DeleteAllAsync<SuppPrdTb>();
         }
         
     }

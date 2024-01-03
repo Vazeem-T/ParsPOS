@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.InventoryView.FOC"
              xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:FOCViewModel"
+             xmlns:rmodel="clr-namespace:ParsPOS.ResultModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:model="clr-namespace:ParsPOS.Model"
              Title="FOC" 
              Padding="20">
     <Shell.BackButtonBehavior>
@@ -13,12 +17,18 @@
         <HorizontalStackLayout Spacing="10">
             <Label Text="Quantity" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="15"></Label>
             <Border Style="{StaticResource BorderFrame}" HeightRequest="45" WidthRequest="150" Padding="0">
-                <Entry BackgroundColor="AliceBlue" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
+                <Entry BackgroundColor="AliceBlue" ReturnCommand="{Binding QtyChangedCommand}" Text="{Binding RFOCInvItm.Qty,Mode=TwoWay}" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00">
+                    <Entry.Behaviors>
+                        <xct:SelectAllTextBehavior />
+                        <xct:EventToCommandBehavior EventName="Unfocused" Command="{Binding QtyChangedCommand}"/>
+                    </Entry.Behaviors>
+                </Entry>
             </Border>
+            <Button Text="{x:Static fontawesome:FontAwesomeIcons.PaperPlane}" FontFamily="FAS" Command="{Binding QtyChangedCommand}" Margin="-8,0,0,0" BackgroundColor="{StaticResource Gray500}"/>
         </HorizontalStackLayout>
         <Border Style="{StaticResource BorderFrame}" Padding="0" BackgroundColor="Transparent" HeightRequest="200">
-            <CollectionView>
-                <CollectionView.Header>
+            <ListView ItemsSource="{Binding FOCBase}" HasUnevenRows="True" SelectedItem="{Binding RFOCInvItm}" SelectionMode="Single">
+                <ListView.Header>
                     <Grid ColumnDefinitions=".3*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*" BackgroundColor="{StaticResource Gray600}">
                         <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="SlNo"  FontSize="17"></Label>
                         <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Qty" Grid.Column="1"  FontSize="17" ></Label>
@@ -31,30 +41,47 @@
                         <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Active Cost" Grid.Column="8" FontSize="17" ></Label>
                         <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="Price" Grid.Column="9" FontSize="17" ></Label>
                     </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions=".2*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*">
-
-                        </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="rmodel:RFOCInvitm">
+                        <ViewCell>
+                            <Grid ColumnDefinitions=".3*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*" Margin="0,10,0,0" Padding="3">
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Slno}" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Qty}" Grid.Column="1"  ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="2" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Packing}" Grid.Column="3" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding ProdCode}" Grid.Column="4" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Barcode}" Grid.Column="5" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding ProdDescr}" Grid.Column="6" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding LPCost}" Grid.Column="7"  ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding ActiveCost}" Grid.Column="8" ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Price}" Grid.Column="9" ></Label>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </Border>
         <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" RowSpacing="10">
-            <Label Text="Pack Mapping :" FontSize="15"></Label>
-            <Label Grid.Row="1" Text="Cost Mapping :" FontSize="15"></Label>
+            <HorizontalStackLayout>
+                <Label Text="Pack Mapping :  " FontSize="15"></Label>
+                <Label Text="{Binding QtyDisplay,Mode=TwoWay}" VerticalTextAlignment="Center" FontSize="15"></Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Grid.Row="1">
+                <Label Text="Cost Mapping :  " FontSize="15"></Label>
+                <Label Text="" VerticalTextAlignment="Center" FontSize="15"></Label>
+            </HorizontalStackLayout>
             <HorizontalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10">
                 <Label Text="TotalFOC" VerticalOptions="Center"></Label>
                 <Border Style="{StaticResource BorderFrame}" HeightRequest="40" WidthRequest="250" Padding="0">
-                    <Entry BackgroundColor="AliceBlue" IsReadOnly="True" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
+                    <Entry BackgroundColor="AliceBlue" Text="{Binding TotalFOCQty,Mode=TwoWay,StringFormat='{}{0:F3}'}" IsReadOnly="True" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00"></Entry>
                 </Border>
                 <Label Text="OUT" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
             </HorizontalStackLayout>
         </Grid>
         <Grid ColumnDefinitions="*,.2*" ColumnSpacing="10">
             <Border Style="{StaticResource BorderFrame}" Padding="0" BackgroundColor="Transparent" HeightRequest="200" >
-                <CollectionView>
+                <CollectionView ItemsSource="{Binding _purchaseViewModel.PurchaseItem}">
                     <CollectionView.Header>
                         <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,.7*" BackgroundColor="{StaticResource Gray600}">
                             <Label HorizontalTextAlignment="Center" TextColor="{StaticResource Gray100}" Text="SlNo"  FontSize="17"></Label>
@@ -67,9 +94,15 @@
                         </Grid>
                     </CollectionView.Header>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,*,.8*">
-
+                        <DataTemplate x:DataType="model:PurchaseDetTb">
+                            <Grid ColumnDefinitions=".5*,.5*,.8*,*,.5*,.7*,.7*" Margin="0,10,0,0">
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding SlNo}" ></Label>
+                                <CheckBox IsChecked="{Binding AFOC}" VerticalOptions="Center" Grid.Column="1" ></CheckBox>
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding Code}" Grid.Column="2"  ></Label>
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding ProdDesr}" Grid.Column="3" ></Label>
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding Unit}" Grid.Column="4"  ></Label>
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding Qty}" Grid.Column="5" ></Label>
+                                <Label HorizontalTextAlignment="Center" VerticalOptions="Center" Text="{Binding FOC}" Grid.Column="6" ></Label>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

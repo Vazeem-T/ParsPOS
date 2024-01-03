@@ -54,8 +54,18 @@
 	  <None Remove="Resources\Fonts\fa-brands-400.otf" />
 	  <None Remove="Resources\Fonts\Fa-regular-400.otf" />
 	  <None Remove="Resources\Fonts\Fa-solid-900.otf" />
-	  <None Remove="Resources\Fonts\JosefinSans-Italic-VariableFont_wght.ttf" />
-	  <None Remove="Resources\Fonts\JosefinSans-VariableFont_wght.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Black.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-BlackItalic.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-BoldItalic.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Italic.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Light.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-LightItalic.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Medium.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-MediumItalic.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-Thin.ttf" />
+	  <None Remove="Resources\Fonts\Roboto-ThinItalic.ttf" />
 	  <None Remove="Resources\Images\about.png" />
 	  <None Remove="Resources\Images\adddatabase.png" />
 	  <None Remove="Resources\Images\addtobasket.png" />
@@ -101,6 +111,7 @@
 		<PackageReference Include="Dapper" Version="2.1.24" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls.Foldable" Version="8.0.3" />
@@ -115,6 +126,7 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.7" />
 		<PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.7" />
+		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
 		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
 	</ItemGroup>

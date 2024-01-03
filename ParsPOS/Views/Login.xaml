@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParsPOS.Views.Login"
              Title="Login"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              BackgroundColor="AliceBlue"
              Shell.NavBarIsVisible="False"
              xmlns:viewModel="clr-namespace:ParsPOS.ViewModel"
@@ -38,13 +39,21 @@
                             <Border  HeightRequest="60" StrokeShape="RoundRectangle 10" BackgroundColor="AliceBlue" StrokeThickness=".3" Padding="10" Stroke="{StaticResource Gray900}">
                                 <Grid ColumnDefinitions="30,*">
                                     <Label Text="{Static fontawesome:FontAwesomeIcons.User}" VerticalOptions="Center" FontFamily="FAS" TextColor="Gray" Margin="0"></Label>
-                                    <localtxt:BorderlessEntry Text="{Binding UserId}" Grid.Column="1" Placeholder="User Id" HorizontalOptions="FillAndExpand" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                    <localtxt:BorderlessEntry Text="{Binding UserId}" Grid.Column="1"  Placeholder="User Id" HorizontalOptions="FillAndExpand" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}">
+                                        <localtxt:BorderlessEntry.Behaviors>
+                                            <xct:SelectAllTextBehavior/>
+                                        </localtxt:BorderlessEntry.Behaviors>
+                                    </localtxt:BorderlessEntry>
                                 </Grid>
                             </Border>
                             <Border  HeightRequest="60" StrokeShape="RoundRectangle 10" BackgroundColor="AliceBlue" StrokeThickness=".3" Padding="10" Stroke="{StaticResource Gray900}">
                                 <Grid ColumnDefinitions="30,*">
                                     <Label Text="{Static fontawesome:FontAwesomeIcons.Lock}" VerticalOptions="Center"  FontFamily="FAS" TextColor="Gray" Margin="0"></Label>
-                                    <localtxt:BorderlessEntry IsPassword="True" ReturnCommand="{Binding LoginCommand}" Text="{Binding Password}" Grid.Column="1" Placeholder="Password" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}"></localtxt:BorderlessEntry>
+                                    <localtxt:BorderlessEntry IsPassword="True" ReturnCommand="{Binding LoginCommand}"  Text="{Binding Password}" Grid.Column="1" Placeholder="Password" HeightRequest="60" FontSize="Medium" PlaceholderColor="{StaticResource Gray200}">
+                                        <localtxt:BorderlessEntry.Behaviors>
+                                            <xct:SelectAllTextBehavior/>
+                                        </localtxt:BorderlessEntry.Behaviors>
+                                    </localtxt:BorderlessEntry>
                                 </Grid>
                             </Border>
                             <Button Text="Login" Margin="0,20,0,0" Command="{Binding LoginCommand}"></Button>

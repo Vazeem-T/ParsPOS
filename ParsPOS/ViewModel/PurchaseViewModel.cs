@@ -1,18 +1,14 @@
-﻿using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Dapper;
-using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using ParsPOS.Model;
 using ParsPOS.Services;
 using ParsPOS.Services.ViewSevices;
 using ParsPOS.Views.BottomSheet;
 using ParsPOS.Views.InventoryView;
-using ParsPOS.Views.PopupView;
-using PostSharp;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Xml.Linq;
 
 namespace ParsPOS.ViewModel
 {
@@ -22,18 +18,30 @@ namespace ParsPOS.ViewModel
         [ObservableProperty]
         PurchaseDetTb _purchaseDets;
         private readonly IDbConnection _connection;
+        [ObservableProperty]
+        string selectedItemcode;
+
+        [ObservableProperty]
+        bool indicator;
 
         [ObservableProperty]
         short slno;
+
         [ObservableProperty]
         float qIH;
+
         [ObservableProperty]
         float averageCost;
+
         [ObservableProperty]
         float lpCost;
 
         [ObservableProperty]
+        bool isDelVisible = false;
+
+        [ObservableProperty]
         int seletedType = 0;
+
         [ObservableProperty]
         int selectOn = 0;
 
@@ -41,12 +49,18 @@ namespace ParsPOS.ViewModel
         private readonly PopupButtonsSelectionWrapper _popSelectWrapper = new();
         [ObservableProperty]
         PurchasePopupViewModel _model ;
-        
+        private readonly HttpClient client;
+        private CommonHttpServices commonHttpServices;
         public PurchaseViewModel(SharedPurchaseService purchaseService,IDbConnection connection) 
         {
-            _connection = connection;
-            _sharedPurchaseService = purchaseService;
-            _sharedPurchaseService.ItemSelected += SharedDataService_ItemSelected;
+           
+				_connection = connection;
+				commonHttpServices = new CommonHttpServices();
+				client = commonHttpServices.GetHttpClient();
+				//_sharedPurchaseService = purchaseService;
+				//_sharedPurchaseService.ItemSelected += SharedDataService_ItemSelected;
+           
+
         }
 
         [RelayCommand]
@@ -91,7 +105,7 @@ namespace ParsPOS.ViewModel
                         break;
                 }
             }
-            Model = new PurchasePopupViewModel(_popSelectWrapper,_sharedPurchaseService);
+            Model = new PurchasePopupViewModel(_popSelectWrapper,this,_connection);
             PurchAdd Page = new PurchAdd(Model);
             await Page.ShowAsync();
         }
@@ -99,11 +113,28 @@ namespace ParsPOS.ViewModel
         [RelayCommand]
         async Task QtyChanged()
         {
-            if(PurchaseDets.Qty != 0)
+            try
             {
-                PurchaseDets.Linetotal = PurchaseDets.Qty * PurchaseDets.Cost;
-                OnPropertyChanged(nameof(PurchaseDets));
+                if(PurchaseDets != null)
+                {
+					if (PurchaseDets.Qty != 0 && PurchaseDets.Cost != 0)
+					{
+						PurchaseDets.Linetotal = PurchaseDets.Qty * PurchaseDets.Cost;
+						OnPropertyChanged(nameof(PurchaseDets));
+						int index = PurchaseItem.IndexOf(PurchaseItem.FirstOrDefault(item => item.SlNo == PurchaseDets.SlNo));
+						if (index != -1)
+						{
+							PurchaseItem[index] = PurchaseDets;
+							OnPropertyChanged(nameof(PurchaseItem));
+						}
+					}
+				}
+			}
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
             }
+            
         }
         [RelayCommand]
         async Task FOCButtonAsync()
@@ -113,49 +144,259 @@ namespace ParsPOS.ViewModel
                 await Shell.Current.GoToAsync(nameof(FOC));
             }
         }
-        private async void SharedDataService_ItemSelected(object sender, Invitm selectedItem)
+
+        [RelayCommand]
+        async Task DeleteSelected()
         {
-            try
-            {   
-                var ItemCode = selectedItem.ItemCode;
-                if (ItemCode != null)
+            if(PurchaseDets != null)
+            {
+                PurchaseItem.Remove(PurchaseDets);
+                OnPropertyChanged(nameof(PurchaseItem));
+                PurchaseDets = null;
+            }
+        }
+        [RelayCommand]
+        async Task LoadSelectedItm()
+        {
+            if(SelectedItemcode != null)
+            {
+                Indicator = true;
+                IEnumerable<dynamic> itemlist = null;
+                try
                 {
-                    var sqlquery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE ItemCode = '{ItemCode}'";
-                    var itemlist = await _connection.QueryAsync<dynamic>(sqlquery);
-                    itemlist.ToList();
-                    foreach(var a in itemlist)
+                    var Code = SelectedItemcode;
+                    if (Code != null)
                     {
-                        PurchaseDets = new()
+                        if (PurchaseItem.Count == 0) Slno = 1;
+                        else if (PurchaseDets != null) Slno = PurchaseDets.SlNo;
+                        else Slno = (short)(PurchaseItem.Count + 1);
+                        var baseurl = commonHttpServices.GetBaseUrl();
+                        string dataApiUrl = $"{baseurl}/api/DirectDb/FetchItem?Code=";
+                        string pageDataUrl = $"{dataApiUrl}{Code}";
+                        if (App._Connected)
                         {
-                            SlNo = Slno,
-                            Code = ItemCode,
-                            ProdDesr = a.Description,
-                            Unit = a.Unit,
-                            Cost = a.ActiveCost,
-                            NetCost = a.ActiveCost,
-                            //ActS_Price = a.UnitPrice,
-                            //Mthd = 0,
-                            //UVal = 0,
-                            //DMthd =0,
-                            //Taxpercent = a.Taxper,
-                            //BaseId = a.BaseId,
-                            ItemId = a.ItemId,
-                        };
-                        //AverageCost = a.CostAverage;
-                        //QIH = a.QtyInHand;
-                        //LpCost = a.LastPurchCost;
+                            HttpResponseMessage response = await client.GetAsync(pageDataUrl);
+                            string content = await response.Content.ReadAsStringAsync();
+                            itemlist = JsonConvert.DeserializeObject<List<dynamic>>(content);
+                        }
+                        else
+                        {
+                            var sqlquery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE ItemCode = '{Code}'";
+                            itemlist = await _connection.QueryAsync<dynamic>(sqlquery);
+                            itemlist.ToList();
+                        }
+                        if (PurchaseDets != null)
+                        {
+                            if (PurchaseDets.IsCompleted == false)
+                            {
+                                int index = PurchaseItem.IndexOf(PurchaseItem.FirstOrDefault(item => item.SlNo == PurchaseDets.SlNo));
+                                if (index != -1)
+                                {
+                                    PurchaseItem[index] = PurchaseDets;
+                                    PurchaseItem.Remove(PurchaseDets);
+                                    OnPropertyChanged(nameof(PurchaseItem));
+                                }
+                            }
+                        }
+                        foreach (var a in itemlist)
+                        {
+                            if (SelectOn == 0)
+                            {
+                                if (App._Connected == false) Code = a.ItemCode;
+                            }
+                            else if (SelectOn == 1) Code = a.BarCode;
+                            else
+                            {
+                                if (a.SupplierNo != 0)
+                                {
+                                    var query = $"Select IC from SuppPrdTb where SupplierNo = '{a.SupplierNo}' AND ItemId  = {a.ItemId}";
+                                    string supp = await _connection.ExecuteScalar<dynamic>(query);
+                                    if (supp != null)
+                                    {
+                                        Code = supp;
+                                    }
+                                }
+                            }
+                            PurchaseDets = new()
+                            {
+                                SlNo = Slno,
+                                Code = Code,
+                                ProdDesr = a.Description,
+                                Unit = a.Unit,
+                                Cost = (double)(a.ActiveCost),
+                                NetCost = (double)(a.ActiveCost),
+                                ActS_Price = (float?)(a.UnitPrice),
+                                Mthd = 0,
+                                UVal = 0,
+                                DMthd = 0,
+                                PMult = (float?)(a.PMult),
+                                Taxpercent = (float?)(a.Taxper),
+                                BaseId = Convert.ToInt32(a.BaseId),
+                                ItemId = Convert.ToInt32(a.ItemId),
+                                IsCompleted = false
+                            };
+                            AverageCost = (float)a.CostAverage;
+                            QIH = (float)a.QtyInHand;
+                            LpCost = (float)a.LastPurchCost;
 
+                        }
+                        PurchaseItem.Add(PurchaseDets);
                     }
+                }
+                catch (Exception ex)
+                {
 
-                    //Slno = Convert.ToInt16(PurchaseItem.Count() + 1);
-                    //var a = await App.Database.EntryChk(ItemCode);
+                }
+                finally
+                {
+                    Indicator = false;
+                    IsDelVisible = true;
                 }
             }
-            catch (Exception ex)
-            {
-
-            }
-           
         }
+
+        [RelayCommand]
+        async Task SubmitAsync()
+        {
+            if(PurchaseDets != null)
+            {
+				if (PurchaseDets.Qty == null || PurchaseDets.Qty == 0)
+				{
+					await Shell.Current.DisplayAlert("Alert", "Qty cannot be null", "Ok");
+				}
+				else
+				{
+                    if(PurchaseDets.Linetotal == 0 || PurchaseDets.Linetotal == null)
+                    {
+						QtyChangedCommand.Execute(null);
+					}
+					PurchaseDets.IsCompleted = true;
+					PurchaseDets = null;
+                    IsDelVisible = false;
+				}
+			}
+        }
+        [RelayCommand]
+        async Task ClearAsync()
+        {
+            if(PurchaseDets !=null)
+            {
+                if (PurchaseDets.IsCompleted) 
+                {
+					PurchaseDets = null; 
+                    IsDelVisible = false;
+				} 
+                else
+                {
+                    var result = await Shell.Current.DisplayAlert($"Alert","Purchase Detail is not saved if you want to save and clear ,then submit the Purchase","Yes","No");
+                    if(result)
+                    {
+                        PurchaseItem.Remove(PurchaseDets);
+                        PurchaseDets = null;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //private async void SharedDataService_ItemSelected(object sender, Invitm selectedItem)
+        //{
+        //    try
+        //    {   
+        //        var Code = selectedItem.ItemCode;
+        //        if (Code != null)
+        //        {
+        //            if (PurchaseItem.Count == 0) Slno = 1;
+        //            var sqlquery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE ItemCode = '{Code}'";
+        //            var itemlist = await _connection.QueryAsync<dynamic>(sqlquery);
+        //            itemlist.ToList();
+        //            if(PurchaseDets != null)
+        //            {
+        //                if(PurchaseDets.IsCompleted == false)
+        //                {
+        //                    int index = PurchaseItem.IndexOf(PurchaseItem.FirstOrDefault(item => item.SlNo == PurchaseDets.SlNo));
+        //                    if (index != -1)
+        //                    {
+        //                        PurchaseItem[index] = PurchaseDets;
+        //                        PurchaseItem.Remove(PurchaseDets);
+        //                        OnPropertyChanged(nameof(PurchaseItem));
+        //                    }
+        //                }
+        //            }
+        //            foreach(var a in itemlist)
+        //            {
+        //                Code = a.ItemCode;
+        //                if (SelectOn == 0) Code = a.ItemCode;
+        //                else if (SelectOn == 1) Code = a.BarCode;
+        //                else
+        //                {
+        //                    if(a.SupplierNo != 0)
+        //                    {
+        //                        var query = $"Select IC from SuppPrdTb where SupplierNo = '{a.SupplierNo}' AND ItemId  = {a.ItemId}";
+        //                        string supp = await _connection.ExecuteScalar<dynamic>(sqlquery);
+        //                        if(supp != null)
+        //                        {
+        //                            Code = supp;
+        //                        }
+        //                    }
+        //                }
+        //                PurchaseDets = new()
+        //                {
+        //                    SlNo = Slno,
+        //                    Code = Code,
+        //                    ProdDesr = a.Description,
+        //                    Unit = a.Unit,
+        //                    Cost = a.ActiveCost,
+        //                    NetCost = a.ActiveCost,
+        //                    ActS_Price = (float?)(a.UnitPrice),
+        //                    Mthd = 0,
+        //                    UVal = 0,
+        //                    DMthd = 0,
+        //                    Taxpercent = (float?)(a.Taxper),
+        //                    BaseId = Convert.ToInt32(a.BaseId),
+        //                    ItemId = Convert.ToInt32(a.ItemId),
+        //                    IsCompleted = false
+        //                };
+        //                AverageCost = (float)a.CostAverage; 
+        //                QIH = (float)a.QtyInHand;           
+        //                LpCost = (float)a.LastPurchCost;
+
+        //            }
+        //            PurchaseItem.Add(PurchaseDets);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+           
+        //}
     }
 }

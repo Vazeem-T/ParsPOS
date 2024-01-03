@@ -29,7 +29,7 @@ namespace ParsPOS.Model
         public float? ActS_Price { get; set; }
         public string FOCCostInfo { get; set; } 
         public string? FOCMapg { get; set; }
-        public double? FOCCostMapg { get; set; }
+        public string? FOCCostMapg { get; set; }
         public float? ActOthCost { get; set; }
         public int? Mthd { get; set; }
         public float UVal { get; set; }
@@ -40,7 +40,7 @@ namespace ParsPOS.Model
         public bool? IsAssorted { get; set; }
         public float? TtlLnFOCAmt { get; set; }
         public string? FOCItmMapg { get; set; }
-        public float? AFOC { get; set; }
+        public bool? AFOC { get; set; }
         public float? ADisc { get; set; }
         public int? ImpLnId {  get; set; }
         public float? ActualCost { get; set;}
@@ -49,7 +49,6 @@ namespace ParsPOS.Model
         public int? UFra { get; set; }
         public int? BaseId { get; set; }
         public int? ItemId { get; set; } 
-
-
+        public bool IsCompleted { get; set; }   
     }
 }

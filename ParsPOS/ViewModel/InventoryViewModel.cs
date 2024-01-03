@@ -159,6 +159,7 @@ namespace ParsPOS.ViewModel
                             throw new Exception("Failed to download data.");
                         }
                     }
+                    await App.SaleDb.UpdateDownloadComplete(downloadId, true);
                 }
             }
             catch (Exception ex)

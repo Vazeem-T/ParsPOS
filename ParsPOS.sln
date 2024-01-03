@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParsPOS", "ParsPOS\ParsPOS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PARSPOSAPI", "PARSPOSAPI\PARSPOSAPI.csproj", "{0622C3B1-5CD4-4479-9999-5D09940C84B0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PARSAcc", "PARAcc\PARSAcc.csproj", "{22D104FB-9A4A-4ED7-980E-DB02BBA36B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PARSAcc.Model", "PARSAcc.Model\PARSAcc.Model.csproj", "{F3B2F41E-63AA-42CB-9C18-85431FFB20C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,14 @@ Global
 		{0622C3B1-5CD4-4479-9999-5D09940C84B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0622C3B1-5CD4-4479-9999-5D09940C84B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0622C3B1-5CD4-4479-9999-5D09940C84B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D104FB-9A4A-4ED7-980E-DB02BBA36B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D104FB-9A4A-4ED7-980E-DB02BBA36B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D104FB-9A4A-4ED7-980E-DB02BBA36B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D104FB-9A4A-4ED7-980E-DB02BBA36B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B2F41E-63AA-42CB-9C18-85431FFB20C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B2F41E-63AA-42CB-9C18-85431FFB20C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B2F41E-63AA-42CB-9C18-85431FFB20C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B2F41E-63AA-42CB-9C18-85431FFB20C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

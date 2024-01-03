@@ -102,53 +102,109 @@
                             </HorizontalStackLayout>
                         </Grid>
                     </Grid>
-                    <ScrollView HorizontalScrollBarVisibility="Always" Orientation="Horizontal">
-                        <StackLayout Margin="0,10">
-                            <ListView ItemsSource="{Binding PurchaseItem}" SelectionMode="Single" SelectedItem="{Binding PurchaseDets}" HeightRequest="230" WidthRequest="1500">
-                                <ListView.Header>
-                                    <Grid HeightRequest="50" BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*">
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="SlNo" TextColor="White"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Code" TextColor="White" Grid.Column="1"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Name/Desc" TextColor="White" Grid.Column="2"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="IsRtn" TextColor="White" Grid.Column="3"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Unit" TextColor="White" Grid.Column="4"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Quantity" TextColor="White" Grid.Column="5"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC" TextColor="White" Grid.Column="6"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Cost/Unit" TextColor="White" Grid.Column="7"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="LineTotal" TextColor="White" Grid.Column="8"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Disc %" TextColor="White" Grid.Column="9"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Discount" TextColor="White" Grid.Column="10"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Is%" TextColor="White" Grid.Column="11"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Net Cost/Unit" TextColor="White" Grid.Column="12"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Act S.Price" TextColor="White" Grid.Column="13"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC Mapping" TextColor="White" Grid.Column="14"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC CostMpg" TextColor="White" Grid.Column="15"></Label>
-                                    </Grid>
-                                </ListView.Header>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="resultvm:PurchaseDetTb">
-                                        <ViewCell>
-                                            <Grid ColumnSpacing="1" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*" >
-                                                
-                                            </Grid>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                    <Grid ColumnDefinitions="3*,*" ColumnSpacing="5">
+                        <ScrollView HorizontalScrollBarVisibility="Always" Grid.Column="0" Orientation="Horizontal">
+                            <StackLayout Margin="0,10">
+                                <ListView ItemsSource="{Binding PurchaseItem}" SelectionMode="Single" SelectedItem="{Binding PurchaseDets}" HeightRequest="230" WidthRequest="1500">
+                                    <ListView.Header>
+                                        <Grid HeightRequest="50" BackgroundColor="{StaticResource Gray600}" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*">
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="SlNo" TextColor="White"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Code" TextColor="White" Grid.Column="1"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Prod. Name/Desc" TextColor="White" Grid.Column="2"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="IsRtn" TextColor="White" Grid.Column="3"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Unit" TextColor="White" Grid.Column="4"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Quantity" TextColor="White" Grid.Column="5"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC" TextColor="White" Grid.Column="6"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Cost/Unit" TextColor="White" Grid.Column="7"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="LineTotal" TextColor="White" Grid.Column="8"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Disc %" TextColor="White" Grid.Column="9"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Discount" TextColor="White" Grid.Column="10"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Is%" TextColor="White" Grid.Column="11"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Net Cost/Unit" TextColor="White" Grid.Column="12"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="Act S.Price" TextColor="White" Grid.Column="13"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC Mapping" TextColor="White" Grid.Column="14"></Label>
+                                            <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="FOC CostMpg" TextColor="White" Grid.Column="15"></Label>
+                                        </Grid>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="resultvm:PurchaseDetTb">
+                                            <ViewCell>
+                                                <Grid ColumnSpacing="1" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*" >
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding SlNo}" ></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Code}" Grid.Column="1"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ProdDesr}"  Grid.Column="2"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding IsRtn}" Grid.Column="3"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="4"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Qty}" Grid.Column="5"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOC}" Grid.Column="6"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Cost}" Grid.Column="7"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Linetotal}" Grid.Column="8"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discpercent}" Grid.Column="9"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discount}" Grid.Column="10"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Ispercent}" Grid.Column="11"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding NetCost}" Grid.Column="12"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ActS_Price}" Grid.Column="13"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCMapg}" Grid.Column="14"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCCostMapg}" Grid.Column="15"></Label>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
+                        <StackLayout Grid.Column="1">
+                            
+                            <StackLayout Margin="0,10,0,0">
+                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="3" RowSpacing="2" RowDefinitions="*,*,*,*,*,*,*,*">
+                                    <!--ColumnHeader-->
+                                    <Label BackgroundColor="IndianRed" FontSize="15" HorizontalTextAlignment="Center" Text="In Dhs" Grid.Column="1" FontAttributes="Bold"></Label>
+                                    <Label BackgroundColor="IndianRed" FontSize="15" HorizontalTextAlignment="Center" Text="In FC (Dhs)" Grid.Column="2" FontAttributes="Bold"></Label>
+                                    <!--RowHeader-->
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="Inv. Amt" Grid.Row="1" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="Disc" Grid.Row="2" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="Other Exp" Grid.Row="3" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="Net" Grid.Row="4" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="TAX" Grid.Row="5" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="T. With TA" Grid.Row="6" FontAttributes="Bold"></Label>
+                                    <!--1st Row-->
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="80.00" Grid.Row="1" ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="10.00" Grid.Row="2" ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="0.00"  Grid.Row="3"  ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="3.50"  Grid.Row="5"  ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
+                                    <!--2nd Row-->
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="80.00" Grid.Row="1" ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="10.00" Grid.Row="2" ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="0.00" Grid.Row="3"  ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="3.50" Grid.Row="5"  ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
+                                </Grid>
+                            </StackLayout>
                         </StackLayout>
-                    </ScrollView>
-                    <StackLayout Spacing="5">
-                        <HorizontalStackLayout HeightRequest="40" Spacing="5">
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*">
+                        <HorizontalStackLayout HeightRequest="40" Spacing="5" HorizontalOptions="FillAndExpand">
                             <Button Text="Add" Command="{Binding AddCommand}" Padding="20,0"></Button>
-                            <Button Text="Remove" Command="{Binding RemoveCommand}"></Button>
+                            <Button Text="Discount"></Button>
+                            <Border Style="{StaticResource EntryBorder}" Margin="0" WidthRequest="150">
+                                <localtxt:BorderlessEntry></localtxt:BorderlessEntry>
+                            </Border>
+                            <!--<Button Text="Remove" Command="{Binding RemoveCommand}"></Button>
+                            -->
                             <!--<Button Text="Insert"></Button>-->
+                            <!--
                             <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowUp}" FontFamily="FAS"></Button>
                             <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowDown}" FontFamily="FAS"></Button>
                             <Label Text="QIH " Margin="20,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
                             <Border Style="{StaticResource EntryBorder}" Padding="3,0"  Margin="0">
                                 <Label VerticalTextAlignment="Center" WidthRequest="70" IsEnabled="False" ></Label>
                             </Border>
+                            -->
                             <!---Unit-->
+                            <!--
                             <Label Text="Unit" VerticalTextAlignment="Center" TextColor="White" HeightRequest="30"  BackgroundColor="#1795E6" Padding="10,0"></Label>
                             <Label Text="A.Cost " Margin="20,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
                             <Border Style="{StaticResource EntryBorder}" Padding="3,0" Margin="0">
@@ -163,47 +219,13 @@
                             <Label Text="Edit" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
                             <Border Style="{StaticResource EntryBorder}" Padding="3,0" Margin="0">
                                 <localtxt:BorderlessEntry WidthRequest="70"  Placeholder="0.00"></localtxt:BorderlessEntry>
-                            </Border>
+                            </Border>-->
                         </HorizontalStackLayout>
-                        <Grid ColumnDefinitions="3*,*" Margin="0,5,0,0" ColumnSpacing="5">
-                            <StackLayout Grid.Column="1">
-                                <HorizontalStackLayout HeightRequest="40" Spacing="10">
-                                    <Button Text="Discount"></Button>
-                                    <Border Style="{StaticResource EntryBorder}" Margin="0" WidthRequest="150">
-                                        <localtxt:BorderlessEntry></localtxt:BorderlessEntry>
-                                    </Border>
-                                </HorizontalStackLayout>
-                                <StackLayout Margin="0,10,0,0">
-                                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="3" RowSpacing="2" RowDefinitions="*,*,*,*,*,*,*,*">
-                                        <!--ColumnHeader-->
-                                        <Label BackgroundColor="IndianRed" HorizontalTextAlignment="Center" Text="In Dhs" Grid.Column="1" FontAttributes="Bold"></Label>
-                                        <Label BackgroundColor="IndianRed" HorizontalTextAlignment="Center" Text="In FC (Dhs)" Grid.Column="2" FontAttributes="Bold"></Label>
-                                        <!--RowHeader-->
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="Inv. Amt" Grid.Row="1" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="Disc" Grid.Row="2" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="Other Exp" Grid.Row="3" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="Net" Grid.Row="4" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="TAX" Grid.Row="5" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="0" BackgroundColor="IndianRed"  Text="T. With TA" Grid.Row="6" FontAttributes="Bold"></Label>
-                                        <!--1st Row-->
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="80.00" Grid.Row="1" ></Label>
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="10.00" Grid.Row="2" ></Label>
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="0.00"  Grid.Row="3"  ></Label>
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="3.50"  Grid.Row="5"  ></Label>
-                                        <Label Grid.Column="1" HorizontalTextAlignment="End" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
-                                        <!--2nd Row-->
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="80.00" Grid.Row="1" ></Label>
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="10.00" Grid.Row="2" ></Label>
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="0.00" Grid.Row="3"  ></Label>
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="3.50" Grid.Row="5"  ></Label>
-                                        <Label Grid.Column="2" Padding="0,0,2,0" HorizontalTextAlignment="End" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
-                                    </Grid>
-                                </StackLayout>
-                            </StackLayout>
-                        </Grid>
-                    </StackLayout>
+                        <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" HeightRequest="40" Spacing="5">
+                            <Button Text="Remove Inv." BackgroundColor="IndianRed"></Button>
+                            <Button Text="Verify And Post"></Button>
+                        </HorizontalStackLayout>
+                    </Grid>
                 </StackLayout>
             </ScrollView>
         </Border>
