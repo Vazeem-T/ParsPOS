@@ -17,7 +17,7 @@
         <HorizontalStackLayout Spacing="10">
             <Label Text="Quantity" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="15"></Label>
             <Border Style="{StaticResource BorderFrame}" HeightRequest="45" WidthRequest="150" Padding="0">
-                <Entry BackgroundColor="AliceBlue" ReturnCommand="{Binding QtyChangedCommand}" Text="{Binding RFOCInvItm.Qty,Mode=TwoWay}" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00">
+                <Entry BackgroundColor="AliceBlue" ReturnCommand="{Binding QtyChangedCommand}" Text="{Binding RFOCInvItm.Qty,Mode=TwoWay,StringFormat='{}{0:F3}'}" Margin="10,0,0,0"  WidthRequest="150" FontAttributes="Bold" PlaceholderColor="LightGray" HorizontalOptions="Start" Placeholder="0.00">
                     <Entry.Behaviors>
                         <xct:SelectAllTextBehavior />
                         <xct:EventToCommandBehavior EventName="Unfocused" Command="{Binding QtyChangedCommand}"/>
@@ -47,7 +47,7 @@
                         <ViewCell>
                             <Grid ColumnDefinitions=".3*,.8*,.3*,.9*,.8*,.8*,*,.6*,.6*,.6*" Margin="0,10,0,0" Padding="3">
                                 <Label HorizontalTextAlignment="Center" Text="{Binding Slno}" ></Label>
-                                <Label HorizontalTextAlignment="Center" Text="{Binding Qty}" Grid.Column="1"  ></Label>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Qty,StringFormat='{}{0:F3}'}" Grid.Column="1"  ></Label>
                                 <Label HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="2" ></Label>
                                 <Label HorizontalTextAlignment="Center" Text="{Binding Packing}" Grid.Column="3" ></Label>
                                 <Label HorizontalTextAlignment="Center" Text="{Binding ProdCode}" Grid.Column="4" ></Label>

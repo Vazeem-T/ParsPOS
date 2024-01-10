@@ -55,10 +55,11 @@ namespace ParsPOS.Services
             services.AddSingleton<BaseItmDetViewModel>();
             services.AddSingleton<UnitsViewModel>();
             services.AddSingleton<SupplierPrdViewModel>();
+			services.AddSingleton<MastersViewModel>();
 
 
-            //Views
-            services.AddTransient<Sale>();
+			//Views
+			services.AddTransient<Sale>();
             services.AddTransient<AddCategory>();
             services.AddSingleton<ImportDb>();
             services.AddTransient<UserInfo>();

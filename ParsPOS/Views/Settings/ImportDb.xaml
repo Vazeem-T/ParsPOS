@@ -13,6 +13,10 @@
                     <Label Text="Products" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding Masters}"></CheckBox>
+                    <Label Text="Masters" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
                     <CheckBox IsChecked="{Binding BaseItm}"></CheckBox>
                     <Label Text="BaseItems" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </HorizontalStackLayout>

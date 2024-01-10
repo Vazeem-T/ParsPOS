@@ -24,6 +24,7 @@ namespace ParsPOS.DBHandler
             _db.CreateTableAsync<BaseItmDet>();
             _db.CreateTableAsync<UnitsTb>();
             _db.CreateTableAsync<SuppPrdTb>();
+            _db.CreateTableAsync<AccMast>();
         }
         public Task<int> CreateInvItm(Invitm invitm)
         {
@@ -70,6 +71,10 @@ namespace ParsPOS.DBHandler
         public Task<int> CreateSupplierPrdTb(SuppPrdTb supplierPrdTb) 
         {
             return _db.InsertAsync(supplierPrdTb);
+        }
+        public Task<int> CreateAccMast(AccMast accMast)
+        {
+            return _db.InsertAsync(accMast);
         }
 
         //INVITM
@@ -223,9 +228,17 @@ namespace ParsPOS.DBHandler
             return _db.Table<PreFixTb>().Where(x => x.Id == voucherId).FirstOrDefaultAsync();
         }
 
-        //UserLogin
+        public Task<List<PreFixTb>> GetPrefixItems(int VrTypeNo)
+        {
+            return _db.Table<PreFixTb>().Where(x=>x.VrTypeNo ==  VrTypeNo).ToListAsync();
+        }
+		public Task<PreFixTb> GetVoucherName(string vouchername)
+		{
+			return _db.Table<PreFixTb>().Where(x => x.VoucherName == vouchername).FirstOrDefaultAsync();
+		}
+		//UserLogin
 
-        public Task<User> LoginUser(string UserId, string Password)
+		public Task<User> LoginUser(string UserId, string Password)
         {
             return _db.Table<User>().Where(x => x.UserId.ToLower() == UserId.ToLower() && x.Password == Password).FirstOrDefaultAsync();
         }
@@ -280,11 +293,21 @@ namespace ParsPOS.DBHandler
             var query = $"select ItemCode , Description, Unit, ActiveCost, UnitPrice, BarCode from Invitm where {selected} like '%{search}%' LIMIT {pageSize} OFFSET {skipCount}";
             return _db.QueryAsync<Invitm>(query);
         }
+
+        // AccMast
+        public Task<AccMast> GetMasterAccountDetail(int AccountNo)
+        {
+            return _db.Table<AccMast>().Where(x => x.AccountNo == AccountNo).FirstOrDefaultAsync();
+        }
         public Task<int> DeleteAllBaseItm()
         {
             return _db.DeleteAllAsync<BaseItmDet>();
         }
-        public Task<int> DeleteAllUnitItm()
+		public Task<int> DeleteAllPrefixItm()
+		{
+			return _db.DeleteAllAsync<PreFixTb>();
+		}
+		public Task<int> DeleteAllUnitItm()
         {
             return _db.DeleteAllAsync<UnitsTb>();
         }
@@ -292,6 +315,10 @@ namespace ParsPOS.DBHandler
         {
             return _db.DeleteAllAsync<SuppPrdTb>();
         }
-        
-    }
+		public Task<int> DeleteAllMasters()
+		{
+			return _db.DeleteAllAsync<AccMast>();
+		}
+
+	}
 }

@@ -113,7 +113,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-3 col-md-6">
+						<div class="col-lg-3 col-md-6 mb-2 mb-lg-0">
 							<div class="row">
 								<div class="col-md-2">
 									<label class="col-form-label-sm">Select.On</label>
@@ -127,7 +127,164 @@
 								</div>
 							</div>
 						</div>
-				    </div>
+						<div class="col-lg-5">
+
+						</div>
+						<div class="col-lg-4 col-md-6 mb-2 mb-lg-0">
+							<div class="d-flex justify-content-end align-items-center">
+								<button class="btn waves-light btn-sm text-light me-1" style="background-color:#456C8F;border-color:#456C8F">Discount</button>
+								<input class="form-control form-control-sm me-1" placeholder="Discount">
+								<button class="btn waves-light btn-sm text-light" asp-controller="Purchase" asp-action="AddPurchase" style="background-color:Teal; border-color:Teal">
+									<div class="d-flex align-items-center">
+										<i class="mdi mdi-plus me-1"></i> Add
+									</div>
+								</button>
+							</div>
+						</div>
+
+					</div>
+					<!--MainTable-->
+					<div class="table-responsive mb-2" style="height:200px">
+						<table class="table table-rounded table-editable table-nowrap align-middle table-edits ">
+							<thead class="bg-dark">
+								<tr class="text-light">
+									<th>SlNo</th>
+									<th>Prod. Code</th>
+									<th>Prod. Name/Descr</th>
+									<th>IsRtn</th>
+									<th>Unit</th>
+									<th>Quantity</th>
+									<th>FOC</th>
+									<th>Cost/Unit</th>
+									<th>Line Total</th>
+									<th>Disc %</th>
+									<th>Discount</th>
+									<th>Is%</th>
+									<th>Net Cost/Unit</th>
+									<th>Act S.Price</th>
+									<th>FOC mapping</th>
+									<th>FOC CostMapg</th>
+									<th>Expiry</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-id="1">
+									<td data-field="id" style="width: 80px">1</td>
+									<td data-field="name">David McHenry</td>
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+									<td data-field="gender">Male</td>
+
+									<td data-field="age">24</td>
+									<td data-field="gender">Male</td>
+									<td>
+										<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+											<i class="fas fa-pencil-alt"></i>
+										</a>
+										<a class="btn btn-outline-danger btn-sm delete" title="Delete">
+											<i class="fas fa-trash-alt"></i>
+										</a>
+									</td>
+								</tr>
+								@*<tr data-id="2">
+								<td data-field="id">2</td>
+								<td data-field="name">Frank Kirk</td>
+								<td data-field="age">22</td>
+								<td data-field="gender">Male</td>
+								<td>
+								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+								<i class="fas fa-pencil-alt"></i>
+								</a>
+								</td>
+								</tr>
+								<tr data-id="3">
+								<td data-field="id">3</td>
+								<td data-field="name">Rafael Morales</td>
+								<td data-field="age">26</td>
+								<td data-field="gender">Male</td>
+								<td>
+								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+								<i class="fas fa-pencil-alt"></i>
+								</a>
+								</td>
+								</tr>
+								<tr data-id="4">
+								<td data-field="id">4</td>
+								<td data-field="name">Mark Ellison</td>
+								<td data-field="age">32</td>
+								<td data-field="gender">Male</td>
+								<td>
+								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+								<i class="fas fa-pencil-alt"></i>
+								</a>
+								</td>
+								</tr>
+								<tr data-id="5">
+								<td data-field="id">5</td>
+								<td data-field="name">Minnie Walter</td>
+								<td data-field="age">27</td>
+								<td data-field="gender">Female</td>
+								<td>
+								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+								<i class="fas fa-pencil-alt"></i>
+								</a>
+								</td>
+								</tr> *@
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="col-lg-9 mb-1 mb-lg-0">
+							<div class="row">
+								<div class="col-md-8">
+									<span class="badge badge-soft-info">QIH</span>
+									<span class="badge badge-soft-info">
+										32.678
+									</span>
+									<span class="badge badge-soft-primary">
+										OUT
+									</span>
+									<!--A.Cost-->
+									<span class="badge badge-soft-dark">A.Cost</span>
+									<span class="badge badge-soft-dark">32.678</span>
+									<!--LPCost-->
+									<span class="badge badge-soft-dark">LP Cost</span>
+									<span class="badge badge-soft-dark">32.678</span>
+								</div>
+								@* <div class="col-md-4">
+									<div class="d-flex">
+										<button class="btn waves-light btn-sm text-light me-1" style="background-color:#456C8F;border-color:#456C8F">Discount</button>
+										<input class="form-control form-control-sm" placeholder="Discount">
+									</div>
+								</div> *@
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="float-end">
+								<button class="btn btn-danger waves-light btn-sm">
+									<i class="mdi mdi-delete pe-1"></i>Delete Inv.
+								</button>
+								<button class="btn waves-light btn-sm text-light" style="background-color:#4D4B88;border-color:#4D4B88;">
+									<i class="mdi mdi-send pe-1"></i>Submit
+								</button>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -139,7 +296,4 @@
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
 <script src="~/assets/libs/node-waves/waves.min.js"></script>
-
-<script src="~/assets/js/pages/materialdesign.init.js"></script>
-
 <script src="~/assets/js/app.js"></script>

@@ -1,25 +1,9 @@
 ﻿using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Storage;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ParsPOS.DBHandler;
-using ParsPOS.InterfaceServices;
-using ParsPOS.PermissionAttributes;
 using ParsPOS.Services;
-using ParsPOS.ViewModel;
-using ParsPOS.Views;
-using ParsPOS.Views.BottomSheet;
-using ParsPOS.Views.ContentViewPage;
-using ParsPOS.Views.InventoryView;
-using ParsPOS.Views.Settings;
-using ParsPOS.Views.SubForms;
-using ParsPOS.Views.User;
-using PostSharp;
 using Sharpnado.Tabs;
-using SQLite;
-using SQLitePCL;
 using System.Data;
 using The49.Maui.BottomSheet;
 

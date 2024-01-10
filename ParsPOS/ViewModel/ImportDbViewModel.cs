@@ -18,17 +18,19 @@ namespace ParsPOS.ViewModel
         readonly BaseItmDetViewModel _baseItmDetmodel;
         readonly UnitsViewModel _unitsViewModel;
         readonly SupplierPrdViewModel _supplierPrdViewModel;
-        private readonly HttpClient client;
+		readonly MastersViewModel _mastersViewModel;
+		private readonly HttpClient client;
         private CommonHttpServices commonHttpServices;
 
         public ImportDbViewModel(InventoryViewModel inventoryModel, CategoryViewModel categoryModel,BaseItmDetViewModel baseItmDetViewModel,
-             UnitsViewModel unitsViewModel,SupplierPrdViewModel supplierPrdViewModel) 
+             UnitsViewModel unitsViewModel,SupplierPrdViewModel supplierPrdViewModel,MastersViewModel mastersViewModel) 
         {
             _inventorymodel = inventoryModel;
             _categorymodel = categoryModel;
             _baseItmDetmodel = baseItmDetViewModel;
             _unitsViewModel = unitsViewModel;
             _supplierPrdViewModel = supplierPrdViewModel;
+            _mastersViewModel = mastersViewModel;
             commonHttpServices = new CommonHttpServices();
             client = commonHttpServices.GetHttpClient();
         }
@@ -57,8 +59,10 @@ namespace ParsPOS.ViewModel
         bool units;
         [ObservableProperty]
         bool suppPrd;
+		[ObservableProperty]
+		bool masters;
 
-        [RelayCommand]
+		[RelayCommand]
         async Task ImportAsync()
         {
             try
@@ -74,12 +78,23 @@ namespace ParsPOS.ViewModel
                 if(Units) _unitsViewModel.DownloadDataCommand.Execute(null);
 
                 if(SuppPrd) _supplierPrdViewModel.DownloadDataCommand.Execute(null);
-            }
+
+				if (Masters) _mastersViewModel.DownloadDataCommand.Execute(null);
+                
+			}
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
-            
+            finally
+            {
+				Product = false;
+				Category = false;
+				Prefix = false;
+				Units = false;
+				SuppPrd = false;
+				Masters = false;
+			}
         }
 
         [RelayCommand]
@@ -94,6 +109,7 @@ namespace ParsPOS.ViewModel
                 var result = await App.Current.MainPage.DisplayAlert("Alert", $"Do you want to delete Pefix and update ?", "Yes", "No");
                 if (result)
                 {
+                    await App.Database.DeleteAllPrefixItm();
                     
                     string pageDataUrl = $"{dataApiUrl}";
 

@@ -37,7 +37,7 @@ namespace ParsPOS.ViewModel
 		string? qtyDisplay;
 
 		[ObservableProperty]
-		float? totalFOCQty;
+		double? totalFOCQty;
 
 		[RelayCommand]
 		async Task LoadAsync()
@@ -137,11 +137,18 @@ namespace ParsPOS.ViewModel
 		{
 			try
 			{
+				_purchaseViewModel.PurchaseDets.AFOC = TotalFOCQty ?? 0;
 				_purchaseViewModel.PurchaseDets.FOC = TotalFOCQty ?? 0;
 				_purchaseViewModel.PurchaseDets.FOCCostInfo = QtyDisplay ?? string.Empty;
 				_purchaseViewModel.PurchaseDets.FOCMapg = PurchDetTb.FOCMapg;
-				var afocItems = _purchaseViewModel.PurchaseItem.Where(item => item.AFOC == true);
+				var afocItems = _purchaseViewModel.PurchaseItem.Where(item => item.ISMapping == true);
 				_purchaseViewModel.PurchaseDets.FOCCostMapg = string.Join(",", afocItems.Select(item => item.SlNo));
+				//FOC Calulation
+				if(afocItems.Count() == 0)
+				{
+					_purchaseViewModel.PurchaseDets.NetCost = (double)(_purchaseViewModel.PurchaseDets.Linetotal / (_purchaseViewModel.PurchaseDets.Qty + TotalFOCQty)); 
+				}
+				await _purchaseViewModel.CalOthCost();
 				await Shell.Current.GoToAsync(nameof(AddPurchase));
 			}
 			catch (Exception ex)

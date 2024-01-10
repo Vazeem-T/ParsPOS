@@ -229,5 +229,36 @@ namespace PARSPOSAPI.Controllers
 
             return invItems;
         }
-    }
+		[HttpGet("AccMastTb")]
+		public async Task<IActionResult> AccMastDt(int page = 1, int pageSize = 100)
+		{
+			try
+			{
+				int skipCount = (page - 1) * pageSize;
+
+				string sqlQuery = $"SELECT * FROM AccMast ORDER BY AccountNo OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+
+				var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
+
+				var ItemsList = Items.AsList();
+
+				return Ok(ItemsList);
+			}
+			catch (Exception ex)
+			{
+				// Handle any exceptions that may occur during the query execution
+				return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+			}
+		}
+
+		[HttpGet("AccMastTbCount")]
+		public async Task<int> AccMastTbCount()
+		{
+			string sqlQuery = $" Select count (*) from AccMast";
+
+			var invItems = await _connection.ExecuteScalarAsync<int>(sqlQuery);
+
+			return invItems;
+		}
+	}
 }

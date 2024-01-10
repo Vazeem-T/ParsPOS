@@ -69,15 +69,18 @@
                     <Border Style="{StaticResource BorderFrame}"  HeightRequest="60"  Margin="0" Grid.Row="1" Grid.Column="1" Stroke="{StaticResource DarkBg1}">
                         <StackLayout>
                             <Label Text="Unit" ></Label>
-                            <localtxt:BorderlessEntry Text="{Binding PurchaseDets.Unit}" Margin="5,0,0,0" FontAttributes="Bold" ></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Text="{Binding PurchaseDets.Unit}" Margin="5,0,0,0" FontAttributes="Bold" >
+                                
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <Border Style="{StaticResource BorderFrame}" Stroke="{StaticResource DarkBg1}"  HeightRequest="60"  Margin="0" Grid.Row="1">
                         <StackLayout>
                             <Label Text="Quantity"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" ReturnCommand="{Binding QtyChangedCommand}" Keyboard="Numeric" ReturnType="Go" Text="{Binding PurchaseDets.Qty}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00">
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" ReturnCommand="{Binding QtyChangedCommand}" Keyboard="Numeric" ReturnType="Go" Text="{Binding PurchaseDets.Qty, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00">
                                 <localtxt:BorderlessEntry.Behaviors>
                                     <xct:EventToCommandBehavior EventName="Unfocused" Command="{Binding QtyChangedCommand}"/>
+                                    <xct:SelectAllTextBehavior />
                                 </localtxt:BorderlessEntry.Behaviors>
                             </localtxt:BorderlessEntry>
                         </StackLayout>
@@ -87,7 +90,11 @@
                         <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Column="0">
                             <StackLayout>
                                 <Label Text="FOC"></Label>
-                                <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.FOC}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.000"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.FOC, StringFormat='{}{0:F3}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.000">
+                                    <localtxt:BorderlessEntry.Behaviors>
+                                        <xct:SelectAllTextBehavior />
+                                    </localtxt:BorderlessEntry.Behaviors>
+                                </localtxt:BorderlessEntry>
                             </StackLayout>
                         </Border>
                         <Border BackgroundColor="LightGray" Stroke="Transparent" Style="{StaticResource BorderFrame}" Grid.Column="1" Padding="0">
@@ -101,26 +108,42 @@
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="2" Grid.Column="1">
                         <StackLayout>
                             <Label Text="Cost / Unit"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Cost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Cost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00">
+                                <localtxt:BorderlessEntry.Behaviors>
+                                    <xct:SelectAllTextBehavior />
+                                </localtxt:BorderlessEntry.Behaviors>
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0"  Grid.Column="2" Grid.Row="2">
                         <StackLayout>
                             <Label Text="Line Total"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Linetotal,Mode=TwoWay,StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.Linetotal,Mode=TwoWay,StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00">
+                                <localtxt:BorderlessEntry.Behaviors>
+                                    <xct:SelectAllTextBehavior />
+                                </localtxt:BorderlessEntry.Behaviors>
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <!---ForthLine-->
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="3">
                         <StackLayout>
                             <Label Text="Disc %"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discpercent}" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discpercent, StringFormat='{}{0:F2}'}" PlaceholderColor="LightGray" Placeholder="0.00">
+                                <localtxt:BorderlessEntry.Behaviors>
+                                    <xct:SelectAllTextBehavior />
+                                </localtxt:BorderlessEntry.Behaviors>
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="3" Grid.Column="1" >
                         <StackLayout>
                             <Label Text="Discount"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discount}" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.Discount, StringFormat='{}{0:F4}'}" PlaceholderColor="LightGray" Placeholder="0.00">
+                                <localtxt:BorderlessEntry.Behaviors>
+                                    <xct:SelectAllTextBehavior />
+                                </localtxt:BorderlessEntry.Behaviors>
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <HorizontalStackLayout Grid.Row="3" Grid.Column="2">
@@ -131,26 +154,30 @@
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="4" >
                         <StackLayout>
                             <Label Text="Net Cost/ Unit"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.NetCost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.NetCost, StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00">
+                                <localtxt:BorderlessEntry.Behaviors>
+                                    <xct:SelectAllTextBehavior />
+                                </localtxt:BorderlessEntry.Behaviors>
+                            </localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="4" Grid.Column="1" >
                         <StackLayout>
                             <Label Text="Act S.Price"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.ActS_Price}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry Margin="5,0,0,0" IsReadOnly="True" Text="{Binding PurchaseDets.ActS_Price,StringFormat='{}{0:F2}'}" FontAttributes="Bold" PlaceholderColor="LightGray" Placeholder="0.00"></localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <!---FifthLine-->
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.Row="5">
                         <StackLayout>
                             <Label Text="FOC Mapping"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" Text="{Binding PurchaseDets.FOCCostInfo}" FontAttributes="Bold" PlaceholderColor="LightGray"></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry IsReadOnly="True" Margin="5,0,0,0" Text="{Binding PurchaseDets.FOCCostInfo}" FontAttributes="Bold" PlaceholderColor="LightGray"></localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <Border Style="{StaticResource BorderFrame}" HeightRequest="60" Margin="0" Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="1" >
                         <StackLayout>
                             <Label Text="FOC CostMpg"></Label>
-                            <localtxt:BorderlessEntry Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.FOCCostMapg}" PlaceholderColor="LightGray" Placeholder=""></localtxt:BorderlessEntry>
+                            <localtxt:BorderlessEntry IsReadOnly="True" Margin="5,0,0,0" FontAttributes="Bold" Text="{Binding PurchaseDets.FOCCostMapg}" PlaceholderColor="LightGray" Placeholder=""></localtxt:BorderlessEntry>
                         </StackLayout>
                     </Border>
                     <!---SixthLine-->
@@ -212,15 +239,15 @@
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ProdDesr}" Grid.Column="2"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding IsRtn}" Grid.Column="3"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="4"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Qty}" Grid.Column="5"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOC}" Grid.Column="6"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Cost}" Grid.Column="7"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Linetotal}" Grid.Column="8"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discpercent}" Grid.Column="9"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discount}" Grid.Column="10"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Qty, StringFormat='{}{0:F2}'}" Grid.Column="5"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOC, StringFormat='{}{0:F3}'}" Grid.Column="6"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Cost, StringFormat='{}{0:F2}'}" Grid.Column="7"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Linetotal, StringFormat='{}{0:F2}'}" Grid.Column="8"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discpercent, StringFormat='{}{0:F2}'}" Grid.Column="9"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discount, StringFormat='{}{0:F4}'}" Grid.Column="10"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Ispercent}" Grid.Column="11"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding NetCost}" Grid.Column="12"></Label>
-                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ActS_Price}" Grid.Column="13"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding NetCost, StringFormat='{}{0:F2}'}" Grid.Column="12"></Label>
+                                        <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ActS_Price, StringFormat='{}{0:F2}'}" Grid.Column="13"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCCostInfo}" Grid.Column="14"></Label>
                                         <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCCostMapg}" Grid.Column="15"></Label>
                                     </Grid>

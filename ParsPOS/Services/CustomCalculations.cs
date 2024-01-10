@@ -49,15 +49,15 @@ namespace ParsPOS.Services
 			}
             return result.ToString();
         }
-        public static float TotalFOCQty(PurchaseDetTb purchaseDetTb, ObservableCollection<RFOCInvitm> rFOCInvitm)
+        public static double TotalFOCQty(PurchaseDetTb purchaseDetTb, ObservableCollection<RFOCInvitm> rFOCInvitm)
         {
-			float Total = 0;
+			double Total = 0;
 			foreach (var item in rFOCInvitm)
             {
 				if (item.Qty != null && item.Qty != 0)
 				{
 					float? qty = item.Qty;
-					float? SelctInvPmult = purchaseDetTb.PMult;
+					double? SelctInvPmult = purchaseDetTb.PMult;
 					float? SelectFOCPmult = (float)(App.Database.GetPMult(item.ProdCode).Result);
 					purchaseDetTb.FOCMapg = $"{purchaseDetTb.FOCMapg}({item.ItemId})-{item.Qty}";
 

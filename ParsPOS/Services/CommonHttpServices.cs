@@ -28,7 +28,7 @@ namespace ParsPOS.Services
 
         public string GetBaseUrl()
         {
-            return DeviceInfo.Platform == DevicePlatform.Android ? "https://10.10.2.35:7252" : "https://localhost:7252";
+            return DeviceInfo.Platform == DevicePlatform.Android ? "https://10.10.2.4:7252" : "https://localhost:7252";
         }
         
         public async Task<bool> IsApiAvailable(CancellationToken cancellationToken = default)

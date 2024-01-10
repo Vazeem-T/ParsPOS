@@ -6,6 +6,7 @@
              xmlns:localtxt="clr-namespace:ParsPOS.Services"
              xmlns:local="clr-namespace:ParsPOS.Converters"
              xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="vm:PurchaseViewModel"
              xmlns:resultvm="clr-namespace:ParsPOS.Model"
              Title="Purchase">
@@ -40,13 +41,10 @@
                         <Label FontAttributes="Bold" Grid.Column="2" Text="Inv.Date"></Label>
                         <Label FontAttributes="Bold" Grid.Column="3" Text="Refernce"></Label>
                         <Border HeightRequest="40"  Style="{StaticResource EntryBorder}" Margin="0"  Grid.Row="1">
-                            <Picker SelectedIndex="{Binding SeletedType}">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>PURCHASE - CREDIT</x:String>
-                                        <x:String>PURCHASE - CASH</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
+                            <Picker SelectedIndex="{Binding SeletedType,Mode=TwoWay}" TitleColor="Black" TextColor="Black" ItemsSource="{Binding PurchaseType}" >
+                                <Picker.Behaviors>
+                                    <xct:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding PurchaseTypeChangedCommand}"/>
+                                </Picker.Behaviors>
                             </Picker>
                         </Border>
                         <Border HeightRequest="40" Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="1" Grid.Row="1">
@@ -61,18 +59,18 @@
                         <Grid Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,3,0" ColumnSpacing="5" RowSpacing="5" ColumnDefinitions=".3*,*,2*" RowDefinitions="*,*,*">
                             <Label Text="P.A/C (Dr)" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="0"></Label>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="1" Grid.Row="0">
-                                <localtxt:BorderlessEntry Placeholder="Purchase Number"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Placeholder="Purchase Number" Text="{Binding PurchAcAlias}"></localtxt:BorderlessEntry>
                             </Border>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="2" Grid.Row="0">
-                                <localtxt:BorderlessEntry Placeholder="Purchase Description"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Placeholder="Purchase Description" Text="{Binding PurchAcDesc}"></localtxt:BorderlessEntry>
                             </Border>
                             <!---Supplier-->
                             <Label Text="Supplier (Dr)" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="1"></Label>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="1" Grid.Row="1">
-                                <localtxt:BorderlessEntry Placeholder="Supplier Number"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Placeholder="Supplier Number" Text="{Binding SupplAccAlias}"></localtxt:BorderlessEntry>
                             </Border>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="2" Grid.Row="1">
-                                <localtxt:BorderlessEntry Placeholder="Supplier Description"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Placeholder="Supplier Description" Text="{Binding SupplAccDesc}"></localtxt:BorderlessEntry>
                             </Border>
                             <!--Party-->
                             <Label Text="Party" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="2"></Label>

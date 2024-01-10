@@ -8,5 +8,9 @@ namespace PARSAcc.Controllers
 		{
 			return View();
 		}
+		public IActionResult AddPurchase()
+		{
+			return View();
+		}
 	}
 }

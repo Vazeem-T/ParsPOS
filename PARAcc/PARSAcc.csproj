@@ -21,6 +21,8 @@
     <None Include="wwwroot\assets\libs\datatables.net-bs4\node_modules\datatables.net\js\jquery.dataTables.min.js" />
     <None Include="wwwroot\assets\libs\datatables.net-buttons\node_modules\datatables.net\js\jquery.dataTables.min.js" />
     <None Include="wwwroot\assets\libs\datatables.net-keytable\node_modules\datatables.net\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\assets\libs\datatables.net-keytable\js\dataTables.keyTable.min.js" />
+    <None Include="wwwroot\assets\libs\datatables.net-keytable\License.txt" />
     <None Include="wwwroot\assets\libs\datatables.net-responsive\node_modules\datatables.net\js\jquery.dataTables.min.js" />
     <None Include="wwwroot\assets\libs\datatables.net-select\node_modules\datatables.net\js\jquery.dataTables.min.js" />
     <None Include="wwwroot\assets\libs\gulp-rtlcss\node_modules\chalk\index.js" />
@@ -103,6 +105,7 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.24" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
   </ItemGroup>

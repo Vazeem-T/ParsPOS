@@ -15,13 +15,33 @@ namespace ParsPOS.ViewModel
     public partial class PurchaseViewModel : BaseViewModel
     {
         public ObservableCollection<PurchaseDetTb> PurchaseItem { get; set; } = new();
-        [ObservableProperty]
+		public ObservableCollection<string> PurchaseType { get; set; } = new ();
+
+		[ObservableProperty]
         PurchaseDetTb _purchaseDets;
         private readonly IDbConnection _connection;
         [ObservableProperty]
+        float fCRt = 1;
+        //FCRT FOR foreign currency rate
+        [ObservableProperty]
+        double othCost;
+
+		[ObservableProperty]
         string selectedItemcode;
 
         [ObservableProperty]
+        string supplAccAlias;
+
+		[ObservableProperty]
+		string supplAccDesc;
+
+		[ObservableProperty]
+		string purchAcAlias;
+
+		[ObservableProperty]
+		string purchAcDesc;
+
+		[ObservableProperty]
         bool indicator;
 
         [ObservableProperty]
@@ -45,6 +65,9 @@ namespace ParsPOS.ViewModel
         [ObservableProperty]
         int selectOn = 0;
 
+        [ObservableProperty]
+        double discount;
+
         private readonly SharedPurchaseService _sharedPurchaseService;    
         private readonly PopupButtonsSelectionWrapper _popSelectWrapper = new();
         [ObservableProperty]
@@ -53,17 +76,65 @@ namespace ParsPOS.ViewModel
         private CommonHttpServices commonHttpServices;
         public PurchaseViewModel(SharedPurchaseService purchaseService,IDbConnection connection) 
         {
-           
-				_connection = connection;
-				commonHttpServices = new CommonHttpServices();
-				client = commonHttpServices.GetHttpClient();
-				//_sharedPurchaseService = purchaseService;
-				//_sharedPurchaseService.ItemSelected += SharedDataService_ItemSelected;
-           
-
-        }
+			_connection = connection;
+			commonHttpServices = new CommonHttpServices();
+			client = commonHttpServices.GetHttpClient();
+			LoadOnOpenCommand.Execute(null);
+			//_sharedPurchaseService = purchaseService;
+			//_sharedPurchaseService.ItemSelected += SharedDataService_ItemSelected;
+		}
+		[RelayCommand]
+        async Task LoadOnOpen()
+        {
+            try
+            {
+				var PrefixItem = await App.Database.GetPrefixItems(3);
+                if(PrefixItem != null) 
+                {
+					foreach (var item in PrefixItem)
+					{
+						PurchaseType.Add(item.VoucherName);
+					}
+					PurchaseTypeChangedCommand.Execute(null);
+                    OnPropertyChanged(nameof(SeletedType));
+				}
+			}
+            catch (Exception ex)
+            {
+            }
+		}
 
         [RelayCommand]
+		async Task PurchaseTypeChanged()
+        {
+            try
+            {
+				if (SeletedType == 0)
+				{
+					PreFixTb GetAcNo = await App.Database.GetVoucherName(PurchaseType[0]);
+					AccMast Ac1Detail = await App.Database.GetMasterAccountDetail(GetAcNo.ANo ?? 0);
+					PurchAcAlias = Ac1Detail.Alias;
+					PurchAcDesc = Ac1Detail.AccDescr;
+					SupplAccAlias = null;
+                    SupplAccDesc = null;
+				}
+				else
+				{
+					PreFixTb GetAcNo = await App.Database.GetVoucherName(PurchaseType[1]);
+					AccMast Ac1Detail = await App.Database.GetMasterAccountDetail(GetAcNo.ANo ?? 0);
+					PurchAcAlias = Ac1Detail.Alias;
+					PurchAcDesc = Ac1Detail.AccDescr;
+					AccMast Ac2Detail = await App.Database.GetMasterAccountDetail(GetAcNo.ANo2 ?? 0);
+					SupplAccAlias = Ac2Detail.Alias;
+					SupplAccDesc = Ac2Detail.AccDescr;
+				}
+			}
+			catch (Exception ex)
+            {
+            }
+		}
+
+		[RelayCommand]
         async Task AddAsync()
         {
             try
@@ -74,8 +145,8 @@ namespace ParsPOS.ViewModel
             {
                 await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
             }
-            
         }
+
         [RelayCommand]
         async Task RemoveAsync()
         {
@@ -120,6 +191,8 @@ namespace ParsPOS.ViewModel
 					if (PurchaseDets.Qty != 0 && PurchaseDets.Cost != 0)
 					{
 						PurchaseDets.Linetotal = PurchaseDets.Qty * PurchaseDets.Cost;
+                        //PurchaseDets.NetCost = PurchaseDets.Cost;
+                        await CalOthCost();
 						OnPropertyChanged(nameof(PurchaseDets));
 						int index = PurchaseItem.IndexOf(PurchaseItem.FirstOrDefault(item => item.SlNo == PurchaseDets.SlNo));
 						if (index != -1)
@@ -179,13 +252,15 @@ namespace ParsPOS.ViewModel
                             string content = await response.Content.ReadAsStringAsync();
                             itemlist = JsonConvert.DeserializeObject<List<dynamic>>(content);
                         }
-                        else
-                        {
-                            var sqlquery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE ItemCode = '{Code}'";
-                            itemlist = await _connection.QueryAsync<dynamic>(sqlquery);
-                            itemlist.ToList();
-                        }
-                        if (PurchaseDets != null)
+						else
+						{
+
+							var sqlquery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE ItemCode = '{Code}'";
+							itemlist = await _connection.QueryAsync<dynamic>(sqlquery);
+							itemlist.ToList();
+
+						}
+						if (PurchaseDets != null)
                         {
                             if (PurchaseDets.IsCompleted == false)
                             {
@@ -223,24 +298,27 @@ namespace ParsPOS.ViewModel
                                 Code = Code,
                                 ProdDesr = a.Description,
                                 Unit = a.Unit,
-                                Cost = (double)(a.ActiveCost),
-                                NetCost = (double)(a.ActiveCost),
-                                ActS_Price = (float?)(a.UnitPrice),
-                                Mthd = 0,
+                                Cost = (double)(((a.LastPurchCost != 0) ? a.LastPurchCost : ( a.CostAverage > 0) ? a.CostAverage : (a.ActiveCost/a.PMult)) * a.PMult),
+                                ActualCost = (double)(((a.LastPurchCost != 0) ? a.LastPurchCost : (a.CostAverage > 0) ? a.CostAverage : (a.ActiveCost / a.PMult)) * a.PMult),
+								//NetCost = (double)((a.CostAverage > 0) ? a.CostAverage * a.PMult : a.ActiveCost),
+                                ActS_Price = (float)(a.UnitPrice),
+                                ActOthCost = 0,
+								Mthd = 0,
                                 UVal = 0,
                                 DMthd = 0,
-                                PMult = (float?)(a.PMult),
-                                Taxpercent = (float?)(a.Taxper),
+                                PMult = (float)(a.PMult),
+                                Taxpercent = (float)(a.Taxper),
                                 BaseId = Convert.ToInt32(a.BaseId),
                                 ItemId = Convert.ToInt32(a.ItemId),
                                 IsCompleted = false
+                                
                             };
                             AverageCost = (float)a.CostAverage;
                             QIH = (float)a.QtyInHand;
                             LpCost = (float)a.LastPurchCost;
-
                         }
                         PurchaseItem.Add(PurchaseDets);
+                        CalOthCost();
                     }
                 }
                 catch (Exception ex)
@@ -254,28 +332,166 @@ namespace ParsPOS.ViewModel
                 }
             }
         }
-
-        [RelayCommand]
-        async Task SubmitAsync()
-        {
-            if(PurchaseDets != null)
+        
+        public async Task<double> CalOthCost()
+		{
+            try
             {
-				if (PurchaseDets.Qty == null || PurchaseDets.Qty == 0)
+				double tOthVal = 0;
+				double tBAmt = 0;
+				double tBDAmt = 0;
+				double tDAmt = 0;
+				double AUnitCost = 0;
+				double CostWoDisc = 0;
+				double CalOthCost = 0;
+
+				foreach (var item in PurchaseItem)
 				{
-					await Shell.Current.DisplayAlert("Alert", "Qty cannot be null", "Ok");
+					if (item.IsRtn == true) goto Next1;
+					//if(item.Qty == 0)item.Qty = 0;
+					if (item.Mthd != 0) tOthVal += (double)(item.ActOthCost * item.Qty + item.AFOC);
+					else tBAmt += (double)((item.ActualCost - item.ADisc) * item.Qty);
+					if (item.DMthd != 0) tDAmt += (double)(item.ActualDisc * item.Qty + item.AFOC);
+					else tBDAmt += (double)((item.ActualCost - item.ADisc) * item.Qty);
+					item.TtlLnFOCAmt = 0;
 				}
-				else
+			Next1:;
+				await DoDistributeFOCCost();
+				tOthVal = (double)(OthCost / FCRt - tOthVal);
+				tDAmt = Discount - tDAmt;
+				foreach (var item in PurchaseItem)
 				{
-                    if(PurchaseDets.Linetotal == 0 || PurchaseDets.Linetotal == null)
-                    {
-						QtyChangedCommand.Execute(null);
+					AUnitCost = 0;
+					AUnitCost = (double)(item.ActualCost - item.ADisc);
+
+					if (item.IsRtn == true)
+					{
+						item.NetCost = AUnitCost;
+						item.ActualDisc = 0;
+						goto Next2;
 					}
-					PurchaseDets.IsCompleted = true;
-					PurchaseDets = null;
-                    IsDelVisible = false;
+					CostWoDisc = 0;
+					if ((item.Qty + item.AFOC) > 0)
+						CostWoDisc = (double)((AUnitCost * (item.Qty + item.AFOC) - item.TtlLnFOCAmt) / (item.Qty + item.AFOC));
+
+					if (item.Mthd == 0)
+					{
+						if (tBAmt == 0) item.ActOthCost = 0;
+						else
+						{
+							if ((item.Qty + item.AFOC) > 0) item.ActOthCost = (double)(tOthVal * CostWoDisc / tBAmt);
+							else item.ActOthCost = 0;
+						}
+					}
+
+					if (item.DMthd == 0)
+					{
+						if (tBDAmt == 0) item.ActualDisc = 0;
+						else
+						{
+							if ((item.Qty + item.AFOC) > 0) item.ActualDisc = (float)(tDAmt * CostWoDisc / tBDAmt);
+							else item.ActOthCost = 0;
+						}
+					}
+
+					CalOthCost += (double)((item.Qty + item.AFOC) * (item.ActOthCost) - item.ActualDisc);
+
+					item.NetCost = ((CostWoDisc + item.ActOthCost) - item.ActualDisc);
+				}
+			Next2:;
+				foreach (var item in PurchaseItem)
+				{
+					if (item.SlNo == 0)
+					{
+						item.NetCost = 0;
+					}
+				}
+
+				return CalOthCost;
+			}
+            catch (Exception ex)
+            {
+                return 0;
+            }
+			
+		}
+
+        async Task DoDistributeFOCCost()
+        {
+			int i, j;
+			string[] slNo;
+			int intX;
+			double ttl;
+			double focVal;
+
+            for (i = 0; i < PurchaseItem.Count;i++)
+			{
+				if (PurchaseItem[i].IsRtn == true)
+				{
+                    PurchaseItem[i].TtlLnFOCAmt = 0;
+					goto Nexti;
+				}
+
+				if (PurchaseItem[i].SlNo != 0 && PurchaseItem[i].AFOC != 0)
+				{
+					focVal = (double)((PurchaseItem[i].ActualCost - PurchaseItem[i].ADisc) * PurchaseItem[i].AFOC);
+
+					if (focVal > 0)
+					{
+						if (string.IsNullOrWhiteSpace(PurchaseItem[i].FOCCostMapg))
+						{
+                            PurchaseItem[i].TtlLnFOCAmt = (float)(PurchaseItem[i].TtlLnFOCAmt + focVal);
+						}
+						else
+						{
+							slNo = PurchaseItem[i].FOCCostMapg.Split(',');
+							ttl = 0;
+							for (intX = 0; intX <= slNo.GetUpperBound(0); intX++)
+							{
+								for (j = 1; j <= PurchaseItem.Count; j++)
+								{
+									if (PurchaseItem[j].SlNo == double.Parse(slNo[intX]) && PurchaseItem[j].IsRtn != true)
+									{
+										ttl += (double)((PurchaseItem[j].ActualCost - PurchaseItem[j].ADisc) * (PurchaseItem[j].Qty + PurchaseItem[j].AFOC));
+										break;
+									}
+								}
+							}
+
+							for (intX = 0; intX <= slNo.GetUpperBound(0); intX++)
+							{
+								for (j = 1; j <= PurchaseItem.Count; j++)
+								{
+									if ((PurchaseItem[j].SlNo.ToString() == slNo[intX]) && PurchaseItem[j].IsRtn != true)
+									{
+                                        PurchaseItem[j].TtlLnFOCAmt = (float)((PurchaseItem[j].TtlLnFOCAmt) + focVal * (PurchaseItem[j].ActualCost -  PurchaseItem[j].ADisc) * (PurchaseItem[j].Qty +  PurchaseItem[j].AFOC) / ttl);
+										break;
+									}
+								}
+							}
+
+							Array.Clear(slNo, 0, slNo.Length);
+						}
+					}
 				}
 			}
-        }
+        Nexti:;
+		}
+
+		[RelayCommand]
+        async Task SubmitAsync()
+        {
+			if (PurchaseDets != null)
+			{
+
+				
+				QtyChangedCommand.Execute(null);
+				PurchaseDets.IsCompleted = true;
+				PurchaseDets = null;
+				IsDelVisible = false;
+
+			}
+		}
         [RelayCommand]
         async Task ClearAsync()
         {

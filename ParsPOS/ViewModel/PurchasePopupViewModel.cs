@@ -137,7 +137,6 @@ namespace ParsPOS.ViewModel
             catch (Exception ex)
             {
             }
-            
         }
 
         [RelayCommand]
