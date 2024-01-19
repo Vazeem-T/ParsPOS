@@ -18,17 +18,19 @@ public partial class AppShell : Shell
     private void InitRoutes()
     {
         Routing.RegisterRoute(nameof(AddCategory), typeof(AddCategory));
-        Routing.RegisterRoute(nameof(Sale), typeof(Sale));
+        //Routing.RegisterRoute(nameof(Sale), typeof(Sale));
         Routing.RegisterRoute(nameof(ImportDb), typeof(ImportDb));
         Routing.RegisterRoute(nameof(UserInfo), typeof(UserInfo));
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
-        Routing.RegisterRoute(nameof(Inventory), typeof(Inventory));
+        //Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        //Routing.RegisterRoute(nameof(Inventory), typeof(Inventory));
         Routing.RegisterRoute(nameof(PayPopup), typeof(PayPopup));
         Routing.RegisterRoute(nameof(AddCompanydt), typeof(AddCompanydt));
-        Routing.RegisterRoute(nameof(Purchase), typeof(Purchase));
-        Routing.RegisterRoute(nameof(AddPurchase), typeof(AddPurchase));
-        Routing.RegisterRoute(nameof(FOC),typeof(FOC));
-        Routing.RegisterRoute(nameof(Download), typeof(Download));
+        Routing.RegisterRoute("MainPage/Purchase/", typeof(Purchase));
+		Routing.RegisterRoute("MainPage/Purchase/AddOtheCostAcc", typeof(AddOtheCostAcc));
+		Routing.RegisterRoute("MainPage/Purchase/AddPurchase", typeof(AddPurchase));
+        Routing.RegisterRoute("MainPage/Purchase/AddPurchase/FOC", typeof(FOC)); 
+
+		Routing.RegisterRoute(nameof(Download), typeof(Download));
 
     }
     private async void ImageButton_Clicked(object sender, EventArgs e)

@@ -21,12 +21,12 @@
 						<span>File</span>
 					</a>
 				</li>
-				<li>
+				@* <li>
 					<a href="javascript: void(0)" class="waves-effect">
 						<i class="ri-briefcase-2-fill"></i>
 						<span>Masters</span>
 					</a>
-				</li>
+				</li> *@
 				@foreach (var topLevelItem in Model)
 				{
 					<li>
@@ -34,14 +34,14 @@
 						{
 							<a href="javascript: void(0)" class="has-arrow">
 								<i class="@topLevelItem.IconKey"></i>
-								<span>@topLevelItem.langEnglish</span>
+								<span>@topLevelItem.LangEnglish</span>
 							</a>
 						}
 						else
 						{
 							<a href="@Url.Action(topLevelItem.ModuleCode, "ControllerName")" class="waves-effect">
 								<i class="@topLevelItem.IconKey"></i>
-								<span>@topLevelItem.langEnglish</span>
+								<span>@topLevelItem.LangEnglish</span>
 							</a>
 						}
 
@@ -53,13 +53,13 @@
 									<li>
 										@if (subItem.IsParent)
 										{
-											<a href="javascript: void(0)" class="has-arrow">@subItem.langEnglish</a>
+											<a href="javascript: void(0)" class="has-arrow">@subItem.LangEnglish</a>
 											
 										}
 										else
 										{
 											<a href="@Url.Action(subItem.ModuleCode, "ControllerName")" class="waves-effect">
-												@subItem.langEnglish
+												@subItem.LangEnglish
 											</a>
 										}
 
@@ -70,7 +70,7 @@
 												{
 													<li>
 														<a href="@Url.Action(subSubMenu.ModuleCode, "ControllerName")" class="waves-effect">
-															@subSubMenu.langEnglish
+															@subSubMenu.LangEnglish
 														</a>
 													</li>
 												}

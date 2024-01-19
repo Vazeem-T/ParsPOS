@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.BottomSheet.PurchOthCost"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"   
+             Padding="16,32" BackgroundColor="White"
+             HasHandle="True"
+             CornerRadius="30">
+    <the49:BottomSheet.Detents>
+        <the49:RatioDetent Ratio=".8"/>
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*">
+            <Label Text="Select Account" FontSize="Medium" FontAttributes="Bold" VerticalTextAlignment="Center"></Label>
+            <Button BackgroundColor="IndianRed" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Text="{Static fontawesome:FontAwesomeIcons.Xmark}" FontFamily="FAS"></Button>
+        </Grid>
+    </VerticalStackLayout>
+</the49:BottomSheet>

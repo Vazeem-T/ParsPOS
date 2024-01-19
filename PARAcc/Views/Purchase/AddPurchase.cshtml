@@ -1,145 +1,67 @@
-﻿@{
+﻿@model PurchaseViewModel
+@{
 	ViewBag.Title = "Add Purchase";
 	ViewBag.pTitle = "Add Purchase";
 	ViewBag.pageTitle = "Purchase";
 }
-@* @section styles {
-	<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
-}
-
-<link href="~/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-<link href="~/assets/libs/spectrum-colorpicker2/spectrum.min.css" rel="stylesheet" type="text/css">
-<link href="~/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
- *@
 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-body">
-				<form>
-					<div class="row mb-2">
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">
-								Prod.Code
-							</label>							
+					@await Html.PartialAsync("~/Views/Purchase/_PurchasePartialView/_AddPurchaseForm.cshtml",Model.PurchaseDetTb)
+				<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalScrollableTitle">Select Product</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="table-responsive">
+									<table class="table table-sm mb-0">
+										<thead class="poptablehead">
+											<tr>
+												<th>Prod. Code</th>
+												<th>Prod. Descr</th>
+												<th>Unit</th>
+												<th>Active Cost</th>
+												<th>Unit Price</th>
+												<th>Barcode</th>
+											</tr>
+										</thead>
+										<tbody class="PurchPopBody">
+											@await Html.PartialAsync("~/Views/Purchase/_PurchasePartialView/_ProductTbLoad.cshtml",Model.InvItms)
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<select class="form-select form-select-sm" id="searchSelect" style="width:auto">
+									<option value="1" selected>ItemCode</option>
+									<option value="2">Description</option>
+									<option value="3">Unit</option>
+									<option value="4">ActiveCost</option>
+									<option value="5">UnitCost</option>
+									<option value="6">Barcode</option>
+								</select>
+								<div class="form-inline float-md-end">
+									<div class="search-box ms-2">
+										<div class="position-relative">
+											<input type="text" id="searchBox" class="form-control form-control-sm rounded" placeholder="Search...">
+											<i class="mdi mdi-magnify search-icon" style="line-height:28px"></i>
+										</div>
+									</div>
+								</div>
+								<button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+							</div>
 						</div>
-						<div class="col-lg-4 mb-1 mb-0-lg">
-							<select class="form-control form-control-sm select2">
-								<option>Prod. Code</option>
-								<optgroup label="Alaskan/Hawaiian Time Zone">
-									<option value="AK">Alaska</option>
-									<option value="HI">Hawaii</option>
-								</optgroup>
-							</select>
-                        </div>
-						<div class="col-lg-6">
-							<input class="form-control form-control-sm" placeholder="Prod. Descr"/>
-						</div>
+					</div>
+				</div>
 
-						<!--Unit-->
-						 <div class="col-lg-2 ">
-							<label class="col-form-label-sm">
-								Unit
-							</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm"/>
-						</div>
-						<div class="col-lg-1 ">
-							<div class="form-check form-check-right">
-								<input class="form-check-input" type="checkbox" id="formCheckRight2">
-								<label class="form-check-label col-form-label-sm" for="formCheckRight2">
-									IsRtn
-								</label>
-							</div>
-						</div>
-						<div class="col-lg-5"></div>
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Quantity</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" />
-						</div>
-						<div class="col-lg-6"></div>
-						<!--FOC-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">FOC</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.000" />
-						</div>
-						<!--Cost/Unit-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Cost/ Unit</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.00" />
-						</div>
-						
-						<!--Disc %-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Discount Percentage</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.00" />
-						</div>
-						<!--LineTotal-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Line Total</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.00" />
-						</div>
-						<!--Discount-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Discount</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.0000" />
-						</div>
-						<div class="col-lg-1 ">
-							<div class="form-check form-check-right">
-								<input class="form-check-input" type="checkbox" id="formCheckRight2"
-									   checked>
-								<label class="form-check-label col-form-label-sm" for="formCheckRight2">
-									Is%
-								</label>
-							</div>
-						</div>
-						<div class="col-lg-5"></div>
-						<!--NETCost-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Net Cost/ Unit</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.00" />
-						</div>
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">Act S.Price</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" placeholder="0.00" />
-						</div>
-						<!--FOCMapg-->
-						<div class="col-lg-2">
-							<label class="col-form-label-sm">FOC Mapping</label>
-						</div>
-						<div class="col-lg-4">
-							<input class="form-control form-control-sm" />
-						</div>
-					</div>
-					<div class="row mb-2">
-						<div class="col-lg-12">
-							<div class="float-end">
-								<button class="btn btn-danger waves-light btn-sm">Clear</button>
-								<button class="btn btn-outline-dark waves-light btn-sm">Submit</button>
-							</div>
-						</div>
-					</div>
-				</form>
 				<div class="table-responsive mb-2" style="height:200px">
-					<table class="table table-rounded table-editable table-nowrap align-middle table-edits ">
-						<thead class="bg-dark">
+					<table class="table table-sm table-rounded table-editable table-nowrap align-middle table-edits ">
+						<thead class="bg-dark" style="font-size:medium; height:40px;vertical-align: middle;">
 							<tr class="text-light">
 								<th>SlNo</th>
 								<th>Prod. Code</th>
@@ -162,38 +84,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-id="1">
-								<td data-field="id" style="width: 80px">1</td>
-								<td data-field="name">David McHenry</td>
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-								<td data-field="gender">Male</td>
-
-								<td data-field="age">24</td>
-								<td data-field="gender">Male</td>
-								<td>
-									<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-										<i class="fas fa-pencil-alt"></i>
-									</a>
-									<a class="btn btn-outline-danger btn-sm delete" title="Delete">
-										<i class="fas fa-trash-alt"></i>
-									</a>
-								</td>
-							</tr>
+							@await Html.PartialAsync("~/Views/Purchase/_PurchasePartialView/_PurchaseTableView.cshtml", Model.PurchaseDetTbItm)
 						</tbody>
 					</table>
 				</div>
@@ -206,16 +97,9 @@
 <script src="~/assets/libs/metismenu/metisMenu.min.js" asp-append-version="true"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js" asp-append-version="true"></script>
 <script src="~/assets/libs/node-waves/waves.min.js" asp-append-version="true"></script>
-
-
-@* <script src="~/assets/libs/select2/js/select2.min.js"></script>
-<script src="~/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="~/assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>
-<script src="~/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
-<script src="~/assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
-<script src="~/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-<script src="~/assets/js/pages/form-advanced.init.js"></script> *@
-
+<!-- toastr plugin -->
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<!-- toastr init -->
+<script src="~/assets/js/pages/toastr.init.js"></script>
 <script src="~/assets/js/app.js" asp-append-version="true"></script>
-
 <script src="~/assets/js/VzPages/AddPurchase.js" asp-append-version="true" ></script>

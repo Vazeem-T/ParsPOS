@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace ParsPOS.Model
 		public string Alias {  get; set; }
 		public int S1AccId { get; set; }
 		[MaxLength(10)]
+		[DisplayName("Purch A/C")]
 		public string AccDescr { get; set; }
 		[MaxLength(3)]
 		public string CurrencyCode { get; set; }

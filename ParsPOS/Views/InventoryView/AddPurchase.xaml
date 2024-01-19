@@ -200,7 +200,7 @@
                 <Border Style="{StaticResource EntryBorder}" Padding="3,0"  Margin="0">
                     <Label WidthRequest="70" Text="{Binding LpCost}"  VerticalTextAlignment="Center"></Label>
                 </Border>
-                <Label BackgroundColor="{StaticResource Gray400}" Text="4.49" HeightRequest="30" TextColor="White" VerticalTextAlignment="Center"  Padding="15,0"></Label>
+                <!--<Label BackgroundColor="{StaticResource Gray400}" Text="4.49" HeightRequest="30" TextColor="White" VerticalTextAlignment="Center"  Padding="15,0"></Label>-->
                 <CheckBox></CheckBox>
                 <Label Text="Edit" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
                 <Border Style="{StaticResource EntryBorder}" Padding="3,0" Margin="0">

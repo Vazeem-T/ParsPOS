@@ -47,6 +47,7 @@ namespace ParsPOS.ViewModel
 				if (_purchaseViewModel.PurchaseDets != null)
 				{
 					PurchDetTb = _purchaseViewModel.PurchaseDets;
+					Items = _purchaseViewModel.PurchaseItem;
 					int Slno = 0;
 					float FocQty = 0;
 					var sqlquery = $"SELECT InvItm.*, BaseItmDet.LPNetCost FROM InvItm LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE baseid = '{_purchaseViewModel.PurchaseDets.BaseId}'";
@@ -94,6 +95,31 @@ namespace ParsPOS.ViewModel
 						FOCBase.Add(rFOC);
 						FocQty = 0;
 					}
+
+					foreach (var item in Items)
+					{
+						item.ISMapping = false;
+						if (_purchaseViewModel.PurchaseDets.FOCCostMapg != null)
+						{
+							string[] pairs = _purchaseViewModel.PurchaseDets.FOCCostMapg.Split(',');
+							foreach (var pair in pairs)
+							{
+								if (int.TryParse(pair, out int pairNumber))
+								{
+									if (pairNumber == item.SlNo)
+									{
+										item.ISMapping = true;
+									}
+								}
+							}
+						}
+					}
+					int index = Items.IndexOf(Items.FirstOrDefault(item => item.SlNo == _purchaseViewModel.PurchaseDets.SlNo));
+					if (index != -1)
+					{
+						Items[index] = _purchaseViewModel.PurchaseDets;
+						OnPropertyChanged(nameof(Items));
+					}
 				}
 			}
 			catch (Exception ex)
@@ -137,6 +163,7 @@ namespace ParsPOS.ViewModel
 		{
 			try
 			{
+				await FOCMpg();
 				_purchaseViewModel.PurchaseDets.AFOC = TotalFOCQty ?? 0;
 				_purchaseViewModel.PurchaseDets.FOC = TotalFOCQty ?? 0;
 				_purchaseViewModel.PurchaseDets.FOCCostInfo = QtyDisplay ?? string.Empty;
@@ -149,11 +176,30 @@ namespace ParsPOS.ViewModel
 					_purchaseViewModel.PurchaseDets.NetCost = (double)(_purchaseViewModel.PurchaseDets.Linetotal / (_purchaseViewModel.PurchaseDets.Qty + TotalFOCQty)); 
 				}
 				await _purchaseViewModel.CalOthCost();
-				await Shell.Current.GoToAsync(nameof(AddPurchase));
+				_purchaseViewModel.RefreshAddPurchaseCommand.Execute(null);
+				await Shell.Current.GoToAsync("..");
 			}
 			catch (Exception ex)
 			{
 				await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
+			}
+		}
+
+		async Task FOCMpg()
+		{
+			PurchDetTb.FOCMapg = null;
+
+			for (int i = 0; i < FOCBase.Count; i++)
+			{
+				if (FOCBase[i].Qty > 0)
+				{
+					PurchDetTb.FOCMapg += $"({FOCBase[i].ItemId})-{FOCBase[i].Qty}";
+
+					if (i + 1 < FOCBase.Count && FOCBase[i + 1].Qty > 0)
+					{
+						PurchDetTb.FOCMapg += ",";
+					}
+				}
 			}
 		}
 	}

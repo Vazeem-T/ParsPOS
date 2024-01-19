@@ -1,4 +1,3 @@
-using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using ParsPOS.Model;
 using ParsPOS.Services;

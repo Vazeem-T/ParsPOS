@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.InventoryView.AddOtheCostAcc"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             Title="Other Cost"
+             Padding="30,20">
+    <VerticalStackLayout>
+        
+        <!--<HorizontalStackLayout HeightRequest="35" Margin="0,0,0,10" HorizontalOptions="End">
+            <Button Text="Add New" Padding="15,0"></Button>
+        </HorizontalStackLayout>-->
+            <Grid ColumnDefinitions="2*,2*,*" Margin="0,0,0,5" RowDefinitions="*,*,*,*" ColumnSpacing="5" RowSpacing="5">
+            <Label Text="Debitor (Alias)" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Row="1">
+                <localtxt:BorderlessEntry  Placeholder="Alias"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="Debit A/C Name" Grid.Column="1" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Column="1" Grid.Row="1">
+                <localtxt:BorderlessEntry Placeholder="A/C Name"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="Amount" Grid.Column="3" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Column="3" Grid.Row="1">
+                <localtxt:BorderlessEntry Placeholder="Description"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="Reference" FontAttributes="Bold" Grid.Row="2"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Row="3">
+                <localtxt:BorderlessEntry  Placeholder="Alias"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="Description" Grid.Column="1" Grid.Row="2" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Column="1" Grid.Row="4">
+                <localtxt:BorderlessEntry Placeholder="A/C Name"></localtxt:BorderlessEntry>
+            </Border>
+            <HorizontalStackLayout Grid.Column="2" Grid.Row="3">
+                <CheckBox></CheckBox>
+                <Label Text="Costing" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+        </Grid>
+        <Grid ColumnDefinitions="2*,2*,*" RowDefinitions="*,*,*,*" ColumnSpacing="5" RowSpacing="5">
+            <Label Text="Creditor (Alias)" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Row="1">
+                <localtxt:BorderlessEntry  Placeholder="Alias"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="Credit A/C Name" Grid.Column="1" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Column="1" Grid.Row="1">
+                <localtxt:BorderlessEntry Placeholder="A/C Name"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="FC Amount" Grid.Column="3" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Column="3" Grid.Row="1">
+                <localtxt:BorderlessEntry Placeholder="Description"></localtxt:BorderlessEntry>
+            </Border>
+            <Label Text="FC" FontAttributes="Bold" Grid.Row="2"></Label>
+            <Border Style="{StaticResource EntryBorder}" Grid.Row="3">
+                <localtxt:BorderlessEntry  Placeholder="Alias"></localtxt:BorderlessEntry>
+            </Border>
+        </Grid>
+        <Grid HeightRequest="35" Margin="0,20" ColumnDefinitions="*,*">
+            <Grid Grid.Column="1" ColumnDefinitions=".5*,*,.3*,*">
+                <Label Text="Costing Total" VerticalTextAlignment="Center"></Label>
+                <Border Style="{StaticResource EntryBorder}" Grid.Column="1">
+                    <Label></Label>
+                </Border>
+                <Label Text="Total" VerticalTextAlignment="Center"  HorizontalTextAlignment="Center" Grid.Column="2"></Label>
+                <Border Style="{StaticResource EntryBorder}" Grid.Column="3">
+                    <Label></Label>
+                </Border>
+            </Grid>
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="Start" Grid.Column="0">
+                <Button Padding="15,0" Text="Submit"></Button>
+                <Button Padding="15,0" Text="Cancel" BackgroundColor="IndianRed"></Button>
+            </HorizontalStackLayout>
+        </Grid>
+        <Border Style="{StaticResource CommonFrame}">
+            <CollectionView HeightRequest="150">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions=".8*,.5*,*,.5*,*,*,.8*,*,.5*" HeightRequest="40" BackgroundColor="{StaticResource DarkBg1}">
+                        <Label TextColor="White" Padding="2,0,0,0" VerticalTextAlignment="Center" Text="Debitor"></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="1" Text="Costing" ></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="2" Text="Debit A/c Name" ></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="3" Text="Amount"         ></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="4" Text="Reference"></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="5" Text="Description"></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="6" Text="Creditor"></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="7" Text="Credit A/C Name"></Label>
+                        <Label TextColor="White" VerticalTextAlignment="Center" Grid.Column="8" Text="FC Amount"></Label>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions=".8*,.5*,*,.5*,*,*,.8*,*,.5*" HeightRequest="40" BackgroundColor="{StaticResource DarkBg1}">
+                            <Label Padding="2,0,0,0" VerticalTextAlignment="Center" Text="Debitor"></Label>
+                            <Label Grid.Column="1" Text="Costing" ></Label>
+                            <Label Grid.Column="2" Text="Debit A/c Name" ></Label>
+                            <Label Grid.Column="3" Text="Amount"         ></Label>
+                            <Label Grid.Column="4" Text="Reference"></Label>
+                            <Label Grid.Column="5" Text="Description"></Label>
+                            <Label Grid.Column="6" Text="Creditor"></Label>
+                            <Label Grid.Column="7" Text="Credit A/C Name"></Label>
+                            <Label Grid.Column="8" Text="FC Amount"></Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+        <HorizontalStackLayout HeightRequest="40" Margin="0,10,0,0" HorizontalOptions="End">
+            <Button Text="OK" WidthRequest="100"></Button>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PurchaseViewModel
+
+@{
 	ViewBag.Title = "Purchase";
 	ViewBag.pTitle = "Purchase";
 	ViewBag.pageTitle = "Inventory";
@@ -145,8 +147,8 @@
 					</div>
 					<!--MainTable-->
 					<div class="table-responsive mb-2" style="height:200px">
-						<table class="table table-rounded table-editable table-nowrap align-middle table-edits ">
-							<thead class="bg-dark">
+						<table class="table table-sm table-rounded table-editable table-nowrap align-middle table-edits ">
+							<thead class="bg-dark" style="font-size:medium; height:40px;vertical-align: middle;">
 								<tr class="text-light">
 									<th>SlNo</th>
 									<th>Prod. Code</th>
@@ -169,82 +171,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr data-id="1">
-									<td data-field="id" style="width: 80px">1</td>
-									<td data-field="name">David McHenry</td>
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-									<td data-field="gender">Male</td>
-
-									<td data-field="age">24</td>
-									<td data-field="gender">Male</td>
-									<td>
-										<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-											<i class="fas fa-pencil-alt"></i>
-										</a>
-										<a class="btn btn-outline-danger btn-sm delete" title="Delete">
-											<i class="fas fa-trash-alt"></i>
-										</a>
-									</td>
-								</tr>
-								@*<tr data-id="2">
-								<td data-field="id">2</td>
-								<td data-field="name">Frank Kirk</td>
-								<td data-field="age">22</td>
-								<td data-field="gender">Male</td>
-								<td>
-								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-								<i class="fas fa-pencil-alt"></i>
-								</a>
-								</td>
-								</tr>
-								<tr data-id="3">
-								<td data-field="id">3</td>
-								<td data-field="name">Rafael Morales</td>
-								<td data-field="age">26</td>
-								<td data-field="gender">Male</td>
-								<td>
-								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-								<i class="fas fa-pencil-alt"></i>
-								</a>
-								</td>
-								</tr>
-								<tr data-id="4">
-								<td data-field="id">4</td>
-								<td data-field="name">Mark Ellison</td>
-								<td data-field="age">32</td>
-								<td data-field="gender">Male</td>
-								<td>
-								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-								<i class="fas fa-pencil-alt"></i>
-								</a>
-								</td>
-								</tr>
-								<tr data-id="5">
-								<td data-field="id">5</td>
-								<td data-field="name">Minnie Walter</td>
-								<td data-field="age">27</td>
-								<td data-field="gender">Female</td>
-								<td>
-								<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
-								<i class="fas fa-pencil-alt"></i>
-								</a>
-								</td>
-								</tr> *@
+								@await Html.PartialAsync("~/Views/Purchase/_PurchasePartialView/_PurchaseTableView.cshtml", Model.PurchaseDetTbItm)
 							</tbody>
 						</table>
 					</div>

@@ -24,7 +24,7 @@
                     <Border Style="{StaticResource EntryBorder}" Stroke="Transparent"  Margin="0">
                         <HorizontalStackLayout>
                             <localtxt:BorderlessEntry WidthRequest="80" TextColor="Red" HorizontalTextAlignment="Center" Text="1"></localtxt:BorderlessEntry>
-                            <Button CornerRadius="10" Padding="0" Text="{x:Static fontawesome:FontAwesomeIcons.ListCheck}" FontFamily="FAS" HeightRequest="30" FontAttributes="Bold" BackgroundColor="{StaticResource Gray400}"></Button>
+                            <!--<Button CornerRadius="10" Padding="0" Text="{x:Static fontawesome:FontAwesomeIcons.ListCheck}" FontFamily="FAS" HeightRequest="30" FontAttributes="Bold" BackgroundColor="{StaticResource Gray400}"></Button>-->
                         </HorizontalStackLayout>
                     </Border>
                     <Button Text="{x:Static fontawesome:FontAwesomeIcons.ArrowRight}" FontFamily="FAS"></Button>
@@ -59,7 +59,11 @@
                         <Grid Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,3,0" ColumnSpacing="5" RowSpacing="5" ColumnDefinitions=".3*,*,2*" RowDefinitions="*,*,*">
                             <Label Text="P.A/C (Dr)" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="0"></Label>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="1" Grid.Row="0">
-                                <localtxt:BorderlessEntry Placeholder="Purchase Number" Text="{Binding PurchAcAlias}"></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Placeholder="Purchase Number" Text="{Binding PurchAcAlias}">
+                                    <localtxt:BorderlessEntry.Behaviors>
+                                        <xct:EventToCommandBehavior EventName="Focused" Command="{Binding DynamicPopSelectCommand}" CommandParameter="AccMast"/>
+                                    </localtxt:BorderlessEntry.Behaviors>
+                                </localtxt:BorderlessEntry>
                             </Border>
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="2" Grid.Row="0">
                                 <localtxt:BorderlessEntry Placeholder="Purchase Description" Text="{Binding PurchAcDesc}"></localtxt:BorderlessEntry>
@@ -81,7 +85,7 @@
                                 <localtxt:BorderlessEntry Placeholder="Party Description"></localtxt:BorderlessEntry>
                             </Border>
                         </Grid>
-                        <Grid Grid.Row="3" ColumnDefinitions=".3*,*,2*" Grid.ColumnSpan="4">
+                        <Grid Grid.Row="3" ColumnDefinitions=".3*,*,*,*" Grid.ColumnSpan="4">
                             <Label Text="Select On" FontAttributes="Bold" VerticalOptions="Center"></Label>
                             <Border Style="{StaticResource EntryBorder}" HeightRequest="40"  Margin="3,0,0,0" Grid.Column="1">
                                 <Picker SelectedIndex="{Binding SelectOn}" FontSize="16" >
@@ -94,9 +98,19 @@
                                     </Picker.ItemsSource>
                                 </Picker>
                             </Border>
-                            <HorizontalStackLayout Grid.Column="2">
-                                <CheckBox Margin="10,0"></CheckBox>
-                                <Label VerticalTextAlignment="Center" Text="Calculate Qty. else Cost"></Label>
+                            <HorizontalStackLayout Grid.Column="2" Spacing="10">
+                                <CheckBox></CheckBox>
+                                <Label VerticalTextAlignment="Center" Text="No VAT"></Label>
+                                <Border Style="{StaticResource CommonFrame}" HeightRequest="35" WidthRequest="200">
+                                    <Label VerticalTextAlignment="Center" Padding="10,0" FontAttributes="Bold" ></Label>
+                                </Border>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="3" Spacing="10" HorizontalOptions="End">
+                                <Label Text="TrQty" VerticalTextAlignment="Center"></Label>
+                                <Border Style="{StaticResource CommonFrame}" HeightRequest="35" WidthRequest="100">
+                                    <Label Text="{Binding TrQty}" VerticalTextAlignment="Center" Padding="10,0" FontAttributes="Bold" ></Label>
+                                </Border>
+                                <Button HeightRequest="35" Text="Oth.Cost" Command="{Binding OThCostButtonCommand}" Padding="10,0"></Button>
                             </HorizontalStackLayout>
                         </Grid>
                     </Grid>
@@ -130,19 +144,19 @@
                                                 <Grid ColumnSpacing="1" ColumnDefinitions=".3*,.8*,2*,.3*,.5*,.6*,.6*,.5*,.6*,.4*,.8*,.3*,.9*,.8*,*,*" >
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding SlNo}" ></Label>
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Code}" Grid.Column="1"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ProdDesr}"  Grid.Column="2"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ProdDesr}" Grid.Column="2"></Label>
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding IsRtn}" Grid.Column="3"></Label>
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="4"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Qty}" Grid.Column="5"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOC}" Grid.Column="6"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Cost}" Grid.Column="7"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Linetotal}" Grid.Column="8"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discpercent}" Grid.Column="9"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discount}" Grid.Column="10"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Qty, StringFormat='{}{0:F2}'}" Grid.Column="5"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOC, StringFormat='{}{0:F3}'}" Grid.Column="6"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Cost, StringFormat='{}{0:F2}'}" Grid.Column="7"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Linetotal, StringFormat='{}{0:F2}'}" Grid.Column="8"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discpercent, StringFormat='{}{0:F2}'}" Grid.Column="9"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Discount, StringFormat='{}{0:F4}'}" Grid.Column="10"></Label>
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding Ispercent}" Grid.Column="11"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding NetCost}" Grid.Column="12"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ActS_Price}" Grid.Column="13"></Label>
-                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCMapg}" Grid.Column="14"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding NetCost, StringFormat='{}{0:F2}'}" Grid.Column="12"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding ActS_Price, StringFormat='{}{0:F2}'}" Grid.Column="13"></Label>
+                                                    <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCCostInfo}" Grid.Column="14"></Label>
                                                     <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding FOCCostMapg}" Grid.Column="15"></Label>
                                                 </Grid>
                                             </ViewCell>
@@ -152,7 +166,6 @@
                             </StackLayout>
                         </ScrollView>
                         <StackLayout Grid.Column="1">
-                            
                             <StackLayout Margin="0,10,0,0">
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="3" RowSpacing="2" RowDefinitions="*,*,*,*,*,*,*,*">
                                     <!--ColumnHeader-->
@@ -166,19 +179,19 @@
                                     <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="TAX" Grid.Row="5" FontAttributes="Bold"></Label>
                                     <Label Grid.Column="0" BackgroundColor="IndianRed" FontSize="15" Text="T. With TA" Grid.Row="6" FontAttributes="Bold"></Label>
                                     <!--1st Row-->
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="80.00" Grid.Row="1" ></Label>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="10.00" Grid.Row="2" ></Label>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="0.00"  Grid.Row="3"  ></Label>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="3.50"  Grid.Row="5"  ></Label>
-                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[0],StringFormat='{}{0:F2}'}" Grid.Row="1" ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[2],StringFormat='{}{0:F2}'}" Grid.Row="2" ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[4],StringFormat='{}{0:F2}'}" Grid.Row="3"  ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[6],StringFormat='{}{0:F2}'}" Grid.Row="4" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[8],StringFormat='{}{0:F2}'}" Grid.Row="5"  ></Label>
+                                    <Label Grid.Column="1" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[10],StringFormat='{}{0:F2}'}" Grid.Row="6" FontAttributes="Bold"></Label>
                                     <!--2nd Row-->
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="80.00" Grid.Row="1" ></Label>
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="10.00" Grid.Row="2" ></Label>
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="0.00" Grid.Row="3"  ></Label>
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="70.00" Grid.Row="4" FontAttributes="Bold"></Label>
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="3.50" Grid.Row="5"  ></Label>
-                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="73.50" Grid.Row="6" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[1],StringFormat='{}{0:F2}'}"  Grid.Row="1" ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[3],StringFormat='{}{0:F2}'}"  Grid.Row="2" ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[5],StringFormat='{}{0:F2}'}" Grid.Row="3"  ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[7],StringFormat='{}{0:F2}'}"  Grid.Row="4" FontAttributes="Bold"></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[9],StringFormat='{}{0:F2}'}" Grid.Row="5"  ></Label>
+                                    <Label Grid.Column="2" Padding="0,0,10,0" HorizontalTextAlignment="End" FontSize="15" Text="{Binding GrdTtl[11],StringFormat='{}{0:F2}'}" Grid.Row="6" FontAttributes="Bold"></Label>
                                 </Grid>
                             </StackLayout>
                         </StackLayout>
@@ -186,38 +199,15 @@
                     <Grid ColumnDefinitions="*,*">
                         <HorizontalStackLayout HeightRequest="40" Spacing="5" HorizontalOptions="FillAndExpand">
                             <Button Text="Add" Command="{Binding AddCommand}" Padding="20,0"></Button>
-                            <Button Text="Discount"></Button>
+                            <Button Text="Discount" Command="{Binding CalOthCostCommand}"></Button>
                             <Border Style="{StaticResource EntryBorder}" Margin="0" WidthRequest="150">
-                                <localtxt:BorderlessEntry></localtxt:BorderlessEntry>
+                                <localtxt:BorderlessEntry Text="{Binding Discount,StringFormat='{}{0:F2}'}" ReturnCommand="{Binding CalOthCostCommand}">
+                                    <localtxt:BorderlessEntry.Behaviors>
+                                        <xct:EventToCommandBehavior EventName="Unfocused" Command="{Binding CalOthCostCommand}"></xct:EventToCommandBehavior>
+                                        <xct:SelectAllTextBehavior/>
+                                    </localtxt:BorderlessEntry.Behaviors>
+                                </localtxt:BorderlessEntry>
                             </Border>
-                            <!--<Button Text="Remove" Command="{Binding RemoveCommand}"></Button>
-                            -->
-                            <!--<Button Text="Insert"></Button>-->
-                            <!--
-                            <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowUp}" FontFamily="FAS"></Button>
-                            <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowDown}" FontFamily="FAS"></Button>
-                            <Label Text="QIH " Margin="20,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
-                            <Border Style="{StaticResource EntryBorder}" Padding="3,0"  Margin="0">
-                                <Label VerticalTextAlignment="Center" WidthRequest="70" IsEnabled="False" ></Label>
-                            </Border>
-                            -->
-                            <!---Unit-->
-                            <!--
-                            <Label Text="Unit" VerticalTextAlignment="Center" TextColor="White" HeightRequest="30"  BackgroundColor="#1795E6" Padding="10,0"></Label>
-                            <Label Text="A.Cost " Margin="20,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
-                            <Border Style="{StaticResource EntryBorder}" Padding="3,0" Margin="0">
-                                <Label WidthRequest="70" VerticalTextAlignment="Center"></Label>
-                            </Border>
-                            <Label Text="LP.Cost " Margin="20,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
-                            <Border Style="{StaticResource EntryBorder}" Padding="3,0"  Margin="0">
-                                <Label WidthRequest="70" VerticalTextAlignment="Center"></Label>
-                            </Border>
-                            <Label BackgroundColor="{StaticResource Gray400}" Text="4.49" HeightRequest="30" TextColor="White" VerticalTextAlignment="Center"  Padding="15,0"></Label>
-                            <CheckBox></CheckBox>
-                            <Label Text="Edit" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
-                            <Border Style="{StaticResource EntryBorder}" Padding="3,0" Margin="0">
-                                <localtxt:BorderlessEntry WidthRequest="70"  Placeholder="0.00"></localtxt:BorderlessEntry>
-                            </Border>-->
                         </HorizontalStackLayout>
                         <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End" HeightRequest="40" Spacing="5">
                             <Button Text="Remove Inv." BackgroundColor="IndianRed"></Button>

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PARSAcc.Model.Models;
 using System.Data;
 using System.Runtime.CompilerServices;
 
@@ -36,6 +37,13 @@ namespace PARSPOSAPI.Controllers
             string sqlQuery = $"SELECT InvItm.*, BaseItmDet.*, FraCount FROM InvItm LEFT JOIN UnitsTb ON UnitsTb.Units = InvItm.Unit LEFT JOIN BaseItmDet ON InvItm.BaseId = BaseItmDet.BaseItemId WHERE [Item Code] = '{Code}'";
             var invItems = await _connection.QueryAsync<dynamic>(sqlQuery);
             return invItems.ToList();
+        }
+        [HttpGet("GetProdPop")]
+        public async Task<IEnumerable<InvItm>> GetItemToPopUp()
+        {
+            string sqlQuery = $"Select top(20) [Item Code] as ItemCode , * from InvItm";
+            var invItems = await _connection.QueryAsync<InvItm>(sqlQuery);
+            return invItems;
         }
     }
 }

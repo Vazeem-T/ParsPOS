@@ -270,7 +270,7 @@ namespace ParsPOS.DBHandler
                         query = $"SELECT ItemCode, Description, Unit, ActiveCost, UnitPrice, BarCode FROM InvItm ORDER BY ItemCode LIMIT {pageSize} OFFSET {skipCount}";
                         break;
                     case PopupButtonsSelection.ProductDescr:
-                        query = $"SELECT A.ItemCode, A.Description, A.Unit, A.ActiveCost, A.UnitPrice, A.BarCode FROM InvItm A";
+                        query = $"SELECT A.BarCode FROM InvItm A";
                         break;
                     default:
                         return new List<T>();

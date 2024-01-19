@@ -59,16 +59,8 @@ namespace ParsPOS.Services
 					float? qty = item.Qty;
 					double? SelctInvPmult = purchaseDetTb.PMult;
 					float? SelectFOCPmult = (float)(App.Database.GetPMult(item.ProdCode).Result);
-					purchaseDetTb.FOCMapg = $"{purchaseDetTb.FOCMapg}({item.ItemId})-{item.Qty}";
-
-					// Add a comma if there are more items
-					if (!string.IsNullOrEmpty(purchaseDetTb.FOCMapg) && rFOCInvitm.Count(item => item.Qty > 0) > 1)
-					{
-						purchaseDetTb.FOCMapg += ",";
-					}
 					Total = (Total + qty * (SelectFOCPmult / SelctInvPmult))?? 0;
-                    //viewModel.PurchaseDets.FOCMapg = viewModel.PurchaseDets.FOCMapg + $"({item.ItemId})-{item.Qty}";
-				}
+   				}
 			}
 			return Total;
 		}

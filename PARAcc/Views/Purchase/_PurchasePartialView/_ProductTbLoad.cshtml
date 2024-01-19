@@ -1,0 +1,22 @@
+﻿@model IEnumerable<InvItm>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr class="pt-1 pb-1 purchpoptb">
+            <td class="prodCodeColumn" style="width:100px;">@item.ItemCode</td>
+            <td style="width:150px;">@item.Description</td>
+            <td style="width:50px;">@item.Unit</td>
+            <td style="width:50px;">@item.ActiveCost</td>
+            <td style="width:50px;">@item.UnitPrice</td>
+            <td style="width:100px;">@item.BarCode</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="6">No data available</td>
+    </tr>
+}

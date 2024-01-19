@@ -1,6 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using PARSAcc.Model.Interface;
+using PARSAcc.Model.ViewModel;
 using PARSAcc.ViewComponents;
+using System.Collections.ObjectModel;
 using System.Data;
 
 namespace PARSAcc
@@ -9,13 +12,21 @@ namespace PARSAcc
     {
         public static void ConfigureService(IServiceCollection services)
         {
-            //services.AddScoped<IDbConnection>((sp) =>
-            //{
-            //    var config = sp.GetRequiredService<IConfiguration>();
-            //    var connectionString = config.GetConnectionString("DefaultConnection");
-            //    return new SqlConnection(connectionString);
-            //});
-           //services.AddSingleton<SidebarViewCompent>();
-        }
+			services.AddControllersWithViews().AddRazorRuntimeCompilation();
+			services.AddHttpClient();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44361/API/") // Add your client application's origin
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
+            services.AddSingleton<PurchaseViewModel>();
+            services.AddSingleton<List<PurchaseDetTb>>();
+			//services.AddSingleton<IViewRenderService, ViewRenderService>();
+		}
     }
 }

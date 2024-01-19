@@ -16,12 +16,6 @@ namespace ParsPOS.ViewModel
     public partial class PurchasePopupViewModel : BaseViewModel
     {
         public ObservableCollection<Invitm> PurchaseList { get; set;} = new();
-        [ObservableProperty]
-        IEnumerable<Column> _columns;
-        public ObservableCollection<dynamic> DynamicPopList {  get; set;} = new();
-		public ItemsLayout ItemsLayout => new GridItemsLayout(GetColumnCount(), ItemsLayoutOrientation.Vertical);
-		private int GetColumnCount() => Columns?.Count() ?? 0;
-
 		private readonly IDbConnection _connection;
         private int currentPage = 1;
         private int itemsPerPage = 10;
@@ -39,23 +33,8 @@ namespace ParsPOS.ViewModel
 
         [ObservableProperty]
         Invitm selectedInv ;
-
+        [ObservableProperty]
         string searchtxt;
-        public string Searchtxt
-        {
-            get => searchtxt;
-            set
-            {
-                if (searchtxt != value)
-                {
-                    searchtxt = value;
-                    currentPage = 1;
-                    PurchaseList.Clear();
-                    LoadDataCommand.Execute(null);
-                    OnPropertyChanged(nameof(Searchtxt));
-                }
-            }
-        }
 
         [ObservableProperty]
         PopupButtonsSelection popselect;
@@ -90,6 +69,7 @@ namespace ParsPOS.ViewModel
             try
             {
                 string select = Enum.GetName<PopupButtonsSelection>(Popselect);
+
                 if(Searchtxt == null || Searchtxt == "")
                 {
                     var pageData = await App.Database.GetItemforPopup<Invitm>(currentPage, itemsPerPage, select);
@@ -131,8 +111,14 @@ namespace ParsPOS.ViewModel
             try
             {
 				currentPage = 1;
-				PurchaseList.Clear();
-				LoadDataCommand.Execute(null);
+                await Task.Run(() =>
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        PurchaseList.Clear();
+                    });
+                });
+                LoadDataCommand.Execute(null);
 			}
             catch (Exception ex)
             {
@@ -156,5 +142,6 @@ namespace ParsPOS.ViewModel
         {
             RequestClose?.Invoke(this, EventArgs.Empty);
         }
+
     }
 }

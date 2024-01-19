@@ -16,6 +16,8 @@ public partial class App : Application
     public static string UserId { get; set; }
     public static bool _Connected = false;
 
+    public static bool IsInvTaxEna = true;
+
     private static DatabaseHelper db;
     private static SaleDatabaseHelper _db;
     public static DatabaseHelper Database

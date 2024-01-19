@@ -27,10 +27,10 @@ namespace PARSAcc.ViewComponents
 			foreach (var menuItem in menuItems)
 			{
 				FetchSubmenus(menuItem);
-				if (!string.IsNullOrEmpty(menuItem.langEnglish))
+				if (!string.IsNullOrEmpty(menuItem.LangEnglish))
 				{
 					// Use a regular expression to remove characters that visually look like an ampersand
-					menuItem.langEnglish = Regex.Replace(menuItem.langEnglish, @"[&＆]", string.Empty).Trim();
+					menuItem.LangEnglish = Regex.Replace(menuItem.LangEnglish, @"[&＆]", string.Empty).Trim();
 				}
 			}
 
@@ -48,10 +48,10 @@ namespace PARSAcc.ViewComponents
 					FetchSubmenus(subItem);
 				}
 
-				if (!string.IsNullOrEmpty(subItem.langEnglish))
+				if (!string.IsNullOrEmpty(subItem.LangEnglish))
 				{
 					// Use a regular expression to remove characters that visually look like an ampersand
-					subItem.langEnglish = Regex.Replace(subItem.langEnglish, @"[&＆]", string.Empty).Trim();
+					subItem.LangEnglish = Regex.Replace(subItem.LangEnglish, @"[&＆]", string.Empty).Trim();
 				}
 			}
 		}

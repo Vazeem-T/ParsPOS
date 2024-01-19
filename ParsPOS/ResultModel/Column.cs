@@ -10,7 +10,5 @@ namespace ParsPOS.ResultModel
 	{
 		public string Header { get; set; }
 		public string PropertyName { get; set; } 
-		public string StringFormat { get; set; } 
-		public Func<object, object> ValueConverter { get; set; }
 	}
 }

@@ -15,7 +15,8 @@ namespace ParsPOS.Services
     {
         ProductCode,
         ProductDescr,
-        PCs
+        PCs,
+        AccMast,
 
     }
 }

@@ -1,0 +1,41 @@
+﻿@model IList<PurchaseDetTb>
+
+@if (Model != null)
+{
+	@foreach (var item in Model)
+	{
+		<tr class="PurchaseTable">
+			<td style="width: 80px">@item.SlNo</td>
+			<td>@item.Code</td>
+			<td>@item.ProdDesr</td>
+			<td>@item.IsRtn</td>
+			<td>@item.Unit</td>
+			<td>@item.Qty</td>
+			<td>@item.FOC</td>
+			<td>@item.Cost</td>
+			<td>@item.Linetotal</td>
+			<td>@item.Discpercent</td>
+			<td>@item.Discount</td>
+			<td>@item.Ispercent</td>
+			<td>@item.NetCost</td>
+			<td>@item.ActS_Price</td>
+			<td>@item.FOCMapg</td>
+			<td>@item.FOCItmMapg</td>
+			<td>@item.ExpiryDt</td>
+			<td>
+				<a class="btn btn-outline-secondary btn-sm edit" title="Edit">
+					<i class="fas fa-pencil-alt"></i>
+				</a>
+				<a class="btn btn-outline-danger btn-sm delete" title="Delete">
+					<i class="fas fa-trash-alt"></i>
+				</a>
+			</td>
+		</tr>
+	}
+}
+else
+{
+	<tr>
+		<td colspan="18">No data available</td>
+	</tr>
+}

@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.IdentityModel.Tokens;
 using ParsPOS.DBHandler;
 using ParsPOS.InterfaceServices;
 using ParsPOS.ResultModel;

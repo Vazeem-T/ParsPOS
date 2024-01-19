@@ -1,7 +1,6 @@
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using PARAcc.Model.Models;
-using PARSAcc.Model.Models;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
@@ -22,19 +21,7 @@ namespace PARSAcc.Controllers
         {
             return View();
         }
-        private IActionResult ExecuteDynamicMenuQuery()
-        {
-            // Fetch top-level menu items (where ParentNo = 0)
-            var menuItems = _connection.Query<MenuTb>("Select * from MenuTb where ParentNo = 0").ToList();
-
-            // Populate sub-items for each top-level item
-            foreach (var menuItem in menuItems)
-            {
-                menuItem.SubItems = _connection.Query<MenuTb>("Select * from MenuTb where ParentNo = MenuItemNo").ToList();
-            }
-
-            return View(menuItems);
-        }
+       
 
         public IActionResult Privacy()
         {
