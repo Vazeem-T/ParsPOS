@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.DeviceSettingPage.ApplicationSettings"
+             Padding="20"
+             BackgroundColor="WhiteSmoke"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="vm:ApplicationSettingsViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="Application Settings">
+    <VerticalStackLayout>
+        <Border Padding="10,0,0,0" BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 10" Margin="0,10,0,0">
+            <VerticalStackLayout>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="bill.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="Print Reciept" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="{Binding SettingsModel.PrintOnsubmit}">
+                        <Switch.Behaviors>
+                            <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SubmitCommand}"/>
+                        </Switch.Behaviors>
+                    </Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="tax.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="Tax Enabled" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="{Binding SettingsModel.isTaxEnable}">
+                        <Switch.Behaviors>
+                            <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SubmitCommand}"/>
+                        </Switch.Behaviors>
+                    </Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="invoice.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="Logo On Recipt" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="False"></Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="Keyboard.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="Soft Keyboard" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="True"></Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="enableserver.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="SQL Server" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="{Binding SettingsModel.IsSqlServerEnabled}">
+                        <Switch.Behaviors>
+                            <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SubmitCommand}"/>
+                        </Switch.Behaviors>
+                    </Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,auto" RowDefinitions="*,1" HeightRequest="50" Padding="0,0,10,0">
+                    <Image Source="enablecloud.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="API" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Switch Grid.Column="2" IsToggled="{Binding SettingsModel.IsApiEnable}">
+                        <Switch.Behaviors>
+                            <xct:EventToCommandBehavior EventName="Toggled" Command="{Binding SubmitCommand}"/>
+                        </Switch.Behaviors>
+                    </Switch>
+                    <BoxView HeightRequest="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1" Color="LightGray"></BoxView>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentPage>

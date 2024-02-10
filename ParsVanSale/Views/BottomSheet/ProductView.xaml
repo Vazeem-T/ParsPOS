@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.BottomSheet.ProductView"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel.BottomSheetViewModel"
+             x:DataType="vm:ViewProductViewModel"
+             Padding="30,30,30,0"
+             BackgroundColor="WhiteSmoke"
+             HasHandle="True"
+             HasBackdrop="True"
+             CornerRadius="30">
+    <the49:BottomSheet.Detents>
+        <the49:DetentsCollection>
+            <the49:RatioDetent Ratio=".8" />
+        </the49:DetentsCollection>
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <Grid RowDefinitions="*,*,*,*,*,*,*,*" RowSpacing="10" ColumnDefinitions="*,*">
+            <Label Grid.Row="0" Text="Product Code" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Grid.Row="1" Text="Description" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Grid.Row="2" Text="BarCode" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Grid.Row="3" Text="Unit" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Grid.Row="4" Text="Active Cost" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Grid.Row="5" Text="Actual Selling Price" TextColor="Black" FontAttributes="Bold"></Label>
+            <!---Value-->
+            <Label Grid.Row="0" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.ItemCode}" ></Label>
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.Description}" ></Label>
+            <Label Grid.Row="2" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.BarCode}" ></Label>
+            <Label Grid.Row="3" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.Unit}" ></Label>
+            <Label Grid.Row="4" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.ActiveCost}" ></Label>
+            <Label Grid.Row="5" Grid.Column="1" Text="{Binding _productSearchViewModel.SelectedInvItm.UnitPrice}" ></Label>
+        </Grid>
+    </VerticalStackLayout>
+</the49:BottomSheet>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.BottomSheet.ProdSearch"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel.BottomSheetViewModel"
+             x:DataType="vm:AddProdViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome" 
+             xmlns:tblview="clr-namespace:ParsVanSale.Model"
+             Padding="16,32"
+             BackgroundColor="White"
+             HasHandle="True"
+             HasBackdrop="False"
+             CornerRadius="30">
+    <the49:BottomSheet.Detents>
+        <the49:DetentsCollection>
+            <the49:RatioDetent Ratio=".9" />
+        </the49:DetentsCollection>
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <HorizontalStackLayout  Margin="0,0,0,15">
+            <Border Margin="5" Padding="5,0" HeightRequest="40" WidthRequest="100" Style="{StaticResource BorderStyle}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Picker SelectedItem="{Binding SelectedItem}" Grid.Column="0">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>ItemCode</x:String>
+                                <x:String>Description</x:String>
+                                <x:String>Unit</x:String>
+                                <x:String>ActiveCost</x:String>
+                                <x:String>UnitPrice</x:String>
+                                <x:String>BarCode</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Label Grid.Column="1" Text="{x:Static fontawesome:FontAwesomeIcons.CaretDown}" TextColor="{StaticResource Gray600}" VerticalTextAlignment="Center" FontFamily="FAS"></Label>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}" HeightRequest="40" WidthRequest="200" HorizontalOptions="FillAndExpand">
+                <SearchBar Placeholder="Search" Text="{Binding Searchtxt}" SearchCommand="{Binding LoadDataCommand}">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior  EventName="TextChanged" Command="{Binding SearchTextChangeCommand}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </Border>
+        </HorizontalStackLayout>
+        <Grid ColumnDefinitions="*">
+            <CollectionView ItemsSource="{Binding ItemList}" SelectionMode="Single" SelectedItem="{Binding SelectedInv}" SelectionChangedCommandParameter="{Binding SelectedInv}" SelectionChangedCommand="{Binding SelectedListItemCommand}" x:Name="Item" HeightRequest="500" RemainingItemsThreshold="3" RemainingItemsThresholdReachedCommand="{Binding LoadDataCommand}">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="*,*,*,*,*,*" Margin="0,0,0,5">
+                        <Label FontAttributes="Bold" Text="Item Code"></Label>
+                        <Label FontAttributes="Bold" Grid.Column="1" Text="Description"></Label>
+                        <Label FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Column="2" Text="Unit"></Label>
+                        <Label FontAttributes="Bold" Grid.Column="3" Text="Active Cost"></Label>
+                        <Label FontAttributes="Bold" Grid.Column="4" Text="UnitPrice"></Label>
+                        <Label FontAttributes="Bold" Grid.Column="5" Text="BarCode"></Label>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="tblview:Invitm">
+                        <Grid ColumnDefinitions="*,*,*,*,*,*" Margin="0,5">
+                            <Label Text="{Binding ItemCode}"></Label>
+                            <Label Grid.Column="1" Text="{Binding Description}"></Label>
+                            <Label Grid.Column="2" HorizontalTextAlignment="Center" Text="{Binding Unit}"></Label>
+                            <Label Grid.Column="3" Text="{Binding ActiveCost}"></Label>
+                            <Label Grid.Column="4" Text="{Binding UnitPrice}"></Label>
+                            <Label Grid.Column="5" Text="{Binding BarCode}"></Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </VerticalStackLayout>
+</the49:BottomSheet>

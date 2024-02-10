@@ -131,6 +131,7 @@
 		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
 		<PackageReference Include="The49.Maui.Insets" Version="1.0.0-alpha7" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -143,7 +144,7 @@
 	  <MauiXaml Update="Resources\Styles\CustomColor.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\BottomSheet\DynamicPOP.xaml">
+	  <MauiXaml Update="Views\BottomSheet\CmnDynamicPOP.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\BottomSheet\PurchAdd.xaml">

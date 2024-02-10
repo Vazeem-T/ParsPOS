@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.SearchProduct"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:ProductSearchViewModel"
+             xmlns:model="clr-namespace:ParsVanSale.Model"
+             Padding="20"
+             Title="Search Product">
+    <VerticalStackLayout Spacing="10">
+        <Border Style="{StaticResource BorderStyle}" HeightRequest="40" Stroke="#404852">
+            <SearchBar Placeholder="Search"></SearchBar>
+        </Border>
+        <Grid ColumnDefinitions="*,auto">
+            <Border Style="{StaticResource BorderStyle}" HeightRequest="600">
+                <CollectionView ItemsSource="{Binding Items}" VerticalScrollBarVisibility="Always" SelectedItem="{Binding SelectedInvItm}" SelectionMode="Single" SelectionChangedCommand="{Binding SelectionChangedCommand}">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="*,2*,.7*,*,*" BackgroundColor="LightGray" Padding="5">
+                            <Label Grid.Column="0" FontAttributes="Bold" HorizontalOptions="Center" Text="Prod Code"></Label>
+                            <Label Grid.Column="1" FontAttributes="Bold" HorizontalOptions="Center" Text="Description"></Label>
+                            <Label Grid.Column="2" FontAttributes="Bold" HorizontalOptions="Center" Text="Unit"></Label>
+                            <Label Grid.Column="3" FontAttributes="Bold" HorizontalOptions="Center" Text="Active Cost"></Label>
+                            <Label Grid.Column="4" FontAttributes="Bold" HorizontalOptions="Center" Text="Barcode"></Label>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Invitm">
+                            <Grid ColumnDefinitions="*,2*,*,*,*" RowDefinitions="*,auto" >
+                                <Label Grid.Column="0"  Text="{Binding ItemCode}" Padding="5,5,0,5"></Label>
+                                <Label Grid.Column="1" Padding="5,5,0,5" Text="{Binding Description}"></Label>
+                                <Label Grid.Column="2" Padding="0,5" HorizontalTextAlignment="Center" Text="{Binding Unit}"></Label>
+                                <Label Grid.Column="3" Padding="0,5" Text="{Binding ActiveCost}"></Label>
+                                <Label Grid.Column="4"  Text="{Binding BarCode}" Padding="0,5,5,5"></Label>
+                                <BoxView Grid.Row="1" HeightRequest="1" Grid.ColumnSpan="5" Color="LightGray"></BoxView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

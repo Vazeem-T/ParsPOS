@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsPOS.Views.BottomSheet.CmnDynamicPOP"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:localtxt="clr-namespace:ParsPOS.Services"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:Tblview="clr-namespace:ParsPOS.Model"     
+             xmlns:vm="clr-namespace:ParsPOS.ViewModel"
+             x:DataType="vm:DynamicPopViewModel"
+             Padding="16,32"
+             BackgroundColor="White"
+             HasHandle="True"
+             HasBackdrop="True"
+             CornerRadius="30">
+    <the49:BottomSheet.Detents>
+        <the49:RatioDetent Ratio=".8" />
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <HorizontalStackLayout  Margin="0,0,0,15" x:Name="SearchPick">
+            <Border Margin="5" Padding="5,0" HeightRequest="40" WidthRequest="150" StrokeShape="RoundRectangle 10" BackgroundColor="AliceBlue" Stroke="{StaticResource Black}" StrokeThickness=".2">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Picker SelectedItem="" Grid.Column="0">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>ItemCode</x:String>
+                                <x:String>Description</x:String>
+                                <x:String>Unit</x:String>
+                                <x:String>ActiveCost</x:String>
+                                <x:String>UnitPrice</x:String>
+                                <x:String>BarCode</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Label Grid.Column="1" Text="{x:Static fontawesome:FontAwesomeIcons.CaretDown}" TextColor="{StaticResource Gray600}" VerticalTextAlignment="Center" FontFamily="FAS"></Label>
+                </Grid>
+            </Border>
+            <Border Stroke="{StaticResource DarkBg1}" Padding="0,3" HeightRequest="40" StrokeShape="RoundRectangle 10" StrokeThickness=".3" WidthRequest="300" HorizontalOptions="FillAndExpand">
+                <SearchBar Placeholder="Search"  >
+                   
+                </SearchBar>
+            </Border>
+        </HorizontalStackLayout>
+        <Grid ColumnDefinitions="*">
+            <CollectionView x:Name="ItemTableview"  HeightRequest="500" RemainingItemsThreshold="3" >
+               
+            </CollectionView>
+        </Grid>
+    </VerticalStackLayout>
+</the49:BottomSheet>

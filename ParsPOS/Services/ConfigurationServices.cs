@@ -56,6 +56,7 @@ namespace ParsPOS.Services
             services.AddSingleton<UnitsViewModel>();
             services.AddSingleton<SupplierPrdViewModel>();
 			services.AddSingleton<MastersViewModel>();
+			services.AddTransient<DynamicPopViewModel>();
 
 
 			//Views

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.NetworkSetUpPage.NetworkMainSettings"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="Network Settings"
+             Padding="20"
+             BackgroundColor="WhiteSmoke">
+    <VerticalStackLayout>
+        <Border Padding="10,0,0,0" BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 10" Margin="0,10,0,0">
+            <VerticalStackLayout>
+                <Grid ColumnDefinitions="45,*,45" RowDefinitions="*,1" HeightRequest="50">
+                    <Image Source="browser.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="API" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Label Text="{Static fontawesome:FontAwesomeIcons.ChevronRight}" Grid.Column="2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="LightGray" FontFamily="FAS"></Label>
+                    <BoxView HeightRequest="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" Color="LightGray"></BoxView>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="API_Tapped"></TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid ColumnDefinitions="45,*,45" RowDefinitions="*" HeightRequest="50">
+                    <Image Source="sqlserver.png" HorizontalOptions="Start" HeightRequest="25"></Image>
+                    <Label Text="Sql Server" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Column="1"></Label>
+                    <Label Text="{Static fontawesome:FontAwesomeIcons.ChevronRight}" Grid.Column="2" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="LightGray" FontFamily="FAS"></Label>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SQLSERVER_Tapped"></TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentPage>

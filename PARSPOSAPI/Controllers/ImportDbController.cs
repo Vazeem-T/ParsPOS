@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dapper;
 using System.Data;
 using PARSPOSAPI.ViewModel;
+using Microsoft.Identity.Client;
 
 namespace PARSPOSAPI.Controllers
 {
@@ -22,8 +23,11 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT dbo.getTAXPer(BaseId) Taxper, *, ROW_NUMBER() OVER (ORDER BY ItemId) AS RowNum FROM invitm) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
 
-                string sqlQuery = $"Select dbo.getTAXPer(BaseId) Taxper, * from invitm ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+				string sqlQuery = $"Select dbo.getTAXPer(BaseId) Taxper, * from invitm ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var invItems = await _connection.QueryAsync<dynamic>(sqlQuery);
 
@@ -53,7 +57,9 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
-
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY UnqGrpId) AS RowNum FROM GrpItmTb) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
                 string sqlQuery = $"SELECT * FROM GrpItmTb ORDER BY UnqGrpId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
@@ -86,8 +92,15 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
-
-                UserRDt userRDt = new UserRDt
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				//UserRDt user = new()
+				//{
+				//	User = await _connection.QueryAsync<dynamic>($"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY Id) AS RowNum FROM PassId) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}"),
+				//	Rights = await _connection.QueryAsync<dynamic>($"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY Id) AS RowNum FROM Rights) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}"),
+				//	RightNode = await _connection.QueryAsync<dynamic>($"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY NodeId) AS RowNum FROM RightNode) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}")
+				//};
+				UserRDt userRDt = new ()
                 {
                     User = await _connection.QueryAsync<dynamic>($"SELECT * FROM PassId Order by Id OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY"),
                     Rights = await _connection.QueryAsync<dynamic>($"SELECT * FROM Rights Order by Id OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY"),
@@ -142,8 +155,11 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY BaseItemId) AS RowNum FROM BaseItmDet) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
 
-                string sqlQuery = $"SELECT * FROM BaseItmDet ORDER BY BaseItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+				string sqlQuery = $"SELECT * FROM BaseItmDet ORDER BY BaseItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
 
@@ -173,8 +189,11 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY Units) AS RowNum FROM UnitsTb) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
 
-                string sqlQuery = $"SELECT * FROM UnitsTb ORDER BY Units OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+				string sqlQuery = $"SELECT * FROM UnitsTb ORDER BY Units OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
 
@@ -204,8 +223,11 @@ namespace PARSPOSAPI.Controllers
             try
             {
                 int skipCount = (page - 1) * pageSize;
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY ItemId) AS RowNum FROM SuppPrdTb) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
 
-                string sqlQuery = $"SELECT * FROM SuppPrdTb ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+				string sqlQuery = $"SELECT * FROM SuppPrdTb ORDER BY ItemId OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
                 var Items = await _connection.QueryAsync<dynamic>(sqlQuery);
 
@@ -235,6 +257,9 @@ namespace PARSPOSAPI.Controllers
 			try
 			{
 				int skipCount = (page - 1) * pageSize;
+				int startRow = (page - 1) * pageSize + 1;
+				int endRow = startRow + pageSize - 1;
+				string query = $"SELECT * FROM ( SELECT *, ROW_NUMBER() OVER (ORDER BY AccountNo) AS RowNum FROM AccMast) AS Subquery WHERE RowNum BETWEEN {startRow} AND {endRow}";
 
 				string sqlQuery = $"SELECT * FROM AccMast ORDER BY AccountNo OFFSET {skipCount} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 

@@ -61,7 +61,7 @@
                             <Border Style="{StaticResource EntryBorder}" Margin="0"  Grid.Column="1" Grid.Row="0">
                                 <localtxt:BorderlessEntry Placeholder="Purchase Number" Text="{Binding PurchAcAlias}">
                                     <localtxt:BorderlessEntry.Behaviors>
-                                        <xct:EventToCommandBehavior EventName="Focused" Command="{Binding DynamicPopSelectCommand}" CommandParameter="AccMast"/>
+                                        <xct:EventToCommandBehavior EventName="Focused" Command="{Binding OpenPOPCommand}"></xct:EventToCommandBehavior>
                                     </localtxt:BorderlessEntry.Behaviors>
                                 </localtxt:BorderlessEntry>
                             </Border>

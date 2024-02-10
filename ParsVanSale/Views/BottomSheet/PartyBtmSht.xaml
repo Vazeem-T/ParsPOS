@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.BottomSheet.PartyBtmSht"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel.BottomSheetViewModel"
+             x:DataType="vm:PartyViewModel"
+             xmlns:model="clr-namespace:ParsVanSale.Model"      
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Padding="16,30,16,0"
+             BackgroundColor="White"
+             HasHandle="True"
+             HandleColor="Black"
+             HasBackdrop="False"
+             CornerRadius="30">
+    <the49:BottomSheet.Detents>
+        <the49:DetentsCollection>
+            <the49:RatioDetent Ratio=".8" />
+        </the49:DetentsCollection>
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <HorizontalStackLayout  Margin="0,0,0,15">
+            <Border Margin="5" Padding="5,0" HeightRequest="40" WidthRequest="100" Style="{StaticResource BorderStyle}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Picker SelectedItem="{Binding SelectedItem}" Grid.Column="0">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Suppl/Cust</x:String>
+                                <x:String>Alias</x:String>
+                                <x:String>ClosingBal</x:String>
+                                <x:String>OpnBal</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Label Grid.Column="1" Text="{x:Static fontawesome:FontAwesomeIcons.CaretDown}" TextColor="{StaticResource Gray600}" VerticalTextAlignment="Center" FontFamily="FAS"></Label>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}" HeightRequest="40" WidthRequest="200" HorizontalOptions="FillAndExpand">
+                <SearchBar Placeholder="Search" Text="{Binding Searchtxt}" SearchCommand="{Binding LoadOnOpenCommand}">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior  EventName="TextChanged" Command="{Binding SearchTextChangeCommand}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </Border>
+        </HorizontalStackLayout>
+        <CollectionView ItemsSource="{Binding Items}" VerticalScrollBarVisibility="Always" HeightRequest="600" SelectedItem="{Binding Master}" SelectionMode="Single" SelectionChangedCommand="{Binding SelectionChangeCommand}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="1.5*,*,*,*" Margin="0,0,0,10">
+                    <Label Grid.Column="0" FontAttributes="Bold" Text="Suppl/Cust"></Label>
+                    <Label Grid.Column="1" FontAttributes="Bold" Text="Alias"></Label>
+                    <Label Grid.Column="2" FontAttributes="Bold" Text="ClosingBal"></Label>
+                    <Label Grid.Column="3" FontAttributes="Bold" Text="OpenBal"></Label>
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:AccMast">
+                    <Grid ColumnDefinitions="1.5*,*,*,*"  Margin="0,5">
+                        <Label Grid.Column="0" Padding="0,5" Text="{Binding AccDescr}"></Label>
+                        <Label Grid.Column="1" Padding="0,5" Text="{Binding Alias}"></Label>
+                        <Label Grid.Column="2" Padding="0,5" Text="{Binding ClosingBal}"></Label>
+                        <Label Grid.Column="3" Padding="0,5" Text="{Binding OpnBal}"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</the49:BottomSheet>

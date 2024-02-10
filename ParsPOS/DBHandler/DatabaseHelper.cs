@@ -8,10 +8,8 @@ namespace ParsPOS.DBHandler
     public class DatabaseHelper : SQLiteAsyncConnection
     {
         private readonly SQLiteAsyncConnection _db;
-        string con;
         public DatabaseHelper(string dbPath) : base(dbPath)
         {
-            con = dbPath;
             _db = new SQLiteAsyncConnection(dbPath);
             _db.CreateTableAsync<Invitm>();
             _db.CreateTableAsync<NetworkIP>();

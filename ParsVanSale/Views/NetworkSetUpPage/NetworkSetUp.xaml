@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.NetworkSetUp"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
+             xmlns:model="clr-namespace:ParsVanSale.Model"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:NetworkViewModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Padding="20"
+             Title="Network SetUp">
+    <VerticalStackLayout Spacing="5">
+        <Grid ColumnDefinitions="*,1.5*,*" HeightRequest="40">
+            <Label Text="Protocol" VerticalTextAlignment="Center"></Label>
+            <Border Style="{StaticResource BorderStyle}" Grid.Column="1" HeightRequest="40" WidthRequest="100" HorizontalOptions="Start">
+                <Picker SelectedItem="{Binding SelectedProtocol,Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Https</x:String>
+                            <x:String>Http</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Border>
+            <Button Grid.Column="2" HorizontalOptions="End" Text="{Static fontawesome:FontAwesomeIcons.Trash}" FontFamily="FAS" BackgroundColor="IndianRed" Command="{Binding DeleteCommand}" IsVisible="{Binding DeletebuttonVisible}"></Button>
+        </Grid>
+        <Grid ColumnDefinitions="*,2.5*">
+            <Label Text="IP / URL" VerticalTextAlignment="Center" ></Label>
+            <Border Grid.Column="1" Style="{StaticResource BorderStyle}" HeightRequest="40">
+                <Entry:BorderlessEntry Text="{Binding NetworkIP.IPAddress}"></Entry:BorderlessEntry>
+            </Border>
+        </Grid>
+        <Grid HeightRequest="35" Margin="0,10" ColumnDefinitions="*,*,1.5*" ColumnSpacing="5">
+            <Button Text="Test" Grid.Column="1" Command="{Binding ISApiConnectedCommand}" Padding="0"></Button>
+            <Button Text="{Binding ButtonText}" Grid.Column="2" Command="{Binding SubmitCommand}"  Padding="0" BackgroundColor="{StaticResource Secondary}" ></Button>
+
+        </Grid>
+        <Label Text="Network" FontAttributes="Bold" Margin="0,0,0,20" TextColor="Gray"></Label>
+        <Grid ColumnDefinitions="*">
+            <Border Style="{StaticResource BorderStyle}">
+                <CollectionView ItemsSource="{Binding Items}" SelectedItem="{Binding NetworkIP, Mode=TwoWay}" SelectionChangedCommand="{Binding SelectionChangedCommand}" SelectionMode="Single">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="2.5*,*" Padding="5" BackgroundColor="LightGray">
+                            <Label Text="IP / URL" FontAttributes="Bold"></Label>
+                            <Label Grid.Column="1" Text="Status" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:NetworkIP">
+                            <Grid ColumnDefinitions="2.5*,*" HeightRequest="40">
+                                <Label Text="{Binding IPAddress}" VerticalTextAlignment="Center" Padding="5,0,0,0"></Label>
+                                <Label Grid.Column="1" Text="{Binding IsConnected}" VerticalTextAlignment="Center">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="True">
+                                            <Setter Property="TextColor" Value="Green" />
+                                            <Setter Property="Text" Value="Active" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="False">
+                                            <Setter Property="TextColor" Value="Red" />
+                                            <Setter Property="Text" Value="Inactive" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

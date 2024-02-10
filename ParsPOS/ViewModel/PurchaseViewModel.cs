@@ -649,5 +649,13 @@ namespace ParsPOS.ViewModel
 				OnPropertyChanged(nameof(PurchaseItem));
 			}
 		}
+
+		[RelayCommand]
+		async Task OpenPOP ()
+		{
+			var viewModel = new DynamicPopViewModel();
+			CmnDynamicPOP Page = new CmnDynamicPOP();
+			await Page.ShowAsync();
+		}
 	}
 }

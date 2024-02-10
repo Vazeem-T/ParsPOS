@@ -29,7 +29,7 @@ $(document).ready(function () {
 function loadData() {
     var searchText = $('#searchBox').val() || '';
 
-    var url = '/Purchase/PopProdTablePartial';
+    var url = '/Payroll/PopProdTablePartial';
     url += '?selectedOption=' + selectedOption + '&searchText=' + searchText;
     $.ajax({
         url: url,
@@ -57,7 +57,5 @@ function fetchProdData(prodCode) {
 }
 function updateFormWithData(data) {
     $('.AddPurchaseForm').html(data);
-    //localStorage.setItem('PurchaseTable',data.AddPurchaseForm);
     $('#exampleModalScrollable').modal('hide');
-    //$('.PurchaseTable').html(data.PurchaseTable);
 }

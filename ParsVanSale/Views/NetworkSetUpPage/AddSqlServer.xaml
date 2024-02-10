@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.NetworkSetUpPage.AddSqlServer"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:SqlServerViewModel"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:model="clr-namespace:ParsVanSale.Model"
+             Title="Sql Server"
+             Padding="20">
+    <VerticalStackLayout Spacing="5">
+        <Button HorizontalOptions="End" HeightRequest="35" Padding="0" Text="{Static fontawesome:FontAwesomeIcons.Trash}" FontFamily="FAS" BackgroundColor="IndianRed" Command="{Binding DeleteCommand}" IsVisible="{Binding DeletebuttonVisible}"></Button>
+        <Label Text="IP Address"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding IPSettings.IP}"></Entry:BorderlessEntry>
+        </Border>
+        <Label Text="Database"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding IPSettings.Database}"></Entry:BorderlessEntry>
+        </Border>
+        <Label Text="User"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding IPSettings.User}"></Entry:BorderlessEntry>
+        </Border>
+        <Label Text="Password"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding IPSettings.Password}"></Entry:BorderlessEntry>
+        </Border>
+        <Grid ColumnDefinitions="*,.8*,*" ColumnSpacing="3" HeightRequest="35" Margin="0,10">
+            <Button Grid.Column="1" Text="Test" Padding="0" Command="{Binding TestConnectionCommand}"></Button>
+            <Button Grid.Column="2" Text="{Binding ButtonText}" Command="{Binding SubmitCommand}" Padding="0" BackgroundColor="{StaticResource Secondary}"></Button>
+        </Grid>
+        <Grid RowDefinitions="*">
+            <Border Style="{StaticResource BorderStyle}" HeightRequest="150">
+                <CollectionView ItemsSource="{Binding Items}" SelectionMode="Single" SelectionChangedCommand="{Binding SelectionChangedCommand}" SelectedItem="{Binding IPSettings}"> 
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="2*,*,.8*" HeightRequest="30" BackgroundColor="LightGray">
+                            <Label FontAttributes="Bold" Padding="2,0,0,0" VerticalOptions="Center" Grid.Column="0" Text="IP"></Label>
+                            <Label FontAttributes="Bold" VerticalOptions="Center" Grid.Column="1" Text="User"></Label>
+                            <Label FontAttributes="Bold" VerticalOptions="Center" Grid.Column="2" Text="Active"></Label>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:SqlServerIPSettings">
+                            <Grid ColumnDefinitions="2*,*,.8*" RowDefinitions="20,*,1" HeightRequest="41" >
+                                <Label Padding="2,0,0,0"  Grid.Column="0" Grid.Row="0" Text="{Binding IP}"></Label>
+                                <Label Padding="2,0,0,0" Text="{Binding Database}" Grid.Row="1"></Label>
+                                <Label VerticalOptions="Center" Grid.Row="0" Grid.RowSpan="2"  Grid.Column="1" Text="{Binding User}"></Label>
+                                <Label VerticalOptions="Center" Grid.Row="0" Grid.RowSpan="2"  Grid.Column="2" Text="{Binding IsConnected}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="True">
+                                            <Setter Property="TextColor" Value="Green" />
+                                            <Setter Property="Text" Value="Active" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsConnected}" Value="False">
+                                            <Setter Property="TextColor" Value="Red" />
+                                            <Setter Property="Text" Value="Inactive" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <BoxView Grid.Row="2" Color="LightGray" Grid.ColumnSpan="3"></BoxView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

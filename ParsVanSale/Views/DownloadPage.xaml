@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.DownloadPage"
+             xmlns:vm="clr-namespace:ParsVanSale.Model"
+             xmlns:view="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="view:DownloadViewmodel"
+             Padding="20"
+             Title="Downloads">
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <Button HorizontalOptions="End" Command="{Binding ClearDownloadCommand}" HeightRequest="40" Text="Clear" Padding="0" TextColor="{StaticResource Black}" WidthRequest="100" BackgroundColor="Transparent"></Button>
+            <CollectionView ItemsSource="{Binding DownloadItem}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:DownloadDt">
+                        <Border Style="{StaticResource BorderStyle}" BackgroundColor="White" HeightRequest="60" Margin="0,0,0,5">
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" Padding="5">
+                                <HorizontalStackLayout Spacing="3">
+                                    <Label Text="{Binding Description,Mode=TwoWay}"></Label>
+                                    <Label Text="{Binding DownloadDescription,Mode=TwoWay}"></Label>
+                                    <HorizontalStackLayout IsVisible="{Binding IsCompleted,Mode=TwoWay}">
+                                        <Label Text="Completed">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSuccess,Mode=TwoWay}" Value="True">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSuccess,Mode=TwoWay}" Value="False">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label Text="Failed">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSuccess,Mode=TwoWay}" Value="True">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSuccess,Mode=TwoWay}" Value="False">
+                                                    <Setter Property="IsVisible" Value="True" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Column="1" Spacing="3" HorizontalOptions="End" IsVisible="{Binding IsRunning,Mode=TwoWay}">
+                                    <Label Text="{Binding Progress,Mode=TwoWay}"></Label>
+                                    <Label Text="/"></Label>
+                                    <Label Text="{Binding TotalCount,Mode=TwoWay}"></Label>
+                                </HorizontalStackLayout>
+                                <ProgressBar IsVisible="{Binding IsRunning}" Grid.ColumnSpan="2" Grid.Row="1" Progress="{Binding CalculatedProgress,Mode=TwoWay}"></ProgressBar>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

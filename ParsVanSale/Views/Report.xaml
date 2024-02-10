@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.Report"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             Title="Report"
+             Padding="20">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,3*" RowDefinitions="40,40,40,40,40" RowSpacing="5">
+            <Label FontAttributes="Bold" Text="Product" VerticalTextAlignment="Center"></Label>
+            <Grid ColumnDefinitions="*,AUTO" Grid.Column="1" ColumnSpacing="3">
+                <Border Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry></Entry:BorderlessEntry>
+                </Border>
+                <Button Grid.Column="1" HeightRequest="40" BackgroundColor="LightSkyBlue" Text="{Static fontawesome:FontAwesomeIcons.Inbox}" FontFamily="FAS"></Button>
+            </Grid>
+           
+            <Border Style="{StaticResource BorderStyle}" Grid.Column="1" Grid.Row="1">
+                <Entry:BorderlessEntry></Entry:BorderlessEntry>
+            </Border>
+            <Label FontAttributes="Bold" Grid.Row="2" VerticalTextAlignment="Center" Text="Party"></Label>
+            <Grid ColumnDefinitions="*,AUTO" Grid.Column="1" ColumnSpacing="3" Grid.Row="2">
+                <Border Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry></Entry:BorderlessEntry>
+                </Border>
+                <Button Grid.Column="1" HeightRequest="40" BackgroundColor="LightSkyBlue" Text="{Static fontawesome:FontAwesomeIcons.Inbox}" FontFamily="FAS"></Button>
+            </Grid>
+            <Border Style="{StaticResource BorderStyle}" Grid.Column="1" Grid.Row="3">
+                <Entry:BorderlessEntry></Entry:BorderlessEntry>
+            </Border>
+            <Label FontAttributes="Bold" Text="From" Grid.Row="4" VerticalTextAlignment="Center"></Label>
+            <Grid Grid.Row="4" Grid.Column="1" ColumnDefinitions="*,.5*,*">
+                <Border Style="{StaticResource BorderStyle}">
+                    <DatePicker></DatePicker>
+                </Border>
+                <Label FontAttributes="Bold" Text="To" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                <Border Style="{StaticResource BorderStyle}" Grid.Column="2">
+                    <DatePicker></DatePicker>
+                </Border>
+            </Grid>
+        </Grid>
+        <Button HeightRequest="35" HorizontalOptions="End" Margin="0,10" Padding="0" Text="Request Report" WidthRequest="150" BackgroundColor="{StaticResource Secondary}"></Button>
+    </VerticalStackLayout>
+</ContentPage>

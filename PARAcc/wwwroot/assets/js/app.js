@@ -1,13 +1,4 @@
-﻿/*
-Template Name: PARS Accounts
-Author: Vaseem
-Version: 2.0.0
-Contact: vaseemt.09@gmail.com
-File: Main Js File
-*/
-
-
-(function ($) {
+﻿(function ($) {
 
     'use strict';
 

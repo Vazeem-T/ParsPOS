@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.DeviceSettingPage.SystemSettings"
+             xmlns:local="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:SystemSettingsViewModel"
+             Title="System Settings"
+             Padding="20"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService">
+    <VerticalStackLayout Spacing="5">
+        <Label Text="Company Name" FontAttributes="Bold"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding SettingsModel.CompanyName}"></Entry:BorderlessEntry>
+        </Border>
+        <Label Text="Device Number" FontAttributes="Bold"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding SettingsModel.DeviceNumber}"></Entry:BorderlessEntry>
+        </Border>
+        <Label Text="Device Location" FontAttributes="Bold"></Label>
+        <Border Style="{StaticResource BorderStyle}">
+            <Entry:BorderlessEntry Text="{Binding SettingsModel.Location}"></Entry:BorderlessEntry>
+        </Border>
+        <StackLayout Spacing="5">
+            <ImageButton Source="{Binding SelectedImageBytes, Converter={local:ByteArrayToImageSourceConverter}}" 
+                     WidthRequest="150" 
+                     HeightRequest="150"
+                     IsVisible="{Binding IsImageVisible}"
+                     Aspect="AspectFill" />
+            <Label Text="Upload Image" FontAttributes="Bold"></Label>
+            <Border Style="{StaticResource BorderStyle}" HeightRequest="43" Padding="3">
+                <HorizontalStackLayout HorizontalOptions="End">
+                    <Button Text="Upload" BackgroundColor="Gray" Padding="15,0" Command="{Binding SelectImageCommand}" />
+                </HorizontalStackLayout>
+            </Border>
+        </StackLayout>
+        <Button Text="Submit" HeightRequest="35" Padding="0" Command="{Binding UploadImageCommand}" WidthRequest="150" HorizontalOptions="End" BackgroundColor="{StaticResource Secondary}"></Button>
+    </VerticalStackLayout>
+</ContentPage>

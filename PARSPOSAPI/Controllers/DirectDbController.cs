@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PARSAcc.Model.Models;
 using System.Data;
 using System.Runtime.CompilerServices;
@@ -45,5 +46,36 @@ namespace PARSPOSAPI.Controllers
             var invItems = await _connection.QueryAsync<InvItm>(sqlQuery);
             return invItems;
         }
-    }
+		[HttpGet("GetDbUpdateDetail")]
+		public async Task<UpdtdStatus4IndCntr> GetDbUpdateDetail(string date,string tablename)
+        {
+			string sqlQuery = "SELECT * FROM UpdtdStatus4IndCntr WHERE UpdtdTm >= @Date AND MasterStr = @TableName";
+			var itmdetail = await _connection.QueryAsync<UpdtdStatus4IndCntr>(sqlQuery, new { Date = date, TableName = tablename });
+			return itmdetail.FirstOrDefault();
+		}
+
+        [HttpGet("GetModiInvItm")]
+        public async Task<IEnumerable<InvItm>> GetModiInvItm(string date)
+        {
+			string sqlQuery = "SELECT * FROM InvItm where ModiDt >= @Date";
+			var itmdetail = await _connection.QueryAsync<InvItm>(sqlQuery, new { Date = date});
+			return itmdetail.ToList();
+		}
+
+		[HttpGet("GetModiSupplier")]
+		public async Task<IEnumerable<InvItm>> GetModiSupplier(string date)
+		{
+			string sqlQuery = "SELECT * FROM AccMast where ModiDt >= @Date";
+			var itmdetail = await _connection.QueryAsync<InvItm>(sqlQuery, new { Date = date });
+			return itmdetail.ToList();
+		}
+
+		[HttpGet("GetModiUnit")]
+		public async Task<IEnumerable<InvItm>> GetModiUnit(string date)
+		{
+			string sqlQuery = "SELECT * FROM AccMast where UpdtdTm >= @Date";
+			var itmdetail = await _connection.QueryAsync<InvItm>(sqlQuery, new { Date = date });
+			return itmdetail.ToList();
+		}
+	}
 }

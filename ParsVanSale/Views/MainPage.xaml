@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             x:Class="ParsVanSale.Views.MainPage"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:HomeViewModel"
+             Shell.NavBarIsVisible="False"
+             xmlns:fontawesome="clr-namespace:FontAwesome">
+    <Page.Behaviors>
+        <mct:StatusBarBehavior x:Name="statusbar"/>
+    </Page.Behaviors>
+    <StackLayout>
+        <Border Stroke="Transparent"
+        StrokeThickness="0"
+         Margin="-1"
+        StrokeShape="RoundRectangle 0,0,20,20"
+        BackgroundColor="{StaticResource Primary}" HeightRequest="220">
+            <VerticalStackLayout Margin="20,30,20,20">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" >
+                    <Label Text="Hi,"  FontSize="16" TextColor="White" ></Label>
+                    <Label Text="Vaseem" Grid.Row="1" FontAttributes="Bold" FontSize="Medium" TextColor="White" Margin="0,5,0,0"></Label>
+                    <HorizontalStackLayout Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Grid.RowSpan="2" >
+                        <Button Padding="0" Command="{Binding GotoSettingsCommand}"  FontSize="16" Text="{Static fontawesome:FontAwesomeIcons.Gear}" FontFamily="FAS"></Button>
+                        <Button Padding="0" Command="{Binding GotoDownloadCommand}"  FontSize="16" Text="{Static fontawesome:FontAwesomeIcons.Download}" FontFamily="FAS"></Button>
+                    </HorizontalStackLayout>
+                </Grid>
+                <Border Margin="0,15,0,0" BackgroundColor="White" StrokeShape="RoundRectangle 30" Padding="0" HeightRequest="50">
+                    <Grid ColumnDefinitions="*,*">
+                        <Label Text="Search" Padding="20,0,0,0" TextColor="LightGray" VerticalTextAlignment="Center"></Label>
+                        <Border Stroke="Transparent" BackgroundColor="{StaticResource Primary}" HorizontalOptions="End" StrokeShape="RoundRectangle 30" WidthRequest="48" Grid.Column="1" >
+                            <Label Text="{Static fontawesome:FontAwesomeIcons.MagnifyingGlass}" HorizontalOptions="Center" TextColor="White" FontSize="16" VerticalTextAlignment="Center" FontFamily="FAS" ></Label>
+                        </Border>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToSearchCommand}"></TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                </Border>
+            </VerticalStackLayout>
+        </Border>
+        <Border StrokeShape="RoundRectangle 20" Stroke="Transparent" Margin="20,-50,20,0" HeightRequest="100" BackgroundColor="White">
+            <Border.Shadow>
+                <Shadow Offset="0,6"
+                        Radius="10"
+                        Brush="Gray">
+                </Shadow>
+            </Border.Shadow>
+            <StackLayout>
+                <Grid RowDefinitions="*,*" VerticalOptions="Center" ColumnDefinitions="*,auto,*,auto,*,auto,*" Padding="10,25">
+                    <Label Text="Order" Margin="0,0,0,5" VerticalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                    <Label Text="0.00" Grid.Row="1" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                    <BoxView Grid.Column="1" Color="LightGray" BackgroundColor="LightGray" WidthRequest="2" Grid.RowSpan="2" CornerRadius="30"></BoxView>
+                    <!---Second-->
+                    <Label Text="Stock" Grid.Column="2" Margin="0,0,0,5" VerticalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                    <Label Text="0.00" Grid.Column="2" Grid.Row="1" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                    <BoxView Grid.Column="3" Color="LightGray" BackgroundColor="LightGray" WidthRequest="2" Grid.RowSpan="2" CornerRadius="30"></BoxView>
+                    <!---Third-->
+                    <Label Text="Credit" Grid.Column="4" Margin="0,0,0,5" VerticalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                    <Label Text="0.00" Grid.Column="4" Grid.Row="1" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                    <BoxView Grid.Column="5" Color="LightGray" BackgroundColor="LightGray" WidthRequest="2" Grid.RowSpan="2" CornerRadius="30"></BoxView>
+                    <!---Forth-->
+                    <Label Text="Cash" Grid.Column="6" Margin="0,0,0,5" VerticalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                    <Label Text="0.00" Grid.Column="6" Grid.Row="1" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                </Grid>
+            </StackLayout>
+        </Border>
+        <Grid Margin="20" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Border Style="{StaticResource BorderStyle}" Stroke="WhiteSmoke" BackgroundColor="White" >
+                <Border.Shadow>
+                    <Shadow Offset="2,5"
+                        Radius="10"
+                        Brush="LightGray">
+                    </Shadow>
+                </Border.Shadow>
+                <StackLayout Padding="5" Spacing="5">
+                    <Image Source="database.png" HeightRequest="30"></Image>
+                    <Label Text="IMPORT DATA" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                </StackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GotoImportDatabaseCommand}"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}" BackgroundColor="White" Grid.Column="1" Stroke="WhiteSmoke">
+                <Border.Shadow>
+                    <Shadow Offset="2,5"
+                        Radius="10"
+                        Brush="LightGray">
+                    </Shadow>
+                </Border.Shadow>
+                <StackLayout Padding="5" Spacing="5">
+                    <Image Source="network.png" HeightRequest="30"></Image>
+                    <Label Text="NETWORK" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                </StackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GotoNetworkCommand}"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+        <!--<Button Text="Test" Command="{Binding TestCommand}"></Button>-->
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParsVanSale.Views.SqliteSettings.ImportData"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:ImportDataViewModel"
+             Padding="20"
+             Title="Import Data">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*">
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding Product}"></CheckBox>
+                <Label Text="Products" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="10" Grid.Row="1">
+                <CheckBox IsChecked="{Binding Master}"></CheckBox>
+                <Label Text="Master" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="10" Grid.Row="2">
+                <CheckBox IsChecked="{Binding User}"></CheckBox>
+                <Label Text="User" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="10" Grid.Row="3">
+                <CheckBox IsChecked="{Binding Units}"></CheckBox>
+                <Label Text="Units" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            <!--<HorizontalStackLayout Spacing="10" Grid.Row="4">
+                <CheckBox IsChecked="{Binding SuppProd}"></CheckBox>
+                <Label Text="Supplier Product" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>-->
+            <HorizontalStackLayout Spacing="10" Grid.Row="0" Grid.Column="1">
+                <CheckBox IsChecked="{Binding BaseItm}"></CheckBox>
+                <Label Text="Base Item" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>
+            <!--<HorizontalStackLayout Spacing="10" Grid.Row="1" Grid.Column="1">
+                <CheckBox IsChecked="{Binding Prefix}"></CheckBox>
+                <Label Text="Prefix" VerticalTextAlignment="Center"></Label>
+            </HorizontalStackLayout>-->
+        </Grid>
+        <Button  Margin="0,10,0,20" HeightRequest="35" Command="{Binding DownloadDataCommand}" BackgroundColor="{StaticResource Secondary}" Padding="0" HorizontalOptions="End" WidthRequest="150" Text="Import"></Button>
+
+        <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*,*,*,*" RowSpacing="10">
+            <Label Text="Product" Grid.Row="0" TextColor="Gray"></Label>
+            <Label Text="Master" Grid.Row="1" TextColor="Gray"></Label>
+            <Label Text="User" Grid.Row="2" TextColor="Gray"></Label>
+            <Label Text="Unit" Grid.Row="3" TextColor="Gray"></Label>
+            <!--<Label Text="Supplier Prod" Grid.Row="4" TextColor="Gray"></Label>-->
+            <Label Text="Base Item" Grid.Column="2" Grid.Row="0" TextColor="Gray"></Label>
+            <!--<Label Text="Prefix" Grid.Column="2" Grid.Row="1" TextColor="Gray"></Label>-->
+            <Label Text="Rights" Grid.Column="2" Grid.Row="2" TextColor="Gray"></Label>
+            <Label Text="RightsNode" Grid.Column="2" Grid.Row="1" TextColor="Gray"></Label>
+
+            <!---Count-->
+            <Label Grid.Column="1" Grid.Row="0" TextColor="Gray" Text="{Binding ProdCount}" ></Label>
+            <Label Grid.Column="1" Grid.Row="1" TextColor="Gray" Text="{Binding MasterCount}" ></Label>
+            <Label Grid.Column="1" Grid.Row="2" TextColor="Gray" Text="{Binding UserCount}" ></Label>
+            <Label Grid.Column="1" Grid.Row="3" TextColor="Gray" Text="{Binding UnitCount}" ></Label>
+            <!--<Label Grid.Column="1" Grid.Row="4" TextColor="Gray" Text="{Binding SuppProdCount}" ></Label>-->
+            <Label Grid.Column="3" Grid.Row="0" TextColor="Gray" Text="{Binding BaseItmCount}" ></Label>
+            <!--<Label Grid.Column="3" Grid.Row="1" TextColor="Gray" Text="{Binding PrefixCount}" ></Label>-->
+            <Label Grid.Column="3" Grid.Row="2" TextColor="Gray" Text="{Binding RightCount}" ></Label>
+            <Label Grid.Column="3" Grid.Row="1" TextColor="Gray" Text="{Binding RightnodeCount}" ></Label>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

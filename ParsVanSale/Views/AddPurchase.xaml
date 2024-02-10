@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:ParsVanSale.Model"
+             x:DataType="vm:SaleViewModel"
+             x:Class="ParsVanSale.Views.AddPurchase"
+             Title="Add Sale"
+             Padding="20,20,20,0">
+    <ScrollView>
+        <VerticalStackLayout Spacing="5">
+            <Grid ColumnDefinitions=".5*,*">
+                <HorizontalStackLayout Padding="5,0" Background="AliceBlue">
+                    <Label Text="QIH :" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"></Label>
+                    <Label></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1" Spacing="3" HeightRequest="35" Margin="0,0,0,5">
+                    <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowLeft}" Padding="0" FontFamily="FAS"></Button>
+                    <Border WidthRequest="60" Style="{StaticResource BorderStyle}">
+                        <Label Text="{Binding SaleDet.SlNo}" HorizontalOptions="Center" VerticalTextAlignment="Center"></Label>
+                    </Border>
+                    <Button Text="{Static fontawesome:FontAwesomeIcons.ArrowRight}" Padding="0" FontFamily="FAS"></Button>
+                </HorizontalStackLayout>
+            </Grid>
+                <Grid ColumnDefinitions="*,2.5*" RowDefinitions="*,*" RowSpacing="3">
+                <Label Text="Prod Code" VerticalTextAlignment="Center"></Label>
+                <Grid Grid.Column="1" ColumnDefinitions="*,auto" HeightRequest="40" ColumnSpacing="5">
+                    <Border  Style="{StaticResource BorderStyle}" >
+                        <Entry:BorderlessEntry Text="{Binding SaleDet.Code,Mode=TwoWay}" ReturnCommand="{Binding SearchProdCommand}" VerticalTextAlignment="Center"></Entry:BorderlessEntry>
+                    </Border>
+                    <Button Grid.Column="1" HeightRequest="40" Command="{Binding OpenPopCommand}" CommandParameter="Product" BackgroundColor="LightSkyBlue" Text="{Static fontawesome:FontAwesomeIcons.Inbox}" FontFamily="FAS"></Button>
+                </Grid>
+                
+                <Border Grid.Column="1" Grid.Row="1" Style="{StaticResource BorderStyle}" HeightRequest="40">
+                    <Entry:BorderlessEntry Placeholder="Prod. Descr" Text="{Binding SaleDet.ProdDesr}"></Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+            <Grid ColumnDefinitions="*,1.5*,*">
+                <Label Text="Unit" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.Unit}"></Entry:BorderlessEntry>
+                </Border>
+                <HorizontalStackLayout Grid.Column="2" Margin="10,0,0,0">
+                    <Label Text="Is%" VerticalTextAlignment="Center"></Label>
+                    <CheckBox IsChecked="{Binding SaleDet.Ispercent}"></CheckBox>
+                </HorizontalStackLayout>
+            </Grid>
+            <Grid ColumnDefinitions="*,1.5*,*">
+                <HorizontalStackLayout Grid.Column="2" Margin="10,0,0,0">
+                    <Label Text="Is Rtn?" VerticalTextAlignment="Center"></Label>
+                    <CheckBox IsChecked="{Binding SaleDet.IsRtn}"></CheckBox>
+                </HorizontalStackLayout>
+                <Label Text="ACT.S Price" Grid.Column="0" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.ActS_Price,StringFormat='{}{0:F3}'}"></Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,2.5*">
+                <Label Text="Quantity" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding Qty,StringFormat='{}{0:F2}'}" ReturnCommand="{Binding QtyChangedCommand}">
+                        <Entry:BorderlessEntry.Behaviors>
+                            <xct:EventToCommandBehavior EventName="Unfocused" Command="{Binding QtyChangedCommand}"/>
+                            <xct:SelectAllTextBehavior/>
+                        </Entry:BorderlessEntry.Behaviors>
+                    </Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+            <Grid ColumnDefinitions="*,*,.5*,*" ColumnSpacing="5">
+                <Label Text="Cost / Unit" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.Cost,StringFormat='{}{0:F2}'}"></Entry:BorderlessEntry>
+                </Border>
+                <Label Text="Net Cost" Grid.Column="2" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="3" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.NetCost,StringFormat='{}{0:F2}'}"></Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+            <Grid ColumnDefinitions="*,2.5*">
+                <Label Text="Line Total" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.Linetotal,StringFormat='{}{0:F2}'}"></Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+            <Grid ColumnDefinitions="*,*,1.5*" ColumnSpacing="5">
+                <HorizontalStackLayout>
+                    <Label Text="Is FOC" VerticalTextAlignment="Center"></Label>
+                    <CheckBox IsChecked="{Binding SaleDet.IsFOC}"></CheckBox>
+                </HorizontalStackLayout>
+                <Button Grid.Column="1" HorizontalOptions="Fill" Command="{Binding MapFOCCommand}" HeightRequest="35" Padding="0" Text="Mapping" ></Button>
+            </Grid>
+            <Grid ColumnDefinitions="*,*,.5*,*" ColumnSpacing="3">
+                <Label Text="Discount" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="1" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.Discount,StringFormat='{}{0:F2}'}"></Entry:BorderlessEntry>
+                </Border>
+                <Label Text="Disc%" Grid.Column="2" VerticalTextAlignment="Center"></Label>
+                <Border Grid.Column="3" HeightRequest="40" Style="{StaticResource BorderStyle}">
+                    <Entry:BorderlessEntry Text="{Binding SaleDet.Discpercent,StringFormat='{}{0:F4}'}"></Entry:BorderlessEntry>
+                </Border>
+            </Grid>
+            <Grid HeightRequest="35" ColumnDefinitions="*,*,1.5*" Margin="0,10" ColumnSpacing="5">
+                <Button Text="Submit" Padding="0" Grid.Column="2" Command="{Binding SubmitCommand}" BackgroundColor="{StaticResource Secondary}"></Button>
+                <Button Text="Delete" IsVisible="{Binding DelButtonVisible}" Command="{Binding DeleteCommand}" BackgroundColor="IndianRed" Grid.Column="1" Padding="0"></Button>
+            </Grid>
+            <Border HeightRequest="250" Style="{StaticResource BorderStyle}" Margin="0,0,0,20">
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Default">
+                    <Grid RowDefinitions="50,*"  WidthRequest="700">
+                        <Grid ColumnDefinitions="1.2*,3*,.8*,*,*,*,*,*,*,*,*" BackgroundColor="LightGray" Grid.Row="0">
+                            <Label Text="Slno"  Padding="3,0,0,0" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Prod.Code /Descr" Grid.Column="1" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="IsRtn" Grid.Column="2" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Unit" Grid.Column="3" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Qty" Grid.Column="4" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="FOC" Grid.Column="5" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Cost" Grid.Column="6" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Line Total" Grid.Column="7" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Disc." Grid.Column="8" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Net Cost" Grid.Column="9" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                            <Label Text="Act S. Price" Grid.Column="10" VerticalTextAlignment="Center" FontAttributes="Bold"></Label>
+                        </Grid>
+                        <CollectionView Grid.Row="1" ItemsSource="{Binding SaleItem}" SelectedItem="{Binding SaleDet}" SelectionMode="Single" SelectionChangedCommand="{Binding SelectionChangedCommand}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:PurchaseDetTb" >
+                                    <Grid ColumnDefinitions="1.2*,3*,.8*,*,*,*,*,*,*,*,*" RowDefinitions="*,*">
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding SlNo}" ></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.Row="1" HorizontalTextAlignment="Center" Text="{Binding Code}" Grid.Column="1"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.Row="0" HorizontalTextAlignment="Center" Text="{Binding ProdDesr}" Grid.Column="1"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding IsRtn}" Grid.Column="2"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding Unit}" Grid.Column="3"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding Qty, StringFormat='{}{0:F2}'}" Grid.Column="4"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding AFOC, StringFormat='{}{0:F3}'}" Grid.Column="5"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding Cost, StringFormat='{}{0:F2}'}" Grid.Column="6"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding Linetotal, StringFormat='{}{0:F2}'}" Grid.Column="7"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding Discount, StringFormat='{}{0:F4}'}" Grid.Column="8"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding NetCost, StringFormat='{}{0:F2}'}" Grid.Column="9"></Label>
+                                        <Label VerticalTextAlignment="Center" Grid.RowSpan="2" HorizontalTextAlignment="Center" Text="{Binding ActS_Price, StringFormat='{}{0:F2}'}" Grid.Column="10"></Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>
+                </ScrollView>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
