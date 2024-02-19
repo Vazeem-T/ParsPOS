@@ -19,7 +19,7 @@
             <VerticalStackLayout Margin="20,30,20,20">
                 <Grid ColumnDefinitions="*,*" RowDefinitions="*,*" >
                     <Label Text="Hi,"  FontSize="16" TextColor="White" ></Label>
-                    <Label Text="Vaseem" Grid.Row="1" FontAttributes="Bold" FontSize="Medium" TextColor="White" Margin="0,5,0,0"></Label>
+                    <Label Text="{Binding User,Mode=TwoWay}" Grid.Row="1" FontAttributes="Bold" FontSize="Medium" TextColor="White" Margin="0,5,0,0"></Label>
                     <HorizontalStackLayout Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Grid.RowSpan="2" >
                         <Button Padding="0" Command="{Binding GotoSettingsCommand}"  FontSize="16" Text="{Static fontawesome:FontAwesomeIcons.Gear}" FontFamily="FAS"></Button>
                         <Button Padding="0" Command="{Binding GotoDownloadCommand}"  FontSize="16" Text="{Static fontawesome:FontAwesomeIcons.Download}" FontFamily="FAS"></Button>
@@ -64,7 +64,7 @@
                 </Grid>
             </StackLayout>
         </Border>
-        <Grid Margin="20" ColumnDefinitions="*,*" ColumnSpacing="10">
+        <Grid Margin="20" ColumnDefinitions="*,*" RowDefinitions="*,*" ColumnSpacing="10" RowSpacing="10">
             <Border Style="{StaticResource BorderStyle}" Stroke="WhiteSmoke" BackgroundColor="White" >
                 <Border.Shadow>
                     <Shadow Offset="2,5"
@@ -93,6 +93,21 @@
                 </StackLayout>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GotoNetworkCommand}"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}" BackgroundColor="White" Grid.Row="1" Grid.Column="0" Stroke="WhiteSmoke">
+                <Border.Shadow>
+                    <Shadow Offset="2,5"
+                        Radius="10"
+                        Brush="LightGray">
+                    </Shadow>
+                </Border.Shadow>
+                <StackLayout Padding="5" Spacing="5">
+                    <Image Source="export.png" HeightRequest="30"></Image>
+                    <Label Text="EXPORT" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                </StackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GotoExportDatabaseCommand}"></TapGestureRecognizer>
                 </Border.GestureRecognizers>
             </Border>
         </Grid>

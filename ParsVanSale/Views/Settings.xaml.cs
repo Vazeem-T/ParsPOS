@@ -23,4 +23,8 @@ public partial class Settings : ContentPage
 		await Shell.Current.GoToAsync(nameof(DeviceSettings));
 	}
 
+	private async void Export_Tapped(object sender, TappedEventArgs e)
+	{
+		await Shell.Current.GoToAsync(nameof(Export));
+    }
 }

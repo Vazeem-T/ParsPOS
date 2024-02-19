@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using PARAcc.Model.Models;
+using PARSAcc.Model.Models;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;

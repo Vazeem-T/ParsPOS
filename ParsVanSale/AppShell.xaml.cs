@@ -26,6 +26,8 @@ namespace ParsVanSale
 			Routing.RegisterRoute(nameof(DownloadPage), typeof(DownloadPage));
 			Routing.RegisterRoute(nameof(NetworkSetUp), typeof(NetworkSetUp));
 			Routing.RegisterRoute(nameof(AddSqlServer), typeof(AddSqlServer));
+			Routing.RegisterRoute(nameof(Export), typeof(Export));
+			Routing.RegisterRoute(nameof(Login), typeof(Login));
 			Routing.RegisterRoute(nameof(NetworkMainSettings), typeof(NetworkMainSettings));
 			//Routing.RegisterRoute("//Home/ImportData", typeof(ImportData));
 			Routing.RegisterRoute("Settings/NetworkSetUp", typeof(NetworkSetUp));

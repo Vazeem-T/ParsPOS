@@ -157,5 +157,10 @@ namespace ParsVanSale.Helper
         {
             return _db.Table<AccMast>().Where(x => x.AccountNo == AccountNo).FirstOrDefaultAsync();
         }
-    }
+
+		public Task<User> LoginUser(string UserId, string Password)
+		{
+			return _db.Table<User>().Where(x => x.UserId.ToUpper() == UserId.ToUpper() && x.Password.ToUpper() == Password.ToUpper()).FirstOrDefaultAsync();
+		}
+	}
 }

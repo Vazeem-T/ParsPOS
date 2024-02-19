@@ -40,7 +40,6 @@
             </ShellContent>
         </Tab>
     </TabBar>
-
     <!--<simpleShell:SimpleShell.RootPageContainer>-->
         <!--<Grid IgnoreSafeArea="True">
             <simpleShell:SimpleNavigationHost

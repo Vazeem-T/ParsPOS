@@ -7,6 +7,8 @@ using ParsVanSale.Services;
 using Android.Content.Res;
 #endif
 using ParsVanSale.Services.ViewService;
+using ParsVanSale.ViewModel;
+using ParsVanSale.Views;
 using System.Linq.Expressions;
 
 namespace ParsVanSale
@@ -15,7 +17,7 @@ namespace ParsVanSale
 	{
 
 		public static bool IsInvTaxEna = true;
-		public static string UserId = "Programmer";
+		public static string UserId;
 
 		private static DatabaseHelper db;
 		private HttpClient client;
@@ -33,8 +35,18 @@ namespace ParsVanSale
 		public App()
 		{
 			InitializeComponent();
+			//LoginViewModel model = new LoginViewModel();
+			MainPage = new Login();
+			//if (App.UserId != null)
+			//{
+			//	((AppShell)MainPage).GoToAsync("//Home");
+			//}
+			//else
+			//{
+			//	((AppShell)MainPage).GoToAsync("//Login");
+			//}
 
-			MainPage = new AppShell();
+			//MainPage = new AppShell();
 
 			Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (Handler, View) =>
 			{
@@ -46,7 +58,14 @@ namespace ParsVanSale
 #endif
 			});
 		}
-
+		private bool IsUserLoggedIn()
+		{
+			return false; 
+		}
+		private void NavigateToHomePage()
+		{
+			MainPage = new AppShell();
+		}
 		protected override async void OnStart()
 		{
 			base.OnStart();

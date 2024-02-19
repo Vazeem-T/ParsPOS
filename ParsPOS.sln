@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PARSAcc.Model", "PARSAcc.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PARSAcc.Services", "PARSAcc.Services\PARSAcc.Services.csproj", "{965B3564-40BF-4FC9-A7B8-B3369ABEADAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParsVanSale", "ParsVanSale\ParsVanSale.csproj", "{3885D6DE-AF2B-44BF-ABD8-F8FEBC7128E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParsVanSale", "ParsVanSale\ParsVanSale.csproj", "{3885D6DE-AF2B-44BF-ABD8-F8FEBC7128E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParsPOS.DataAccess", "ParsPOS.DataAccess\ParsPOS.DataAccess.csproj", "{713CC61D-54D6-46BF-BD34-022BF4691AEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{3885D6DE-AF2B-44BF-ABD8-F8FEBC7128E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3885D6DE-AF2B-44BF-ABD8-F8FEBC7128E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3885D6DE-AF2B-44BF-ABD8-F8FEBC7128E8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{713CC61D-54D6-46BF-BD34-022BF4691AEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713CC61D-54D6-46BF-BD34-022BF4691AEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713CC61D-54D6-46BF-BD34-022BF4691AEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713CC61D-54D6-46BF-BD34-022BF4691AEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-namespace PARAcc.Model.Models
+namespace PARSAcc.Model.Models
 {
     public class ErrorViewModel
     {

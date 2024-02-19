@@ -7,22 +7,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="PARSAccTrPlusFLNDataSet.Designer.cs">
+    <ProjectReference Include="..\PARSAcc.Model\PARSAcc.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update=".Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PARSAccTrPlusFLNDataSet.xsd</DependentUpon>
+      <DependentUpon>.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="ReportDataSet\ParsDataset.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ParsDataset.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="PARSAccTrPlusFLNDataSet.xsd">
+    <None Update=".xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PARSAccTrPlusFLNDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="ReportDataSet\ParsDataset.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ParsDataset.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

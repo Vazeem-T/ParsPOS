@@ -41,6 +41,7 @@ namespace ParsVanSale.Services
 			services.AddTransient<ApplicationSettingsViewModel>();
 			services.AddTransient<ProductSearchViewModel>();
             services.AddTransient<SqlServerViewModel>();
+            services.AddTransient<LoginViewModel>();
 
 			//View
 			services.AddSingleton<MainPage>();
@@ -55,6 +56,7 @@ namespace ParsVanSale.Services
 			services.AddTransient<ApplicationSettings>();
             services.AddTransient<SearchProduct>();
             services.AddTransient<AddSqlServer>();
+            services.AddTransient<Login>();
 			//Other Services
 #if ANDROID
 			services.AddSingleton<IPrintServices, PrinterServiceRenderer>();

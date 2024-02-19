@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PARSAcc.Model.Models;
 
@@ -58,10 +59,10 @@ public partial class ItmInvTrTb
     public int ImpDocLnNo { get; set; }
 
     public double LineDiscount { get; set; }
-
-    public float LineDisc { get; set; }
-
-    public bool IsLineDisc { get; set; }
+	[Column("LineDisc%")]
+	public float LineDisc { get; set; }
+	[Column("IsLineDisc%")]
+	public bool IsLineDisc { get; set; }
 
     public float? Dim1 { get; set; }
 

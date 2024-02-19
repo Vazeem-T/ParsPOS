@@ -77,5 +77,10 @@ namespace PARSPOSAPI.Controllers
 			var itmdetail = await _connection.QueryAsync<InvItm>(sqlQuery, new { Date = date });
 			return itmdetail.ToList();
 		}
+
+        public async Task GetReprt()
+        {
+            //string sqlQuery = "Select * from It"
+        }
 	}
 }

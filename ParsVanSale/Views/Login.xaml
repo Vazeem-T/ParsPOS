@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              x:Class="ParsVanSale.Views.Login"
+             xmlns:vm="clr-namespace:ParsVanSale.ViewModel"
+             x:DataType="vm:LoginViewModel"
+             xmlns:Entry="clr-namespace:ParsVanSale.Services.ViewService"
              Title="Login">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="White" StatusBarStyle="DarkContent"/>
+    </Page.Behaviors>
+    <VerticalStackLayout >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="180" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0" Margin="20" VerticalOptions="Center" Spacing="10">
+                <Label  Text="Hello "    TextColor="{StaticResource Primary}" FontSize="28" FontAttributes="Bold"></Label>
+                <Label  Text="Sign in !" TextColor="{StaticResource Primary}" FontSize="28" FontAttributes="Bold"></Label>
+            </StackLayout>
+
+            <Border  Grid.Row="1" BackgroundColor="{StaticResource Primary}" Padding="20" Margin="10,0" StrokeShape="RoundRectangle 40">
+                <Border.Shadow>
+                    <Shadow Offset="3,3"
+                            Radius="10"
+                            Brush="Black">
+                        
+                    </Shadow>
+                </Border.Shadow>
+                <StackLayout>
+                    <!--<Label Text="Login" FontSize="28" FontAttributes="Bold" TextColor="{StaticResource Primary}" Padding="0,30"></Label>-->
+                    <Border Padding="0,40,0,40" Stroke="Transparent">
+                        <StackLayout Spacing="10">
+                            <Label Text="User name" FontAttributes="Bold" TextColor="White" FontSize="16"></Label>
+                            <Border Style="{StaticResource BorderStyle}" BackgroundColor="White" Margin="0,0,0,0">
+                                <Entry:BorderlessEntry x:Name="UserId" Text="{Binding UserId}"></Entry:BorderlessEntry>
+                            </Border>
+                            <Label Text="Password" FontAttributes="Bold" TextColor="White" FontSize="16" ></Label>
+                            <Border Style="{StaticResource BorderStyle}" BackgroundColor="White" Margin="0,0,0,30">
+                                <Entry:BorderlessEntry x:Name="Password" Text="{Binding Password}" ReturnCommand="{Binding LoginCommand}" IsPassword="True"></Entry:BorderlessEntry>
+                            </Border>
+                            <Button Text="Login" Clicked="Login_Clicked" Command="{Binding LoginCommand}" BackgroundColor="{StaticResource Secondary}" ></Button>
+                        </StackLayout>
+                    </Border>
+                </StackLayout>
+            </Border>
+        </Grid>
     </VerticalStackLayout>
+
 </ContentPage>

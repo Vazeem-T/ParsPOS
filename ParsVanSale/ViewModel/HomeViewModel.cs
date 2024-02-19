@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Data.SqlClient;
 using ParsVanSale.Views;
 using ParsVanSale.Views.BottomSheet;
@@ -14,18 +15,28 @@ namespace ParsVanSale.ViewModel
 {
 	public partial class HomeViewModel : BaseViewModel
 	{
-		public HomeViewModel() { }
+		[ObservableProperty]
+		string user;
+
+
+		public HomeViewModel()
+		{
+			User = App.UserId;
+		}
+
 		[RelayCommand]
 		async Task GoToSearchAsync()
 		{
 			//ProdSearch page = new ProdSearch();
 			//await page.ShowAsync();
 		}
+
 		[RelayCommand]
 		async Task GotoSettingsAsync()
 		{
 			await Shell.Current.GoToAsync(nameof(Settings));
 		}
+
 		[RelayCommand]
 		async Task GotoDownloadAsync()
 		{
@@ -43,14 +54,14 @@ namespace ParsVanSale.ViewModel
 			{
 				await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
 			}
-
 		}
+
 		[RelayCommand]
 		async Task GotoImportDatabaseAsync()
 		{
 			try
 			{
-				Shell.Current.GoToAsync(nameof(ImportData));
+				await Shell.Current.GoToAsync(nameof(ImportData));
 			}
 			catch (Exception ex)
 			{
@@ -58,8 +69,15 @@ namespace ParsVanSale.ViewModel
 				await Shell.Current.DisplayAlert("Alert", ex.Message, "OK");
 			}
 		}
+
+		[RelayCommand]
+		async Task GotoExportDatabaseAsync()
+		{
+			await Shell.Current.GoToAsync(nameof(Export));
+		}
+
 		//[RelayCommand]
-	    //async Task Test()
+		//async Task Test()
 		//{
 		//	try
 		//	{
@@ -80,8 +98,6 @@ namespace ParsVanSale.ViewModel
 		//	{
 		//		await Shell.Current.DisplayAlert("Alert",ex.Message, "Ok");
 		//	}
-
 		//}
-
 	}
 }
